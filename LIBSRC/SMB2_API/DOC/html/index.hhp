@@ -1,0 +1,53 @@
+[OPTIONS]
+Compatibility=1.1
+Full-text search=Yes
+Contents file=index.hhc
+Default Window=main
+Default topic=index.html
+Index file=index.hhk
+Language=0x409 English (United States)
+Title=SMB2_API
+
+[WINDOWS]
+main="SMB2_API","index.hhc","index.hhk","index.html","index.html",,,,,0x23520,,0x387e,,,,,,,,0
+
+[FILES]
+index.html
+files.html
+smb2__boardident_8c-example.html
+smb2__ctrl_8c-example.html
+smb2__f601_8c-example.html
+smb2__max_8dsc-example.html
+smb2__min_8dsc-example.html
+smb2__simp_8c-example.html
+smb2api_8c-example.html
+smb2_8h-source.html
+smb2__api_8h-source.html
+smb2_8h.html
+smb2__api_8c.html
+smb2__api_8h.html
+smb2__apidoc_8c.html
+annotated.html
+functions.html
+structALERT__NODE.html
+structI2CMESSAGE.html
+structSIGNAL.html
+structSMB__COM__HANDLE.html
+structSMB__DESC__ALI1543.html
+structSMB__DESC__ICH.html
+structSMB__DESC__MENZ001.html
+structSMB__DESC__MGT5200.html
+structSMB__DESC__MPC85XX.html
+structSMB__DESC__PORTCB.html
+structSMB__DESC__SCH.html
+structSMB__ENTRIES.html
+structSMB__HANDLE.html
+_smb2_swmodules.html
+dummy.html
+group____SMB2__API.html
+group____SMB2__ERR.html
+group____SMB2__FLAG.html
+modules.html
+examples.html
+globals.html
+pages.html
