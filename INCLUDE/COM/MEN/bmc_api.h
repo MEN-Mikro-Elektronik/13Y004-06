@@ -3,8 +3,8 @@
  *        \file  bmc_api.h
  *
  *      \author  Roman.Schneider@men.de
- *        $Date: 2014/07/04 14:35:30 $
- *    $Revision: 3.2 $
+ *        $Date: 2015/07/12 11:48:18 $
+ *    $Revision: 3.3 $
  *
  *     \project  SMB2 Library
  *       \brief  BMC API interface
@@ -13,6 +13,10 @@
 /*-------------------------------[ History ]---------------------------------
  *
  * $Log: bmc_api.h,v $
+ * Revision 3.3  2015/07/12 11:48:18  ts
+ * R: C++ style comment in line 179 broke compile under vxWorks
+ * M: changed TODO comment to C style
+ *
  * Revision 3.2  2014/07/04 14:35:30  MRoth
  * R: missing constants
  * M: added BMC_WDOG_OFF_DATA, BMC_RST_REASON_CLR_DATA
@@ -176,7 +180,7 @@ struct _BMC_FEATURES
 		{ BMC_FEATURE_D1_FUP,		"FUP" },
 		{ BMC_FEATURE_D1_CPCI,		"CPCI" },
 		{ BMC_FEATURE_D1_GPIO,		"GPIO" },
-//ToDo		{ 0x00,	"" },
+/* ToDo		{ 0x00,	"" }, */
 	},
 	/* Data 2 */
 	{
