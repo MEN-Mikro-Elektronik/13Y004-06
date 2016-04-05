@@ -498,7 +498,7 @@ static void print_firm_version()
 	}
 	else {
 		printf("Error Code: %s\n", firm_version.errcode ? "ERROR" : "OK");
-		printf("BMC Firmware Revision %d.%d\n", firm_version.maj_revision,
+		printf("BMC Firmware Revision %d.%.02d\n", firm_version.maj_revision,
 													firm_version.min_revision);
 		printf("BMC Maintenance Revision: %d\n", firm_version.mtnce_revision);
 		printf("BMC Firmware Build Number: %d\n", firm_version.build_nbr);
