@@ -496,4 +496,3 @@ int32 __MAPILIB SMB2SHC_GetFirm_Ver(struct shc_fwversion *fw_version)
 	return SMB2_SHC_ERR_NO;
 }
 
- 

@@ -266,4 +266,3 @@ extern int32 __MAPILIB SMB2SHC_GetVoltLevel(enum SHC_PWR_MON_ID pwr_mon_nr, u_in
 #endif
 
 #endif /*_SMB2_SHC_H*/
- 

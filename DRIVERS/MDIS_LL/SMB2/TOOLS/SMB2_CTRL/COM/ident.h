@@ -42,4 +42,3 @@ static char IdentString[]="$Id: ident.h,v 1.1 2006/02/28 15:57:39 DPfeuffer Exp 
 
 
 
- 
