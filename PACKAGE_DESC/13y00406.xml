@@ -2,8 +2,8 @@
 <package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="packagedesc.xsd">
 	<name>13y00406</name>
 	<description>MDIS5 SMB2 driver package</description>
-	<date>2015-02-25</date>
-	<revision>1.33</revision>
+	<date>2016-04-11</date>
+	<revision>1.38</revision>
 	<docroot>LIBSRC/SMB2_API/DOC/html/index.html</docroot>
 	<!-- Models	-->
 	<modellist>
@@ -211,6 +211,12 @@
 			<description>Tool to dump, erase and program EEPROD2 board informations to SMBus devices via the SMB2_API</description>
 			<type>Driver Specific Tool</type>
 			<makefilepath>SMB2/TOOLS/SMB2_EEPROD2/COM/program.mak</makefilepath>
+		</swmodule>
+		<swmodule internal="true">
+			<name>smb2_test</name>
+			<description>Test tool for SMB2 functionality</description>
+			<type>Driver Specific Tool</type>
+			<makefilepath>SMB2/TOOLS/SMB2_TEST/COM/program.mak</makefilepath>
 		</swmodule>
 	</swmodulelist>
 </package>

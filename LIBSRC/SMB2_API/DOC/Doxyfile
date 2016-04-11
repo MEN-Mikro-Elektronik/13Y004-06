@@ -1,0 +1,30 @@
+@INCLUDE_PATH = $(MEN_DOXYGENTMPL)
+@INCLUDE = DoxyfileCommon
+
+PROJECT_NAME           = "SMB2_API"
+PROJECT_NUMBER         = "for SMB2 fileset $(MEN_FILESET_REVISION)"
+INPUT                  = ../COM/smb2_apidoc.c \
+                         ../COM/smb2_api.c    \
+                         $(MEN_COM_INC)/MEN/smb2_api.h \
+                         $(MEN_COM_INC)/MEN/smb2.h
+EXAMPLE_RECURSIVE      = YES
+EXAMPLE_PATH           = $(MEN_MDIS_DRV_SRC)/SMB2/DRIVER/COM                 \
+                         $(MEN_MDIS_DRV_SRC)/SMB2/EXAMPLE/SMB2_SIMP/COM      \
+                         $(MEN_MDIS_DRV_SRC)/SMB2/EXAMPLE/SMB2_F601/COM      \
+                         $(MEN_MDIS_DRV_SRC)/SMB2/TOOLS/SMB2_CTRL/COM        \
+                         $(MEN_MDIS_DRV_SRC)/SMB2/TOOLS/SMB2_BOARDIDENT/COM  \
+                         $(MEN_MDIS_DRV_SRC)/SMB2/TOOLS/SMB2_EETEMP/COM      \
+                         $(MEN_MDIS_DRV_SRC)/SMB2/TOOLS/SMB2_POE/COM         \
+                         $(MEN_MDIS_DRV_SRC)/SMB2/TOOLS/SMB2_BMC/COM         \
+                         $(MEN_MDIS_DRV_SRC)/SMB2/TOOLS/SMB2_STM32_FLASH/COM
+OUTPUT_DIRECTORY       = .
+EXTRACT_ALL            = NO
+EXTRACT_STATIC         = YES
+GENERATE_HTMLHELP      = YES
+WARNINGS               = YES
+WARN_IF_DOC_ERROR      = YES
+WARN_IF_UNDOCUMENTED   = YES
+GENERATE_HTMLHELP      = YES
+
+ALIASES                += "smb2_structure=\image html interfaces.jpg\n"
+IMAGE_PATH             += .

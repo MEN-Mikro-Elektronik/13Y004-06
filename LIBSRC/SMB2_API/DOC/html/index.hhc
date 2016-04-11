@@ -19,6 +19,8 @@
   <LI><OBJECT type="text/sitemap"><param name="Name" value="SIGNAL"><param name="Local" value="structSIGNAL.html"><param name="ImageNumber" value="11"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB_COM_HANDLE"><param name="Local" value="structSMB__COM__HANDLE.html"><param name="ImageNumber" value="11"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB_DESC_ALI1543"><param name="Local" value="structSMB__DESC__ALI1543.html"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB_DESC_FCH"><param name="Local" value="structSMB__DESC__FCH.html"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB_DESC_FSLIMX6"><param name="Local" value="structSMB__DESC__FSLIMX6.html"><param name="ImageNumber" value="11"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB_DESC_ICH"><param name="Local" value="structSMB__DESC__ICH.html"><param name="ImageNumber" value="11"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB_DESC_MENZ001"><param name="Local" value="structSMB__DESC__MENZ001.html"><param name="ImageNumber" value="11"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB_DESC_MGT5200"><param name="Local" value="structSMB__DESC__MGT5200.html"><param name="ImageNumber" value="11"></OBJECT>

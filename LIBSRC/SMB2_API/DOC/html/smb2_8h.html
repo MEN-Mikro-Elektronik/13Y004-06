@@ -12,7 +12,7 @@
 <div class="left_to_right" style="padding-top: 6px; background-color: #F0F0F0; height: 110px; border-bottom: 2px solid #D1D1D2;">
 	<!-- Titel -->
 	<img src="menlogo.gif" alt="MEN" style="float: left; height: 103px; width: 155px; margin: 0px;"></a>
-	<h1 style="margin: 0px; padding-top: 35px; padding-bottom: 0px;">SMB2_API &nbsp; for SMB2 fileset 1.33</h1>
+	<h1 style="margin: 0px; padding-top: 35px; padding-bottom: 0px;">SMB2_API &nbsp; for SMB2 fileset 1.38</h1>
 	<h3>smb2.h File Reference</h3>
 </div>
 
@@ -36,6 +36,10 @@
 <tr><td>&nbsp;</td><td><em class="mdesc">SMBus Handle used in both, common and controller specific part of library.</em> <a href="structSMB__COM__HANDLE.html#_details">More...</a><em></em><br><br></td></tr>
 <tr><td nowrap align=right valign=top>struct &nbsp;</td><td valign=bottom><a class="el" href="structSMB__DESC__ALI1543.html">SMB_DESC_ALI1543</a></td></tr>
 <tr><td>&nbsp;</td><td><em class="mdesc">descriptor for the ALI1543 internal SMB controller</em> <a href="structSMB__DESC__ALI1543.html#_details">More...</a><em></em><br><br></td></tr>
+<tr><td nowrap align=right valign=top>struct &nbsp;</td><td valign=bottom><a class="el" href="structSMB__DESC__FCH.html">SMB_DESC_FCH</a></td></tr>
+<tr><td>&nbsp;</td><td><em class="mdesc">Descriptor for the AMD FCH controller.</em> <a href="structSMB__DESC__FCH.html#_details">More...</a><em></em><br><br></td></tr>
+<tr><td nowrap align=right valign=top>struct &nbsp;</td><td valign=bottom><a class="el" href="structSMB__DESC__FSLIMX6.html">SMB_DESC_FSLIMX6</a></td></tr>
+<tr><td>&nbsp;</td><td><em class="mdesc">descriptor for the Freescale i.MX6 internal I2C controller</em> <a href="structSMB__DESC__FSLIMX6.html#_details">More...</a><em></em><br><br></td></tr>
 <tr><td nowrap align=right valign=top>struct &nbsp;</td><td valign=bottom><a class="el" href="structSMB__DESC__ICH.html">SMB_DESC_ICH</a></td></tr>
 <tr><td>&nbsp;</td><td><em class="mdesc">Descriptor for the Intel ICH controller.</em> <a href="structSMB__DESC__ICH.html#_details">More...</a><em></em><br><br></td></tr>
 <tr><td nowrap align=right valign=top>struct &nbsp;</td><td valign=bottom><a class="el" href="structSMB__DESC__MENZ001.html">SMB_DESC_MENZ001</a></td></tr>
@@ -170,15 +174,18 @@ u_int32&nbsp;</td><td valign=bottom><a class="el" href="smb2_8h.html#a73">SMB_ME
 <tr><td nowrap align=right valign=top><a name="a76" doxytag="smb2.h::SMB_ICH_Init"></a>
 u_int32&nbsp;</td><td valign=bottom><a class="el" href="smb2_8h.html#a76">SMB_ICH_Init</a> (<a class="el" href="structSMB__DESC__ICH.html">SMB_DESC_ICH</a> *descP, OSS_HANDLE *osHdl, void **smbHdlP)</td></tr>
 <tr><td>&nbsp;</td><td><em class="mdesc">Init function for ICH SMB host controller.</em><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="a78" doxytag="smb2.h::SMB_SCH_Init"></a>
-u_int32&nbsp;</td><td valign=bottom><a class="el" href="smb2_8h.html#a78">SMB_SCH_Init</a> (<a class="el" href="structSMB__DESC__SCH.html">SMB_DESC_SCH</a> *descP, OSS_HANDLE *osHdl, void **smbHdlP)</td></tr>
+<tr><td nowrap align=right valign=top><a name="a78" doxytag="smb2.h::SMB_FCH_Init"></a>
+u_int32&nbsp;</td><td valign=bottom><a class="el" href="smb2_8h.html#a78">SMB_FCH_Init</a> (<a class="el" href="structSMB__DESC__FCH.html">SMB_DESC_FCH</a> *descP, OSS_HANDLE *osHdl, void **smbHdlP)</td></tr>
+<tr><td>&nbsp;</td><td><em class="mdesc">Init function for FCH SMB host controller.</em><br><br></td></tr>
+<tr><td nowrap align=right valign=top><a name="a80" doxytag="smb2.h::SMB_SCH_Init"></a>
+u_int32&nbsp;</td><td valign=bottom><a class="el" href="smb2_8h.html#a80">SMB_SCH_Init</a> (<a class="el" href="structSMB__DESC__SCH.html">SMB_DESC_SCH</a> *descP, OSS_HANDLE *osHdl, void **smbHdlP)</td></tr>
 <tr><td>&nbsp;</td><td><em class="mdesc">Init function for SCH SMB host controller.</em><br><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 system managment bus routines interface
 <p>
-<dl compact><dt><b>Author:</b></dt><dd><a href="mailto:Christian.Schuster@men.de">Christian.Schuster@men.de</a> <dl compact><dt><b>Date</b></dt><dd>2009/12/22 16:04:18 </dd></dl>
-<dl compact><dt><b>Revision</b></dt><dd>3.23 </dd></dl>
+<dl compact><dt><b>Author:</b></dt><dd><a href="mailto:Christian.Schuster@men.de">Christian.Schuster@men.de</a> <dl compact><dt><b>Date</b></dt><dd>2016/04/08 14:00:18 </dd></dl>
+<dl compact><dt><b>Revision</b></dt><dd>3.24 </dd></dl>
 </dd></dl>
 <dl compact><dt><b>Project:</b></dt><dd>SMB2 Library </dd></dl>
 <dl compact><dt><b>Preprocessor Switches:</b></dt><dd>SMB_COMPILE - for module compilation MAC_IO_MAPPED - only valid for SMB_PORT_xxx</dd></dl>
@@ -263,7 +270,7 @@ buffers should be allocated to at least SMB_BLOCK_MAX_BYTES + 2 bytes (include l
 <!-- Footer -->
 	<p class="footer">
 	Generated for SMB2_API using <a href="http://www.doxygen.org">doxygen</a>.<br>
-	Copyright &copy; 2015 <a href="http://www.men.de">MEN Mikro Elektronik GmbH</a>. All Rights Reserved.
+	Copyright &copy; 2016 <a href="http://www.men.de">MEN Mikro Elektronik GmbH</a>. All Rights Reserved.
 	</p>
 </div>
 
