@@ -522,3 +522,4 @@ static void PrintError(char *info, int32 errCode)
 	printf("%s: %s\n", info, SMB2SHC_Errstring(errCode, errMsg));
 }
 
+ 

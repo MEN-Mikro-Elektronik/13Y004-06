@@ -239,3 +239,4 @@ static void PrintTime( void )
 	strftime( dt, sizeof(dt), "%c", timeP );
 	printf("%s\n", dt);
 }
+ 

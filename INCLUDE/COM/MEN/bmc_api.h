@@ -227,3 +227,4 @@ struct _BMC_FEATURES
 #endif /*_BMC_API_H */
 
 
+ 

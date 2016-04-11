@@ -450,3 +450,4 @@ static void PrintError( char *info, int32 errCode )
 	printf( "*** can't %s: %s\n", info, SMB2API_Errstring( errCode, errMsg ) );
 
 }
+ 
