@@ -45,6 +45,8 @@
 +-----------------------------------------*/
 static void AlertCbFunc( void *cbArg );
 
+#define STR_XFER_LEN    20
+
 /**********************************************************************/
 /** Ask user for specified parameters
  */
@@ -56,13 +58,14 @@ static int32 AskUser(
 	u_int16		*wordData,
 	u_int8		*readWrite
 ){
-	u_int32	tmp;
-
+	int32	tmp;
+	
+	
 	if( flags ){
 		if( SMB2CTRL_flag ){
 			printf(" flags -> 0x");
 			fflush( stdin );
-			scanf("%x", flags);
+			scanf("%x", (int32*)flags);
 		}
 		else
 			*flags = 0;
@@ -387,9 +390,9 @@ extern int32 SMB2CTRL_BlockProcessCall()
  */
 extern int32 SMB2CTRL_I2CXfer()
 {
-	int32	num, n, size;
+	int	num, n, size;
 	u_int8	length;
-	char	str[20];
+	char	str[STR_XFER_LEN];
 	int32	err=1;
 	SMB_I2CMESSAGE *msg=NULL;
 
@@ -398,6 +401,11 @@ extern int32 SMB2CTRL_I2CXfer()
 	printf(" number of I2C messages to transfer -> ");
 	fflush( stdin );
 	scanf("%d", &num);
+
+	if ( (num <=0 ) || (num > 1024) ) {
+		printf("*** # of messages too high, max. is 1024.\n");
+		return -1;
+	}
 
 	/* alloc buffer (data buffer limited to 128 bytes) */
 	size = num * (sizeof(SMB_I2CMESSAGE) +	I2C_BLOCK_MAX_BYTES);
@@ -426,7 +434,7 @@ extern int32 SMB2CTRL_I2CXfer()
 
 	/* dump messages */
 	for( n=0; n<num; n++ ){
-		sprintf( str, "Message #%d", n );
+		snprintf( str, "Message #%d", n, STR_XFER_LEN );
 		UTL_Memdump( str, (char*)(msg[n].buf), msg[n].len, 1);
 	}
 
@@ -444,7 +452,7 @@ ERR_EXIT:
  */
 extern int32 SMB2CTRL_Errstring()
 {
-	int32		errCode;
+	int		errCode;
     static char errMsg[512];
 
 	printf("SMB2CTRL_Errstring:\n");
@@ -523,7 +531,7 @@ extern int32 SMB2CTRL_AlertCbInstall()
 extern int32 SMB2CTRL_AlertCbInstallSig()
 {
 	u_int16		addr 		= 0;
-	u_int32		sigCode 	= 0;
+	int32		sigCode 	= 0;
 
 	printf("SMB2CTRL_AlertCbInstallSig:\n");
 	AskUser( 0, &addr, 0, 0, 0, 0 );
@@ -594,7 +602,7 @@ extern int32 SMB2CTRL_Mtest()
 	u_int8		bytePat, byteRead;
 	u_int16		wordPat, wordRead;
 	u_int32		errCount;
-	u_int32		tmp;
+	int32		tmp;
 	char		errMsg[512];
 
 	printf("Simple memory test:\n");

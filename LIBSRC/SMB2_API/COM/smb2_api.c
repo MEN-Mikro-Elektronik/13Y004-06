@@ -1025,8 +1025,9 @@ int32 __MAPILIB SMB2API_AlertCbInstallSig(
 	if( !(alertNode = (ALERT_NODE*)malloc( sizeof(ALERT_NODE) )) ){
 		DO_BLK_SETSTAT( alertCtrl, SMB2_BLK_ALERT_CB_REMOVE );
 		UOS_SigRemove( sigCode );
-		if( !alertNode->n.next )
-			UOS_SigExit();
+		if (alertNode != NULL)
+			if ( !alertNode->n.next )
+				UOS_SigExit();
 		return (SMB_ERR_NO_MEM);
 	}
 

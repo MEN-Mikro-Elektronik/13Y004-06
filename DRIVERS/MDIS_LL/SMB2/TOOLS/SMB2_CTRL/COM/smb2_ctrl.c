@@ -58,6 +58,10 @@ u_int8      SMB2CTRL_flag;
 +--------------------------------------*/
 static int32 Dispatch(void);
 
+#define CMD_LEN 		10
+#define INPUT_BUF_LEN	1024  /* much larger than cmd buf */
+
+
 /**********************************************************************/
 /**  Prints the headline
  */
@@ -119,7 +123,7 @@ static void usage(void)
 int main(int argc, char* argv[])
 {
 	int32   ret=0, err=0;
-	u_int32 smbAddr=0x0;
+	int32   smbAddr=0x0;
 	u_int32 flags=0x0;
 	u_int32 wordData=0;
 	u_int32 byteData=0;
@@ -453,7 +457,8 @@ extern int32 SMB2CTRL_CmdHelp( void )
 static int32 Dispatch( void )
 {
     int32   ii;             
-	char	cmd[10];
+	char	cmd[CMD_LEN];
+	char	cmdtmp[INPUT_BUF_LEN];
 	u_int8	found;
 
     while(1) {
@@ -462,7 +467,10 @@ static int32 Dispatch( void )
 		printf("\ndev=%s ==> cmd: -", G_dev);
 
 		fflush( stdin );
-		scanf("%s",cmd);
+		
+		scanf("%s",cmdtmp);
+		strncpy(cmd, cmdtmp, CMD_LEN);
+		cmd[CMD_LEN-1] = 0; /* klocwork id5163 */
 
 		/* exit program */
 		if (strcmp(cmd, "e") == 0) {
