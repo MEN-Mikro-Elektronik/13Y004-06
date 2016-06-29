@@ -949,3 +949,5 @@ static void PrintError(char *info, int32 errCode)
 		errCode = UOS_ErrnoGet();
 
 	printf("%s: %s\n", info, SMB2API_Errstring(errCode, errMsg));
+}
+
