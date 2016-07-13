@@ -59,7 +59,10 @@ static int32 AskUser(
 	u_int8		*readWrite
 ){
 	int32	tmp;
-	
+	int ac=0;
+	char *pc=NULL;
+	/* satisfy vxWorks compiler.. */
+	tmp = internFunc( ac, &pc);
 	
 	if( flags ){
 		if( SMB2CTRL_flag ){
@@ -758,3 +761,10 @@ extern int32 SMB2CTRL_List()
 
 	return -1;
 }
+
+/* dummy to satisfy compiler, unused */
+static int internFunc( int argc, char **argv )
+{
+	return 0;
+}
+
