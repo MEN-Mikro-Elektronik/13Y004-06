@@ -578,13 +578,8 @@ extern int32 SMB2CTRL_AlertCbRemove()
  */
 static void AlertCbFunc( void *cbArg )
 {
-	u_int16		addr;
-
 	SMB2CTRL_alertCallCount++;
-
-	addr = (u_int16)cbArg;
-	printf(">>> AlertCbFunc called with cbArg=0x%x, alertCallCount=%d\n",
-		addr, SMB2CTRL_alertCallCount );
+	printf(">>> AlertCbFunc called with cbArg=%p, alertCallCount=%d\n", cbArg, SMB2CTRL_alertCallCount );
 }
 
 /**********************************************************************/
