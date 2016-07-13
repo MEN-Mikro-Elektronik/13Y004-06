@@ -434,7 +434,7 @@ extern int32 SMB2CTRL_I2CXfer()
 
 	/* dump messages */
 	for( n=0; n<num; n++ ){
-		snprintf( str, "Message #%d", n, STR_XFER_LEN );
+		snprintf( str, (size_t)STR_XFER_LEN ,"Message #%d", n);
 		UTL_Memdump( str, (char*)(msg[n].buf), msg[n].len, 1);
 	}
 
