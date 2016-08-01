@@ -145,7 +145,7 @@ static int32 set_address(u_int8 *start_address);
 static int32 get_address(u_int8 *tmp_address);
 static int32 read_command(void);
 static int32 write_command(u_int8 byte_count, u_int8 *data);
-static int32 erase_command(u_int8 page_count, u_int32 page_size);
+static int32 erase_command(u_int8 page_count, u_int16 page_size);
 static int32 check_last_op(void);
 static int32 enter_bootloader(void);
 static int32 leave_bootloader(void);
@@ -558,7 +558,7 @@ static int32 write_command(u_int8 byte_count, u_int8 *data)
 *
 *  \return              success (0) or error code
 */
-static int32 erase_command(u_int8 page_count, u_int32 page_size)
+static int32 erase_command(u_int8 page_count, u_int16 page_size)
 {
 	int err=0;
 	u_int8 tmp_address[4];
@@ -711,7 +711,7 @@ static int32 download_fw(FILE *dfu_fileP)
 	int err = 0, i;
 	int write_count;
 	u_int32 data_size;
-	u_int32 page_size = 0;
+	u_int16 page_size = 0;
 	u_int8 page_count;
 	u_int8 byte_count;
 	u_int8 dum_byte;
@@ -787,7 +787,7 @@ static int32 download_fw(FILE *dfu_fileP)
 	}
 
 	/* Get page size */
-	err = get_page_size((u_int16*)&page_size);
+	err = get_page_size(&page_size);
 	if (err)
 		return err;
 
