@@ -44,6 +44,7 @@
 |  PROTOTYPES                              |
 +-----------------------------------------*/
 static void AlertCbFunc( void *cbArg );
+static int internFunc( int argc, char **argv );
 
 #define STR_XFER_LEN    20
 
