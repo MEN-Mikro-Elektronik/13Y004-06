@@ -48,7 +48,7 @@ static const char RCSid[]="$Id: smb2_ctrl.c,v 1.6 2014/10/15 13:00:46 awerner Ex
 +--------------------------------------*/
 static char *G_dev;
 static char *G_cmd;
-u_int32     SMB2CTRL_errCount;
+int     SMB2CTRL_errCount;
 u_int32     SMB2CTRL_alertCallCount;
 void        *SMB2CTRL_smbHdl;
 u_int8      SMB2CTRL_flag;
@@ -123,12 +123,12 @@ static void usage(void)
 int main(int argc, char* argv[])
 {
 	int32   ret=0, err=0;
-	int32   smbAddr=0x0;
-	u_int32 flags=0x0;
-	u_int32 wordData=0;
-	u_int32 byteData=0;
-	u_int32 offs=0;
-	int32   num=0, i=0;
+	unsigned int smbAddr=0x0;
+	unsigned int flags=0x0;
+	unsigned int wordData=0;
+	unsigned int byteData=0;
+	unsigned int offs=0;
+	unsigned int num=0, i=0;
 	u_int8  readwrite;
 	u_int8  length = SMB_BLOCK_MAX_BYTES;
 	u_int8  blkData[SMB_BLOCK_MAX_BYTES];

@@ -856,11 +856,11 @@ char* __MAPILIB SMB2API_Errstring(
 
 		/* known SMB2 error */
 		if (smbErr) {
-			sprintf(strBuf, "ERROR (SMB2) 0x%04x: %s", errCode, smbErr);
+			sprintf(strBuf, "ERROR (SMB2) 0x%04x: %s", (unsigned int)errCode, smbErr);
 		}
 		/* unknown SMB2 error? */
 		else {
-			sprintf(strBuf, "ERROR (SMB2) 0x%04x: Unknown SMB2 error", errCode);
+			sprintf(strBuf, "ERROR (SMB2) 0x%04x: Unknown SMB2 error", (unsigned int)errCode);
 		}
 	}
     /*----------------------+
@@ -1004,7 +1004,7 @@ int32 __MAPILIB SMB2API_AlertCbInstallSig(
 
 	/* install signal */
 	if( (rv = UOS_SigInstall(sigCode)) ){
-		printf("rv=0x%x\n", rv);
+		printf("rv=0x%x\n", (unsigned int)rv);
 		if( !alertNode->n.next )
 			UOS_SigExit();
 		return (SMB_ERR_ALERT_INSTALL);
