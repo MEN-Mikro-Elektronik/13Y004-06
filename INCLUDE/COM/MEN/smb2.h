@@ -257,8 +257,8 @@ typedef struct {
 /** I2C Message - used for pure i2c transaction, also from /dev interface */
 typedef struct I2CMESSAGE
 {
-	u_int16 addr;					/**< slave address					*/
-	u_int32 flags;					/**< flags for communication		*/
+	unsigned int addr;					/**< slave address					*/
+	unsigned int flags;					/**< flags for communication		*/
 #define I2C_M_TEN			0x0010	/**< we have a ten bit chip address	*/
 #define I2C_M_WR			0x0000	/**< write access					*/
 #define I2C_M_RD			0x0001	/**< read access					*/
