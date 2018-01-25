@@ -199,7 +199,7 @@ int main(int argc, char *argv[])
 
 	/* SMB device(EEPROM) address */
 	if( addrP != NULL ) {
-		sscanf( addrP, "%x", &smbAddr );
+		sscanf( addrP, "%x", (unsigned int*)&smbAddr );
 	}
 	else {
 		smbAddr = DEFAULT_ID_PROM_ADDR; /* 0xae */
@@ -220,7 +220,7 @@ int main(int argc, char *argv[])
 
 	/* some output at the beginning */
 	header();
-	printf("Accessing %s: smbAddr 0x%2x\n", deviceP, smbAddr);
+	printf("Accessing %s: smbAddr 0x%2x\n", deviceP, (unsigned int)smbAddr);
 
 	/* read content of EEPROM */
 	ret = SmbIdPromRead( (u_int8)smbAddr );
@@ -331,10 +331,10 @@ static void SmbIdPromDump(void)
 	printf( "\n EEPROD-ID  = 0x%X\n", (G_eeprd2.pd_id >> 4) );
 
 	if( G_eeprd2.pd_serial == 0xFFFFFFFF ) {
-		printf( " Serial#    = 0x%X\n", (SWAPLONG(G_eeprd2.pd_serial)) );
+		printf( " Serial#    = 0x%X\n", (unsigned int)(SWAPLONG(G_eeprd2.pd_serial)) );
 	}
 	else {
-		printf( " Serial#    = %08u\n", (SWAPLONG(G_eeprd2.pd_serial)) );
+		printf( " Serial#    = %08u\n", (unsigned int)(SWAPLONG(G_eeprd2.pd_serial)) );
 	}
 
 	if( (G_eeprd2.pd_revision[0] == 0xFF) || (G_eeprd2.pd_revision[1] == 0xFF)
