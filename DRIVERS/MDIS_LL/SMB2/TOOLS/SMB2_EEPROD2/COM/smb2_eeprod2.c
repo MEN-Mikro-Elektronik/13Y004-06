@@ -735,11 +735,6 @@ static void SmbIdPromDump(void)
 	u_int8  prodday=0, prodmonth=0;
 	u_int8  repday=0, repmonth=0;
 	u_int16 prodyear=0, repyear=0;
-	int     i=0;
-	char    userInput=0;
-	u_int8  *arr;
-
-	arr = (u_int8*)&G_eeprd2;
 
 	printf( "\n EEPROD-ID  = 0x%X\n", (G_eeprd2.pd_id >> 4) );
 
@@ -874,7 +869,7 @@ static int32 SmbProgramFile( u_int8 smbAddr, char *filenameP )
 	int    err=0, ret=0;
 	char   input=0;
 	int    filesize, offs;
-	FILE   *fileP;
+	FILE   *fileP = NULL;
 	u_int8 *buf=NULL;
 
 	printf( "\nATTENTION!!! Do you really want to program the SMB device?\n"

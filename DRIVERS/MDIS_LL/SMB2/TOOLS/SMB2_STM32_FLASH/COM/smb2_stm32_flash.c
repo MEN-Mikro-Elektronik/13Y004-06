@@ -143,7 +143,9 @@ static int32 dfu_check(FILE *dfu_fileP);
 static int32 get_dfu_data(FILE *dfu_fileP, u_int8 *start_address, u_int32 *data_size);
 static int32 set_address(u_int8 *start_address);
 static int32 get_address(u_int8 *tmp_address);
+#if 0
 static int32 read_command(void);
+#endif
 static int32 write_command(u_int8 byte_count, u_int8 *data);
 static int32 erase_command(u_int8 page_count, u_int16 page_size);
 static int32 check_last_op(void);
@@ -499,6 +501,7 @@ static int32 get_address(u_int8 *tmp_address)
 *
 *  \return    success (0) or error code
 */
+#if 0
 static int32 read_command()
 {
 	int err=0, i;
@@ -522,6 +525,7 @@ static int32 read_command()
 
 	return 0;
 }
+#endif
 
 /****************************************************************************/
 /** Send write memory command

@@ -26,6 +26,7 @@
  * (c) Copyright 2013 by MEN mikro elektronik GmbH, Nuernberg, Germany
  ****************************************************************************/
 
+#include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <MEN/men_typs.h>

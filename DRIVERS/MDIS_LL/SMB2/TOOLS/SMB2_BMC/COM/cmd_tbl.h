@@ -81,58 +81,58 @@ struct _COMMAND_TABLE
 {	/* command		function */
 
 	/* FS_BMC_MANAGEMENT */
-	"gfr",			GetFirmwareRevision,
-	"ghwb",			GetHWBoard,
-	"shwb",			SetHWBoard,
-	"feat",			Features,
+	{"gfr",			GetFirmwareRevision},
+	{"ghwb",		GetHWBoard},
+	{"shwb",		SetHWBoard},
+	{"feat",		Features},
 
 	/* FS_WATCHDOG */
-	"wdo",			WDog_On,
-	"wdf",			WDog_Off,
-	"wdt",			WDog_trigger,
-	"wdtg",			WDog_time_get,
-	"wdts",			WDog_time_set,
-	"wdsg",			WDog_state_get,
-	"wdam",			WDog_arm,
-	"wdas",			WDog_arm_state,
-	"wdmts",		WDog_min_time_set,
-	"wdmtg",		WDog_min_time_get,
+	{"wdo",			WDog_On},
+	{"wdf",			WDog_Off},
+	{"wdt",			WDog_trigger},
+	{"wdtg",		WDog_time_get},
+	{"wdts",		WDog_time_set},
+	{"wdsg",		WDog_state_get},
+	{"wdam",		WDog_arm},
+	{"wdas",		WDog_arm_state},
+	{"wdmts",		WDog_min_time_set},
+	{"wdmtg",		WDog_min_time_get},
 
 	/* FS_POWER_RESET_CONTROL */
-	"epfms",		Ext_pwr_fail_mode_set,
-	"epfmg",		Ext_pwr_fail_mode_get,
-	"rims",			Reset_in_mode_set,
-	"rimg",			Reset_in_mode_get,
-	"swr",			SW_reset,
-	"swcr",			SW_cold_reset,
-	"swrtcr",		SW_rtc_reset,
-	"swh",			SW_halt,
-	"rstrg",		Rst_reason_get,
-	"rstcl",		Rst_reason_clr,
+	{"epfms",		Ext_pwr_fail_mode_set},
+	{"epfmg",		Ext_pwr_fail_mode_get},
+	{"rims",		Reset_in_mode_set},
+	{"rimg",		Reset_in_mode_get},
+	{"swr",			SW_reset},
+	{"swcr",		SW_cold_reset},
+	{"swrtcr",		SW_rtc_reset},
+	{"swh",			SW_halt},
+	{"rstrg",		Rst_reason_get},
+	{"rstcl",		Rst_reason_clr},
 
 	/* FS_VOLTAGE_REPORTING */
-	"vmidx",		Volt_max_idx,
-	"vsidx",		Volt_set_idx,
-	"vget",			Volt_get,
-	"vgeta",		Volt_get_all,
+	{"vmidx",		Volt_max_idx},
+	{"vsidx",		Volt_set_idx},
+	{"vget",		Volt_get},
+	{"vgeta",		Volt_get_all},
 
 	/* FS_LIFETIME_REPORTING */
-	"pcc",			Pwrcycl_cnt,
-	"ohc",			Op_hrs_cnt,
+	{"pcc",			Pwrcycl_cnt},
+	{"ohc",			Op_hrs_cnt},
 
 	/* FS_EVENT_LOG */
-	"evls",			Evlog_stat,
-	"evlw",			Evlog_write,
-	"evlwidx",		Evlog_write_idx,
-	"evlr",			Evlog_read,
+	{"evls",		Evlog_stat},
+	{"evlw",		Evlog_write},
+	{"evlwidx",		Evlog_write_idx},
+	{"evlr",		Evlog_read},
 
 	/* FS_STATUS_OUTPUTS */
-	"sog",			Status_output_get,
-	"sos",			Status_output_set,
+	{"sog",			Status_output_get},
+	{"sos",			Status_output_set},
 
 	/* FS_CLUSTER_SUPPORT */
-	"csg",			Cluster_chan_state_get,
-	"css",			Cluster_chan_state_set,
+	{"csg",			Cluster_chan_state_get},
+	{"css",			Cluster_chan_state_set},
 
 };
 

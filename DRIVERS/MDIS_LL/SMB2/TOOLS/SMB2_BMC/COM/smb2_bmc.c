@@ -1225,7 +1225,7 @@ extern int32 Volt_get( int argc, char* argv[] )
  */
 extern int32 Volt_get_all( int argc, char* argv[] )
 {
-	int32 ret=0, all=0;
+	int32 ret=0;
 	u_int8 i=0;
 	u_int8 blkData[SMB_BLOCK_MAX_BYTES];
 	u_int16 erg;
@@ -1261,7 +1261,7 @@ extern int32 Volt_get_all( int argc, char* argv[] )
 			printf( " IMPL_SPEC %d\n", i );
 		}
 
-		if( erg = (((u_int16)blkData[2])<<8)+blkData[1] ) {
+		if( (erg = (((u_int16)blkData[2])<<8)+blkData[1]) ) {
 			printf( " Actual   : %d mV \n", erg= (((u_int16)blkData[2])<<8)+blkData[1] );
 			printf( " Nominal  : %d mV \n", erg= (((u_int16)blkData[4])<<8)+blkData[3] );
 			printf( " Low.lim. : %d mV \n", erg= (((u_int16)blkData[6])<<8)+blkData[5] );

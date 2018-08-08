@@ -40,6 +40,13 @@
 
 #include "smb2_ctrl.h"
 
+/*
+ * Macro for ignoring the return value of a function (e.g. scanf)
+ */
+#ifndef IGNORE_RET_VAL
+#define IGNORE_RET_VAL(fun) { if (fun); }
+#endif
+
 /*-----------------------------------------+
 |  PROTOTYPES                              |
 +-----------------------------------------*/
@@ -69,7 +76,7 @@ static int32 AskUser(
 		if( SMB2CTRL_flag ){
 			printf(" flags -> 0x");
 			fflush( stdin );
-			scanf("%x", flags);
+			IGNORE_RET_VAL(scanf("%x", flags));
 		}
 		else
 			*flags = 0;
@@ -77,32 +84,32 @@ static int32 AskUser(
 	if( addr ){
 		printf(" device address -> 0x");
 		fflush( stdin );
-		scanf("%x", &tmp);
+		IGNORE_RET_VAL(scanf("%x", &tmp));
 		*addr = (u_int16)tmp;
 	}
 	if( cmdAddr ){
 		printf(" device command or index value -> 0x");
 		fflush( stdin );
-		scanf("%x", &tmp);
+		IGNORE_RET_VAL(scanf("%x", &tmp));
 		*cmdAddr = (u_int8)tmp;
 	}
 	if( byteData ){
 		printf(" byte to write -> 0x");
 		fflush( stdin );
-		scanf("%x", &tmp);
+		IGNORE_RET_VAL(scanf("%x", &tmp));
 		*byteData = (u_int8)tmp;
 	}
 	if( wordData ){
 		printf(" word to write -> 0x");
 		fflush( stdin );
-		scanf("%x", &tmp);
+		IGNORE_RET_VAL(scanf("%x", &tmp));
 		*wordData = (u_int16)tmp;
 	}
 	if( readWrite ){
 		do{
 			printf(" read or write (r/w) -> ");
 			fflush( stdin );
-			scanf("%c", (char*)&tmp);
+			IGNORE_RET_VAL(scanf("%c", (char*)&tmp));
 			switch( tmp ){
 				case 'r': *readWrite = SMB_READ; break;
 				case 'w': *readWrite = SMB_WRITE; break;
@@ -128,14 +135,14 @@ static int32 AskUserBlk(
 	do{
 		printf(" -> ");
 		fflush( stdin );
-		scanf("%d", &tmp);
+		IGNORE_RET_VAL(scanf("%d", &tmp));
 		*length = (u_int8)tmp;
 	} while( *length > maxLength );
 	
 	for( n=0; n < *length; n++ ){
 		printf(" blkData[%d] -> 0x", n);
 		fflush( stdin );
-		scanf("%x", &tmp);
+		IGNORE_RET_VAL(scanf("%x", &tmp));
 		blkData[n] = (u_int8)tmp;
 	}
 
@@ -404,7 +411,7 @@ extern int32 SMB2CTRL_I2CXfer()
 	
 	printf(" number of I2C messages to transfer -> ");
 	fflush( stdin );
-	scanf("%d", &num);
+	IGNORE_RET_VAL(scanf("%d", &num));
 
 	if ( (num <=0 ) || (num > 1024) ) {
 		printf("*** # of messages too high, max. is 1024.\n");
@@ -421,7 +428,7 @@ extern int32 SMB2CTRL_I2CXfer()
 
 		printf("--- Message #%d ---\n", n);
 
-		AskUser( &msg[n].flags, &msg[n].addr, 0, 0, 0, 0 );
+		AskUser( &msg[n].flags, (unsigned int*)&msg[n].addr, 0, 0, 0, 0 );
 
 		/* set buffer pointer behind the SMB_I2CMESSAGE struct */
 		msg[n].buf = (u_int8*)(&msg[n]) + sizeof(SMB_I2CMESSAGE);
@@ -463,7 +470,7 @@ extern int32 SMB2CTRL_Errstring()
 
 	printf(" error code -> 0x");
 	fflush( stdin );
-	scanf("%x", &errCode);
+	IGNORE_RET_VAL(scanf("%x", &errCode));
 
 	printf(" %s\n", SMB2API_Errstring( errCode, errMsg ));
 
@@ -542,7 +549,7 @@ extern int32 SMB2CTRL_AlertCbInstallSig()
 
 	printf(" UOS_SIG signal code to use for alert -> 0x");
 	fflush( stdin );
-	scanf("%x", &sigCode);
+	IGNORE_RET_VAL(scanf("%x", &sigCode));
 	
 	printf(" alertCallCount=%d\n", (int)SMB2CTRL_alertCallCount);
 
@@ -610,12 +617,12 @@ extern int32 SMB2CTRL_Mtest()
 
 	printf(" offset to begin (index value, 0x00..0xff) -> 0x");
 	fflush( stdin );
-	scanf("%x", &tmp);
+	IGNORE_RET_VAL(scanf("%x", &tmp));
 	cmdAddrStart = (u_int8)tmp;
 
 	printf(" number of bytes to transfer (0x00..0xff) -> 0x");
 	fflush( stdin );
-	scanf("%x", &tmp);
+	IGNORE_RET_VAL(scanf("%x", &tmp));
 	bytes = (u_int8)tmp;
 	words = bytes/2;
 

@@ -124,7 +124,7 @@ int main(int argc, char *argv[])
 	int   err, ret=0, i=0;
 	char  *errstr=NULL, ebuf[100];
 	char  *optp=NULL, *deviceP=NULL;
-	char  *str, *portStr;
+	char  *portStr;
 	int32 port, set, clr;
 	int32 portBit=0, smbAddr, rev, get, state;
 	void  *smbHdl=NULL;

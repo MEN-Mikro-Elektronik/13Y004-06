@@ -41,7 +41,13 @@ static const char RCSid[]="$Id: smb2_ctrl.c,v 1.6 2014/10/15 13:00:46 awerner Ex
 
 #include "smb2_ctrl.h"
 #include "cmd_tbl.h"
-#include "ident.h"
+
+/*
+ * Macro for ignoring the return value of a function (e.g. scanf)
+ */
+#ifndef IGNORE_RET_VAL
+#define IGNORE_RET_VAL(fun) { if (fun); }
+#endif
 
 /*--------------------------------------+
 |   GLOBALS                             |
@@ -468,7 +474,7 @@ static int32 Dispatch( void )
 
 		fflush( stdin );
 		
-		scanf("%s",cmdtmp);
+		IGNORE_RET_VAL(scanf("%s",cmdtmp));
 		strncpy(cmd, cmdtmp, CMD_LEN);
 		cmd[CMD_LEN-1] = 0; /* klocwork id5163 */
 
