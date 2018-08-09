@@ -428,7 +428,7 @@ extern int32 SMB2CTRL_I2CXfer()
 
 		printf("--- Message #%d ---\n", n);
 
-		AskUser( &msg[n].flags, (unsigned int*)&msg[n].addr, 0, 0, 0, 0 );
+		AskUser( (unsigned int*)&msg[n].flags, (unsigned int*)&msg[n].addr, 0, 0, 0, 0 );
 
 		/* set buffer pointer behind the SMB_I2CMESSAGE struct */
 		msg[n].buf = (u_int8*)(&msg[n]) + sizeof(SMB_I2CMESSAGE);
