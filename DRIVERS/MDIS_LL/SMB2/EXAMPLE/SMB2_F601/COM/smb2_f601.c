@@ -18,24 +18,24 @@
  *     Required: libraries: mdis_api, usr_oss, usr_utl, smb2_api
  *     \switches (none)
  */
- /*-------------------------------[ History ]--------------------------------
- *
- * $Log: smb2_f601.c,v $
- * Revision 1.4  2007/01/24 11:38:14  DPfeuffer
- * prevents now to drive inputs
- *
- * Revision 1.3  2006/08/04 17:07:00  ts
- * #include <stdlib.h> to avoid implicit decl. warning of atoi()
- *
- * Revision 1.2  2006/08/03 13:54:10  DPfeuffer
- * cosmetics
- *
- * Revision 1.1  2006/05/31 08:22:24  DPfeuffer
- * Initial Revision
- *
+ /*
  *---------------------------------------------------------------------------
  * (c) Copyright 2006 by MEN mikro elektronik GmbH, Nuernberg, Germany
  ****************************************************************************/
+/*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 2 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
 
 #include <stdio.h>
 #include <string.h>

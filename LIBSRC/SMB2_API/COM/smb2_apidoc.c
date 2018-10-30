@@ -12,24 +12,24 @@
  *
  *     \switches -
  */
- /*-------------------------------[ History ]--------------------------------
- *
- * $Log: smb2_apidoc.c,v $
- * Revision 1.3  2009/07/31 17:25:31  MRoth
- * R: new smb2_boardident tool
- * M: added smb2_boardident tool to description and examples section
- *
- * Revision 1.2  2009/06/22 11:59:32  dpfeuffer
- * R:1.a: Porting to MIDS5
- * M:1.a) MDIS4 renamed to MDIS5
- *     b) Note for MDIS4 compatibility added
- *
- * Revision 1.1  2006/02/28 15:57:44  DPfeuffer
- * Initial Revision
- *
+ /*
  *---------------------------------------------------------------------------
  * (c) Copyright 2006 by MEN Mikro Elektronik GmbH, Nuernberg, Germany
  ****************************************************************************/
+/*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 2 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
 
 /*! \mainpage
 

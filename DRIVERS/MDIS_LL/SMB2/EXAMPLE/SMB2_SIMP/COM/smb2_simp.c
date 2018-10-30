@@ -20,29 +20,24 @@
  *     Required: libraries: mdis_api, usr_oss, smb2_api
  *     \switches (none)
  */
- /*-------------------------------[ History ]--------------------------------
- *
- * $Log: smb2_simp.c,v $
- * Revision 1.5  2009/06/22 11:59:09  dpfeuffer
- * R: Porting to MIDS5
- * M: added support for 64bit (MDIS_PATH)
- *
- * Revision 1.4  2006/08/04 16:58:35  ts
- * include <stdlib.h> to avoid implicit declaration warnings
- *
- * Revision 1.3  2006/03/06 11:35:49  cs
- * fixed: sscanf(str,"%x",valP) takes only (int*) as argument (VxW 6.2)
- *
- * Revision 1.2  2006/03/03 10:52:34  DPfeuffer
- * - error handling fixed
- * - ERROR label replaced by ERR_EXIT
- *
- * Revision 1.1  2006/02/28 15:57:27  DPfeuffer
- * Initial Revision
- *
+ /*
  *---------------------------------------------------------------------------
  * (c) Copyright 2006 by MEN mikro elektronik GmbH, Nuernberg, Germany
  ****************************************************************************/
+/*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 2 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
 
 #include <stdio.h>
 #include <string.h>

@@ -12,47 +12,24 @@
  *
  *     \switches _ONE_NAMESPACE_PER_DRIVER_
  */
- /*-------------------------------[ History ]--------------------------------
- *
- * $Log: smb2_drv.c,v $
- * Revision 1.9  2009/06/22 11:59:07  dpfeuffer
- * R:1. Porting to MIDS5
- *   2. unnecessary if condition
- * M:1 added support for 64bit (Set/GetStat prototypes)
- *   2. SMB2_Info: LL_INFO_ADDRSPACE modified
- *
- * Revision 1.8  2007/04/05 19:49:50  cs
- * fixed:
- *    - number formatting in DBG_WRITEx
- *
- * Revision 1.7  2007/02/20 15:50:58  DPfeuffer
- * - SMB2 error codes no longer mapped into device specific error code range by the driver
- *   (now done by smb2 lib)
- *
- * Revision 1.6  2006/09/11 10:36:42  cs
- * cosmetics
- *
- * Revision 1.5  2006/05/31 08:22:10  DPfeuffer
- * additional descriptor key SMB_DEVS_EXCLUDE
- *
- * Revision 1.4  2006/03/18 11:01:14  cs
- * fixed:
- * added prefix for union u to all references where missing
- *
- * Revision 1.3  2006/03/17 15:12:53  DPfeuffer
- * SMB2_TRANSFER and SMB2_TRANSFER_BLOCK struct: now named unions (ANSI C)
- *
- * Revision 1.2  2006/03/03 10:52:31  DPfeuffer
- * - Smb2SetStat( SMB2_BLK_WRITE_BLOCK_DATA ) fixed
- * - ERROR label replaced by ERR_EXIT
- * - SMB2_GetEntry() declaration fixed
- *
- * Revision 1.1  2006/02/28 15:57:19  DPfeuffer
- * Initial Revision
- *
+ /*
  *---------------------------------------------------------------------------
  * (c) Copyright by MEN Mikro Elektronik GmbH, Nuernberg, Germany
  ****************************************************************************/
+/*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 2 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
 
 #define _NO_LL_HANDLE		/* ll_defs.h: don't define LL_HANDLE struct */
 

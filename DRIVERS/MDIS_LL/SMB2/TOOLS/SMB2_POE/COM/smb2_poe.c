@@ -19,34 +19,24 @@
  *     Required: libraries: mdis_api, usr_oss, usr_utl, smb2_api
  *    \switches  (none)
  */
- /*-------------------------------[ History ]--------------------------------
- *
- * $Log: smb2_poe.c,v $
- * Revision 1.5  2014/12/17 11:27:29  MRoth
- * R: 1) enabling single PoE ports not working
- *    2) cosmetics
- * M: 1) removed double bit shifting
- *    2a) revised complete code
- *     b) changed/added parameters -s and -c
- *
- * Revision 1.4  2014/10/15 13:00:57  awerner
- * R: disable warnings (Win Secure functions) with pragma cause compiler error in linux
- * M: Added WINNT define to only disable warnings in Windows
- *
- * Revision 1.3  2014/07/03 19:05:06  MRoth
- * R: build error
- * M: fixed typo
- *
- * Revision 1.2  2014/07/03 17:45:59  MRoth
- * R: tool not working as expected
- * M: fixed data for SMBus write commands
- *
- * Revision 1.1  2014/02/20 18:22:32  MRoth
- * Initial Revision
- *
+ /*
  *---------------------------------------------------------------------------
  * (c) Copyright 2014 by MEN mikro elektronik GmbH, Nuernberg, Germany
  ****************************************************************************/
+/*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 2 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
 static const char RCSid[]="$Id: smb2_poe.c,v 1.5 2014/12/17 11:27:29 MRoth Exp $";
 
 /*--------------------------------------+
