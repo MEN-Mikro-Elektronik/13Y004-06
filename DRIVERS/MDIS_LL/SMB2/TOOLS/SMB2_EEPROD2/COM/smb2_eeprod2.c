@@ -15,83 +15,24 @@
  *     Required: libraries: mdis_api, usr_oss, usr_utl, smb2_api
  *    \switches  _BIG_ENDIAN_/_LITTLE_ENDIAN_
  *
- *
- *--------------------------------[ History ]----------------------------------
- *
- * $Log: smb2_eeprod2.c,v $
- * Revision 1.12  2014/10/15 13:00:52  awerner
- * R: disable warnings (Win Secure functions) with pragma cause compiler error in linux
- * M: Added WINNT define to only disable warnings in Windows
- *
- * Revision 1.11  2014/07/03 17:45:57  MRoth
- * R: 1) new function
- *    2) EEPROM dump showed wrong content
- *    3) cosmetics
- * M: 1) added SmbProgramFile() function
- *    2) output actual content of EEPROM with readbyte function
- *    3) rewritten some code
- *
- * Revision 1.10  2014/02/20 18:21:50  MRoth
- * R: GetSerial function fails sometimes
- * M: added fflush
- *
- * Revision 1.9  2013/02/27 16:15:10  MRoth
- * R: user input for serial number and memory dump (raw) not practical for PT
- * M: 1) added serial number option -n
- *    2) removed user input for raw dump
- *
- * Revision 1.8  2011/06/09 14:30:51  MRoth
- * R: compiler warnings
- * M: fixed some codelines to avoid warnings
- *
- * Revision 1.7  2010/02/11 15:23:10  MRoth
- * R1: wrong implementation of sscanf() caused parameter error behaviour
- * R2: cosmetics
- * M1: changed declarations of some variables to type u_int32 to avoid overwriting of parameter values
- * M2: fixed some comments and the output of function SmbIdPromDump()
- *
- * Revision 1.6  2009/11/24 14:27:23  MRoth
- * R: not able to program new model number (always zero)
- * M: changed sscanf() parameter (%d to %u) in main function
- *
- * Revision 1.5  2009/11/19 11:02:16  MRoth
- * R: SMBus busy errors while programming some EEPROMS
- * M: delays extended
- *
- * Revision 1.4  2009/09/07 16:40:53  MRoth
- * R: SmbSPDWriteProtect() always prints an error message
- * M: a) added break to switch/case routine of SmbSPDWriteProtect()
- *    b) improved error handling of SmbSPDWriteProtect()
- *
- * Revision 1.3  2009/09/07 15:52:56  MRoth
- * R1: no support for SPD EEPROMs
- * R2: no default value for last repair date
- * R3: cosmetics
- * M1: a)added SmbSPDWriteProtect() to lock SPD EEPROMs
- *     b)added new parameter -s
- * M2: a) changed function of parameter -l to get current system date
- *     b) added GetSystemDate() to avoid redundant code
- * M3: a) renamed dump function to SmbIdPromDump()
- *     b) fixed usage() according to new parameters
- *     c) fixed some comments
- *
- * Revision 1.2  2009/08/14 15:53:11  MRoth
- * R1: APB5 warnings and Errors
- * R2: no default value for production date
- * R3: wrong max. serial number in function GetSerial()
- * R4: cosmetics
- * M1: a) changed definition of variable i from int to u_int8 in functions SmbIdPromRead() and SmbIdPromWrite()
- *     b) added some casts
- *     c) replaced gets() by scanf() in function GetSerial()
- * M2: added time functions to get system date
- * M3: added define MAX_SERIAL_NO and fixed function GetSerial()
- * M4: fixed usage(), some comments and dump outputs
- *
- * Revision 1.1  2009/07/31 17:25:29  MRoth
- * Initial Revision
  *-----------------------------------------------------------------------------
  * (c) Copyright 2009 by MEN Mikro Elektronik GmbH, Nuremberg, Germany
  ******************************************************************************/
+ /*
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 static const char RCSid[]="$Id: smb2_eeprod2.c,v 1.12 2014/10/15 13:00:52 awerner Exp $";
 
 /*--------------------------------------+
