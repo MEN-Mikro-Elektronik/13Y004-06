@@ -10,15 +10,7 @@
  *                      
  *     Switches: -
  */
-/*-------------------------------[ History ]---------------------------------
- *
- * $Log: f601io.h,v $
- * Revision 3.2  2007/01/24 11:38:49  DPfeuffer
- * F601IO_IN_MASK define added
- *
- * Revision 3.1  2006/05/31 08:22:28  DPfeuffer
- * Initial Revision
- *
+/*
  *---------------------------------------------------------------------------
  * (c) Copyright 2006 by MEN Mikro Elektronik GmbH, Nuremberg, Germany 
  ****************************************************************************/

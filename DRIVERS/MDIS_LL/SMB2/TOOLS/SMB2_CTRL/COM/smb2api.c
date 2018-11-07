@@ -10,30 +10,7 @@
  *
  *     Switches: -
  */
-/*-------------------------------[ History ]---------------------------------
- *
- * $Log: smb2api.c,v $
- * Revision 1.6  2014/02/20 18:21:46  MRoth
- * R: mtest function failed on EEPROMS
- * M: added delay after every write access
- *
- * Revision 1.5  2009/06/22 11:59:17  dpfeuffer
- * R: MDVE warnings
- * M: added prefix SMB2CTRL to external globals and functions
- *
- * Revision 1.4  2006/08/04 14:10:07  ts
- * added casts to avoid warnings with gcc >= 4.0
- *
- * Revision 1.3  2006/05/31 08:22:15  DPfeuffer
- * added commands -id, -list
- *
- * Revision 1.2  2006/03/03 10:52:38  DPfeuffer
- * - warnings fixed
- * - scanf bugs fixed
- *
- * Revision 1.1  2006/02/28 15:57:33  DPfeuffer
- * Initial Revision
- *
+/*
  *---------------------------------------------------------------------------
  * (c) Copyright by MEN Mikro Elektronik GmbH, Nuremberg, Germany 
  ****************************************************************************/

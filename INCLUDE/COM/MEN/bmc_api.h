@@ -10,20 +10,7 @@
  *       \brief  BMC API interface
  *    \switches  
  */
-/*-------------------------------[ History ]---------------------------------
- *
- * $Log: bmc_api.h,v $
- * Revision 3.3  2015/07/12 11:48:18  ts
- * R: C++ style comment in line 179 broke compile under vxWorks
- * M: changed TODO comment to C style
- *
- * Revision 3.2  2014/07/04 14:35:30  MRoth
- * R: missing constants
- * M: added BMC_WDOG_OFF_DATA, BMC_RST_REASON_CLR_DATA
- *
- * Revision 3.1  2014/01/07 17:38:06  MRoth
- * Initial Revision
- *
+/*
  *---------------------------------------------------------------------------
  * (c) Copyright 2013 by MEN Mikro Elektronik GmbH, Nuremberg, Germany
  ****************************************************************************/

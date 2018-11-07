@@ -10,27 +10,7 @@
  *                      
  *     Switches: -
  */
-/*-------------------------------[ History ]---------------------------------
- *
- * $Log: smb2_ctrl.h,v $
- * Revision 1.5  2009/06/22 11:59:22  dpfeuffer
- * R: MDVE warnings
- * M: added prefix SMB2CTRL to external globals and functions
- *
- * Revision 1.4  2007/02/20 15:51:01  DPfeuffer
- * - SMB2 error codes no longer mapped into device specific error code range
- *   (now done by smb2 lib)
- *
- * Revision 1.3  2006/05/31 08:22:19  DPfeuffer
- * - added commands -id, -list
- * - SMB2 error codes fixed
- *
- * Revision 1.2  2006/03/07 14:31:56  DPfeuffer
- * usr_oss.h added (required for VxWorks main() renaming)
- *
- * Revision 1.1  2006/02/28 15:57:37  DPfeuffer
- * Initial Revision
- *
+/*
  *---------------------------------------------------------------------------
  * (c) Copyright by MEN Mikro Elektronik GmbH, Nuremberg, Germany 
  ****************************************************************************/

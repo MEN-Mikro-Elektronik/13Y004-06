@@ -10,42 +10,7 @@
  *
  *     Switches: -
  */
-/*-------------------------------[ History ]---------------------------------
- *
- * $Log: smb2_api.c,v $
- * Revision 1.9  2010/04/19 13:42:16  dpfeuffer
- * R: SMB_ERR_CTRL_BUSY error code was added to smb2.h (but not added here)
- * M: missing SMB_ERR_CTRL_BUSY added to SMB2API_Errstring()
- *
- * Revision 1.8  2009/06/22 11:59:30  dpfeuffer
- * R: UOS_SigInit declaration was changed
- * M: add __MAPILIB keyword to SigHandler
- *    (cosmetics, because lib uses the right calling convention)
- *
- * Revision 1.7  2007/05/15 14:31:56  JWu
- * (Empty Log Message)
- *
- * Revision 1.6  2007/02/20 15:51:03  DPfeuffer
- * SMB_ERR_NO_IDLE was missing
- * undo of VxWorks specific fix
- *
- * Revision 1.5  2006/10/05 17:40:09  cs
- * changed:
- *     - SMB2API_Exit Prototype to match changed SMB2 Lib API
- *
- * Revision 1.4  2006/05/31 08:22:26  DPfeuffer
- * - error code mapping changed
- *
- * Revision 1.3  2006/03/17 15:13:48  DPfeuffer
- * SMB2_TRANSFER and SMB2_TRANSFER_BLOCK struct: now named unions (ANSI C)
- *
- * Revision 1.2  2006/03/03 10:52:42  DPfeuffer
- * - SMB2API_Exit(): error handling fixed
- * - ERROR label replaced by ERR_EXIT
- *
- * Revision 1.1  2006/02/28 15:57:43  DPfeuffer
- * Initial Revision
- *
+/*
  *---------------------------------------------------------------------------
  * (c) Copyright 2006 by MEN mikro elektronik GmbH, Nuernberg, Germany
  ****************************************************************************/

@@ -11,19 +11,7 @@
  *    \switches  SMB_COMPILE - for module compilation
  *				 MAC_IO_MAPPED - only valid for SMB_PORT_xxx
  */
-/*-------------------------------[ History ]---------------------------------
- *
- * $Log: smb2_api.h,v $
- * Revision 3.3  2007/07/24 13:32:23  DPfeuffer
- * - undo: SMB2API_Exit Prototype to match changed SMB2 lib API
- *
- * Revision 3.2  2006/10/05 17:44:12  cs
- * changed:
- *   - SMB2API_Exit Prototype to match changed SMB2 lib API
- *
- * Revision 3.1  2006/02/28 15:57:49  DPfeuffer
- * Initial Revision
- *
+/*
  *---------------------------------------------------------------------------
  * (c) Copyright 2006 by MEN Mikro Elektronik GmbH, Nuremberg, Germany
  ****************************************************************************/
