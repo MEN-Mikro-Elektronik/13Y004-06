@@ -7,16 +7,26 @@
  *         \file smb2_bmc_ctrl.c
  *
  *       \author  quoc.bui@men.de
- *         $Date: 2015/08/14 17:53:29 $
- *     $Revision: 1.2 $
+ *         $Date: 2018/12/19 12:54:14 $
+ *     $Revision: 1.3 $
  *
- *        \brief  Tool to access the MEN BMC via the SMB2_BMC API
+ *        \brief  Tool to control the Board Management Controller via the SMB2_BMC API
  *
  *      Required: libraries: mdis_api, usr_oss, usr_utl, smb2_api, smb2_bmc_api
  *
  *--------------------------------[ History ]-------------------------------
  *
  * $Log: smb2_bmc_ctrl.c,v $
+ * Revision 1.3  2018/12/19 12:54:14  DPfeuffer
+ * R:1. there is no working cluster implementation in any BMC
+ *   2. messy usage info and output
+ *   3. new hardware board ids
+ *   4. redundant code
+ * M:1. removed cluster support
+ *   2. revise usage info and output
+ *   3. add hardware board ids
+ *   4. revise code
+ *
  * Revision 1.2  2015/08/14 17:53:29  awerner
  * R: Windows package does not compile due to some cast warnings.
  * M: Fixed warnings and added casts to the functions calls.
@@ -24,7 +34,7 @@
  *--------------------------------------------------------------------------
  * (c) Copyright 2014 by MEN Mikro Elektronik GmbH, Nuremberg, Germany
  ****************************************************************************/
-static const char RCSid[]="$Id: smb2_bmc_ctrl.c,v 1.2 2015/08/14 17:53:29 awerner Exp $";
+static const char RCSid[]="$Id: smb2_bmc_ctrl.c,v 1.3 2018/12/19 12:54:14 DPfeuffer Exp $";
 
 /* still using deprecated sscanf, sprintf,.. */
 #ifdef WINNT
@@ -111,10 +121,6 @@ static const char RCSid[]="$Id: smb2_bmc_ctrl.c,v 1.2 2015/08/14 17:53:29 awerne
 #define GPI_CAPS			0x04
 #define GPI_GET				0x05
 
-/* Cluster Support Commands */
-#define CLUS_CHAN_STATE_GET 0x01
-#define CLUS_CHAN_STATE_SET 0x02
-
 /* CB30C Specific Commands */
 #define PWR_LOG_MODE_SET	0x01
 #define PWR_LOG_MODE_GET	0x02
@@ -129,6 +135,44 @@ static const char RCSid[]="$Id: smb2_bmc_ctrl.c,v 1.2 2015/08/14 17:53:29 awerne
 +-------------------------------------*/
 u_int32 SMB2BMC_CTRL_errCount;
 void *SMB2BMC_CTRL_smbHdl;
+
+struct _HW_ID
+{
+	u_int16	id;
+	char*	name;
+} G_HwBrd[] =
+{
+	{ 0x0000 ,"invalid" },
+	{ 0x0001 ,"XM1" },
+	{ 0x0002 ,"MM1" },
+	{ 0x0003 ,"XM2" },
+	{ 0x0004 ,"F19P" },
+	{ 0x0005 ,"G20" },
+	{ 0x0006 ,"SC21" },
+	{ 0x0007 ,"F11S" },
+	{ 0x0008 ,"F21P" },
+	{ 0x0009 ,"MM2" },
+	{ 0x000a ,"XM3" },
+	{ 0x000b ,"G21" },
+	{ 0x000c ,"SC24" },
+	{ 0x000d ,"SC26" },
+	{ 0x000e ,"F22C" },
+	{ 0x000f ,"F22P" },
+	{ 0x0010 ,"G22" },
+	{ 0x0011 ,"SC27" },
+	{ 0x0012 ,"CB70" },
+	{ 0x0013 ,"SC25" },
+	{ 0x0014 ,"F23P" },
+	{ 0x0015 ,"A22" },
+	{ 0x0016 ,"G23" },
+	{ 0x0017 ,"CB30" },
+	{ 0x0018 ,"G25A" },
+	{ 0x0019 ,"F26L" },
+	{ 0x001a ,"SC31" },
+	{ 0xffff ,"XM1(FW<01.01.00)" },
+};
+
+#define NBR_OF_HWBRD sizeof(G_HwBrd)/sizeof(struct _HW_ID)
 
 /*-------------------------------------+
 |   PROTOTYPES                         |
@@ -149,7 +193,7 @@ static void get_wdog_state(void);
 static void arm_wdog(void);
 static void get_wdog_armstate(void);
 static void set_wdog_mintime(int argc, char* argv[]);
-static void get_wdog_mintime(void);
+static void get_wdog_mintime(void);		
 
 static void pwr_rst_ctrl(int prc_cmd, int argc, char* argv[]);
 static void set_res_mode(int argc, char* argv[]);
@@ -198,10 +242,6 @@ static void gpo_get(void);
 static void print_gpi_caps(void);
 static void gpi_get(void);
 
-static void cluster_command(int cluster_cmd, int argc, char* argv[]);
-static void get_cluster_state(void);
-static void set_cluster_state(int argc, char* argv[]);
-
 static void cb30c_command(int cb30c_cmd, int argc, char* argv[]);
 static void set_pwr_log_mode(int argc, char* argv[]);
 static void get_pwr_log_mode(void);
@@ -210,46 +250,33 @@ static void print_stat_frm(void);
 
 static void PrintError(char *info, int32 errCode);
 
-/********************************* header ***********************************/
-/**  Prints the headline
- */
-static void header(void)
-{
-	printf( "\n====================="
-		"\n=== SMB2_BMC_CTRL ==="
-		"\n====================="
-		"\n(c)Copyright 2015 by MEN Mikro Elektronik GmbH\n%s\n\n", RCSid);
-}
-
 /********************************* usage ************************************/
 /**  Prints the program usage
  */
 static void usage(void)
 {
-	printf(
-		"\nUsage:     smb2_bmc_ctrl devName <opts>\n"
-		"Function:  Tool to access the MEN BMC via the SMB2_BMC API\n"
+	printf("\n"
+		"Usage   : smb2_bmc_ctrl <devName> <option>\n"
+		"Function: Control BMC (Board Management Controller)\n"
 		"Options:\n"
-		"    devName      device name e.g. smb2_1                   \n"
-		"    -?           Usage                                     \n"
-		"    -i           Get Shelf Controller API Identifier       \n"
-		"    -b=[cmd]     Send BMC Management command               \n"
-		"    -w=[cmd]     Send WDOG command							\n"
-		"    -p=[cmd]     Send Power Reset command					\n"
-		"    -v           Get Voltage Report  						\n"
-		"    -l           Get Life Time Report  					\n"
-		"    -e=[cmd]     Send Event Log command  					\n"
-		"    -x=[cmd]     Send Error Counter command				\n"
-		"    -s=[cmd]     Send Status Outputs command				\n"
-		"    -r=[cmd]     Send RTC command							\n"
-		"    -c=[cmd]     Send Backplane CPCI command				\n"
-		"    -g=[cmd]     Send GPIO command							\n"
-		"    -k=[cmd]     Send Cluster Support command				\n"
-		"    -z=[cmd]     Send CB30C Specific command				\n"
-		"Calling examples:                                          \n"
-		"    Get Firmware Revision:	smb2_bmc_ctrl smb2_1 -i         \n"
-		"\nNote: cmd = 0 for individual usage						\n\n"
-		);
+		"    devName    SMB2 device name e.g. smb2_1\n"
+		"    -i         Get SMB2_BMC API revision string\n"
+		"    -b=[cmd]   Send BMC Management command\n"
+		"    -w=[cmd]   Send WDOG command\n"
+		"    -p=[cmd]   Send Power Reset command\n"
+		"    -v         Get Voltage Report\n"
+		"    -l         Get Life Time Report\n"
+		"    -e=[cmd]   Send Event Log command\n"
+		"    -x=[cmd]   Send Error Counter command\n"
+		"    -s=[cmd]   Send Status Output command\n"
+		"    -r=[cmd]   Send RTC command\n"
+		"    -c=[cmd]   Send Backplane CPCI command\n"
+		"    -g=[cmd]   Send GPIO command\n"
+		"    -z=[cmd]   Send CB30C Specific command\n"
+		"Calling examples:\n"
+		"    Get usage for -b=[cmd]: smb2_bmc_ctrl smb2_1 -b=\n"
+		"    Get SMB2_BMC API rev  : smb2_bmc_ctrl smb2_1 -i\n\n"
+		"(c)Copyright 2018 by MEN Mikro Elektronik GmbH\n%s\n", RCSid);
 }
 
 /********************************* usage ************************************/
@@ -257,13 +284,21 @@ static void usage(void)
  */
 static void print_bmc_manage_options(void)
 {
+	u_int16 n;
+
+	printf("\n"
+		"Usage:    smb2_bmc_ctrl <devName> -b=[cmd]\n"
+		"Function: Send BMC Management command\n"
+		"Command:\n"
+		"     1         Get BMC Firmware Revision\n"
+		"     2  <id>   Set Hardware Board\n");
+
+	for (n = 0; n < NBR_OF_HWBRD; n++)
+		printf("       0x%04x    %s\n", G_HwBrd[n].id, G_HwBrd[n].name);
+	
 	printf(
-		"\nUsage:     smb2_bmc_ctrl devName -b=[opts]\n"
-		"Options:\n"
-		"     1      Get BMC Firmware Revision                    \n"
-		"     2      Set Hardware Board                           \n"
-		"     3      Get Hardware Board                           \n"
-		"     4      Get Supported Feature Sets and Options       \n"
+		"     3         Get Hardware Board\n"
+		"     4         Get Supported Feature Sets and Options\n"
 		);
 }
 
@@ -272,20 +307,21 @@ static void print_bmc_manage_options(void)
  */
 static void print_wd_options(void)
 {
-	printf(
-		"\nUsage:     smb2_bmc_ctrl devName -w=[opts]\n"
-		"Options:\n"
-		"     1                 Enable WDOG                                           \n"
-		"     2                 Disable WDOG                                          \n"
-		"     3 <trigger_time>  Trigger WDOG                                          \n"
-		"			Note: -trigger_time (optional) in ms; default: 30 s               \n"
-		"     4  <upper_limit>  Set upper limit of trigger time window (unit: 100 ms) \n"
-		"     5                 Get upper limit of trigger time window (unit: 100 ms) \n"
-		"     6                 Get WDOG State						   	              \n"
-		"     7                 Arm WDOG (Main CPU) and BIOS timeouts	              \n"
-		"     8                 Get WDOG Arming State					              \n"
-		"     9  <lower_limit>  Set lower limit of trigger time window (unit: 10 ms)  \n"
-		"     a                 Get lower limit of trigger time window (unit: 10 ms)  \n"
+	printf("\n"
+		"Usage:    smb2_bmc_ctrl <devName> -w=[cmd]\n"
+		"Function: Send WDOG command\n"
+		"Command:\n"
+		"     1                  Enable WDOG\n"
+		"     2                  Disable WDOG\n"
+		"     3 [<trigger_time>] Trigger WDOG\n"
+		"                          <trigger_time> in ms, default=30000 (=30s)\n"
+		"     4  <upper_limit>   Set upper limit of trigger time window (unit: 100 ms)\n"
+		"     5                  Get upper limit of trigger time window (unit: 100 ms)\n"
+		"     6                  Get WDOG State\n"
+		"     7                  Arm WDOG (Main CPU) and BIOS timeouts\n"
+		"     8                  Get WDOG Arming State\n"
+		"     9  <lower_limit>   Set lower limit of trigger time window (unit: 10 ms)\n"
+		"     a                  Get lower limit of trigger time window (unit: 10 ms)\n"
 		);
 }
 
@@ -294,28 +330,29 @@ static void print_wd_options(void)
  */
 static void print_prc_options(void)
 {
-	printf(
-		"\nUsage:     smb2_bmc_ctrl devName -p=[cmd]\n"
-		"Options:\n"
-		"     1  <resmd>  Set Power Resume Mode                          \n"
-		"		  Note: -resmd: 0 to 2			       					 \n"
-		"     2           Get Power Resume Mode                          \n"
-		"     3  <epfmd>  Set External Power Supply Failure Mode         \n"
-		"		  Note: -epfmd: 0 to 1		    		   				 \n"
-		"     4           Get External Power Supply Failure Mode    	 \n"
-		"     5  <rsimd>  Set RESET_IN Mode    							 \n"
-		"		  Note: -rsimd: 0 to 1				       				 \n"
-		"     6           Get RESET_IN Mode								 \n"
-		"     7           Set EXT_PS_ON Mode             **Status: NA	 \n"
-		"     8           Get EXT_PS_ON Mode             **Status: NA	 \n"
-		"     9           Initiate Software Reset	   					 \n"
-		"     a           Initiate Cold Reset	   						 \n"
-		"     b           Initiate Cold Reset combined with RTC Reset	 \n"
-		"     c           Initiate Halt	   								 \n"
-		"     d           Perform Power Button Press     **Status: NA	 \n"
-		"     e           Perform Power Button Override  **Status: NA	 \n"
-		"     f           Get last reset reason	   						 \n"
-		"    10           Clear last reset reason	   					 \n"
+	printf("\n"
+		"Usage:    smb2_bmc_ctrl <devName> -p=[cmd]\n"
+		"Function: Send Power Reset command\n"
+		"Command:\n"
+		"     1  <resmd>  Set Power Resume Mode\n"
+		"                   <resmd>=0..2\n"
+		"     2           Get Power Resume Mode\n"
+		"     3  <epfmd>  Set External Power Supply Failure Mode\n"
+		"                   <epfmd>=0,1\n"
+		"     4           Get External Power Supply Failure Mode\n"
+		"     5  <rsimd>  Set RESET_IN Mode\n"
+		"                   <rsimd>=0,1\n"
+		"     6           Get RESET_IN Mode\n"
+		"     7           Set EXT_PS_ON Mode             **Status: NA\n"
+		"     8           Get EXT_PS_ON Mode             **Status: NA\n"
+		"     9           Initiate Software Reset\n"
+		"     a           Initiate Cold Reset\n"
+		"     b           Initiate Cold Reset combined with RTC Reset\n"
+		"     c           Initiate Halt\n"
+		"     d           Perform Power Button Press     **Status: NA\n"
+		"     e           Perform Power Button Override  **Status: NA\n"
+		"     f           Get last reset reason\n"
+		"    10           Clear last reset reason\n"
 		);
 }
 
@@ -324,12 +361,15 @@ static void print_prc_options(void)
  */
 static void print_evlog_options(void)
 {
-	printf(
-		"\nUsage:     smb2_bmc_ctrl devName -e=[opts]\n"
-		"Options:\n"
-		"     1                                  Get Event Log Status              \n"
-		"     2  <code info1 info2 info3 info4>  Add Event to Event Log            \n"
-		"     3  <idx>                           Read one Event from the Event LOG \n"
+	printf("\n"
+		"Usage:    smb2_bmc_ctrl <devName> -e=[cmd]\n"
+		"Function: Send Event Log command\n"
+		"Command:\n"
+		"     1                                          Get Event Log status\n"
+		"     2  <code> <info1> <info2> <info3> <info4>  Add event to Event Log\n"
+		"          <code>=0x1000..0x7fff\n"
+		"          <info*>=0x0..0xff\n"
+		"     3  <idx>                                   Read event from Event LOG\n"
 		);
 }
 
@@ -338,12 +378,13 @@ static void print_evlog_options(void)
  */
 static void print_errcnt_options(void)
 {
-	printf(
-		"\nUsage:     smb2_bmc_ctrl devName -x=[opts]\n"
-		"Options:\n"
-		"     1       Get number of error counters supported   \n"
-		"     2       Clear all Error Counters                 \n"
-		"     3 <idx> Get Error Counter by Index               \n"
+	printf("\n"
+		"Usage:    smb2_bmc_ctrl <devName> -x=[cmd]\n"
+		"Function: Send Error Counter command\n"
+		"Command:\n"
+		"     1       Get number of error counters supported\n"
+		"     2       Clear all Error Counters\n"
+		"     3 <idx> Get Error Counter by Index\n"
 		);
 }
 
@@ -352,12 +393,12 @@ static void print_errcnt_options(void)
  */
 static void print_staout_options(void)
 {
-	printf(
-		"\nUsage:     smb2_bmc_ctrl devName -s=[opts]      \n"
-		"Options:\n"
-		"     1 <output 1/0>     Set status outputs        \n"
-		"			 Note: -output: 0 to 6  \n"
-		"     2                  Get status outputs        \n"
+	printf("\n"
+		"Usage:    smb2_bmc_ctrl <devName> -s=[cmd]\n"
+		"Function: Send Status Output command\n"
+		"Command:\n"
+		"     1 <output> <state>  Set <output>=0..6 to <state>=0,1\n"
+		"     2                   Get output 0..6 states (and show enumeration)\n"
 		);
 }
 
@@ -366,11 +407,12 @@ static void print_staout_options(void)
  */
 static void print_rtc_options(void)
 {
-	printf(
-		"\nUsage:     smb2_bmc_ctrl devName -r=[opts]\n"
-		"Options:\n"
-		"     1 <year month day hrs min sec>     Set RTC                \n"
-		"     2                                  Get RTC                \n"
+	printf("\n"
+		"Usage:    smb2_bmc_ctrl <devName> -r=[cmd]\n"
+		"Function: Send RTC command\n"
+		"Command:\n"
+		"     1 <year> <month> <day> <hour> <min> <sec>   Set RTC\n"
+		"     2                                           Get RTC\n"
 		);
 }
 
@@ -379,11 +421,12 @@ static void print_rtc_options(void)
  */
 static void print_cpci_options(void)
 {
-	printf(
-		"\nUsage:     smb2_bmc_ctrl devName -c=[opts]\n"
-		"Options:\n"
-		"     1      Get CPCI Board Mode                \n"
-		"     2      Get CPCI peripheral slot address   \n"
+	printf("\n"
+		"Usage:    smb2_bmc_ctrl <devName> -c=[cmd]\n"
+		"Function: Send Backplane CPCI command\n"
+		"Command:\n"
+		"     1      Get CPCI Board Mode\n"
+		"     2      Get CPCI peripheral slot address\n"
 		);	
 }
 
@@ -392,44 +435,32 @@ static void print_cpci_options(void)
  */
 static void print_gpio_options(void)
 {
-	printf(
-		"\nUsage:     smb2_bmc_ctrl devName -g=[opts]\n"
-		"Options:\n"
-		"     1               Report which GPOs are supported    \n"
-		"     2 <gpo_nbr 1/0> Set general purpose outputs        \n"
-		"		      Note: -gpo_nbr: 0 to 6  \n"
-		"     3               Get general purpose outputs        \n"
-		"     4               Report which GPIs are supported    \n"
-		"     5               Get general purpose inputs         \n"
+	printf("\n"
+		"Usage:    smb2_bmc_ctrl <devName> -g=[cmd]\n"
+		"Function: Send GPIO command\n"
+		"Command:\n"
+		"     1               Report which GPOs are supported\n"
+		"     2 <gpo> <state> Set <gpo>=0..6 to <state>=0,1\n"
+		"     3               Get GPO 0..6 states\n"
+		"     4               Report which GPIs are supported\n"
+		"     5               Get GPI 0..6 states\n"
 		);	
 }
 
 /********************************* usage ************************************/
-/**  Print Cluster Support options.
- */
-static void print_cluster_options(void)
-{
-	printf(
-		"\nUsage:     smb2_bmc_ctrl devName -k=[opts]\n"
-		"Options:\n"
-		"     1      Get cluster channel state       \n"
-		"     2 <1>  Set cluster channel state       \n"
-		);	
-}
-
-/********************************* usage ************************************/
-/**  Print Cluster Support options.
+/**  Print CB30 Support options.
  */
 static void print_cb30c_specific_options(void)
 {
-	printf(
-		"\nUsage:     smb2_bmc_ctrl devName -k=[opts]\n"
-		"Options:\n"
-		"     1 <1/0> Enable/disable power on/off event logging          \n"
-		"     2       Get current setting of power on/off event logging  \n"
-		"     3       Trigger a new SUPV Status Frame Transfer           \n"
-		"     4       Get last from SUPV received status frame           \n"
-		);	
+	printf("\n"
+		"Usage:    smb2_bmc_ctrl <devName> -z=[cmd]\n"
+		"Function: Send CB30C Specific command\n"
+		"Command:\n"
+		"     1 <1,0> Enable/disable power on/off event logging\n"
+		"     2       Get current setting of power on/off event logging\n"
+		"     3       Trigger a new SUPV Status Frame Transfer\n"
+		"     4       Get last from SUPV received status frame\n"
+		);
 }
 
 /****************************************************************************/
@@ -456,15 +487,17 @@ int main(int argc, char** argv)
 	unsigned int rtc_cmd = 0;
 	unsigned int cpci_cmd = 0;
 	unsigned int gpio_cmd = 0;
-	unsigned int cluster_cmd = 0;
 	unsigned int cb30c_cmd = 0;
 
-	header();
+	if ( argc < 3 ){
+		usage();
+		return 1;
+	}
 
 	/*--------------------+
 	|  check arguments    |
 	+--------------------*/
-	errstr = UTL_ILLIOPT("?ib=w=p=vle=x=s=r=c=g=k=z=", argbuf);
+	errstr = UTL_ILLIOPT("?ib=w=p=vle=x=s=r=c=g=z=", argbuf);
 	if (errstr) {
 		printf("*** %s\n", errstr);
 		usage();
@@ -570,12 +603,6 @@ int main(int argc, char** argv)
 		gpio_command(gpio_cmd, argc, argv);
 	}
 	
-	/* send Cluster Support command */
-	if ((optP = UTL_TSTOPT("k="))) {
-		sscanf(optP, "%x", &cluster_cmd);
-		cluster_command(cluster_cmd, argc, argv);
-	}
-	
 	/* send CB30C specific command */
 	if ((optP = UTL_TSTOPT("z="))) {
 		sscanf(optP, "%x", &cb30c_cmd);
@@ -625,31 +652,29 @@ static void print_firm_version(void)
 static void set_hw_board(int argc, char* argv[])
 {
 	int err;
-	unsigned int s_board;
-	
+	u_int16 s_board;
+	u_int16 n;
+	char *name = NULL;
+
 	if (argc > 3){
 		sscanf( argv[3], "%x", &s_board );
-		
+
 		err = SMB2BMC_Set_HW_Brd((u_int16)s_board);
 		if (err) {
 			PrintError("***ERROR: SMB2BMC_Set_HW_Brd:", err);
 		}
 		else {
-			printf("Hardware Board was set to 0x%x:", s_board);
-			switch(s_board){
-				case 0x0001: printf("Hardware Board: XM1\n"); break;
-				case 0x0002: printf("Hardware Board: MM1\n"); break;
-				case 0x0003: printf("Hardware Board: XM2\n"); break;
-				case 0x0004: printf("Hardware Board: F19P\n"); break;
-				case 0x0005: printf("Hardware Board: G20\n"); break;
-				case 0x0006: printf("Hardware Board: SC21\n"); break;
-				case 0x0007: printf("Hardware Board: F11S\n"); break;
-				case 0x0008: printf("Hardware Board: F21P\n"); break;
-				case 0x0009: printf("Hardware Board: MM2\n"); break;
-				case 0x0010: printf("Hardware Board: F75P\n"); break;
-				case 0x0011: printf("Hardware Board: F76P\n"); break;
-				default: printf("Hardware Board not specified..\n");
+			for (n = 0; n < NBR_OF_HWBRD; n++) {
+				if (s_board == G_HwBrd[n].id) {
+					name = G_HwBrd[n].name;
+					break;
+				}
 			}
+
+			if (name)
+				printf("Hardware Board was set to (id=0x%x): %s\n", s_board, name);
+			else
+				printf("Hardware Board (id=0x%x) unknown\n", s_board);
 		}
 	}
 	else {
@@ -665,27 +690,26 @@ static void print_hw_board(void)
 {
 	int err;
 	u_int16 g_board;
-	
+	u_int16 n;
+	char *name = NULL;
+
 	err = SMB2BMC_Get_HW_Brd(&g_board);
 
 	if (err) {
 		PrintError("***ERROR: SMB2BMC_Get_HW_Brd:", err);
 	}
 	else {
-		switch(g_board){
-			case 0x0001: printf("Hardware Board: XM1\n"); break;
-			case 0x0002: printf("Hardware Board: MM1\n"); break;
-			case 0x0003: printf("Hardware Board: XM2\n"); break;
-			case 0x0004: printf("Hardware Board: F19P\n"); break;
-			case 0x0005: printf("Hardware Board: G20\n"); break;
-			case 0x0006: printf("Hardware Board: SC21\n"); break;
-			case 0x0007: printf("Hardware Board: F11S\n"); break;
-			case 0x0008: printf("Hardware Board: F21P\n"); break;
-			case 0x0009: printf("Hardware Board: MM2\n"); break;
-			case 0x0010: printf("Hardware Board: F75P\n"); break;
-			case 0x0011: printf("Hardware Board: F76P\n"); break;
-			default: printf("Hardware Board not specified..\n");
+		for (n = 0; n < NBR_OF_HWBRD; n++) {
+			if (g_board == G_HwBrd[n].id) {
+				name = G_HwBrd[n].name;
+				break;
+			}
 		}
+
+		if (name)
+			printf("Hardware Board (id=0x%x): %s\n", g_board, name);
+		else
+			printf("Hardware Board (id=0x%x) unknown\n", g_board);
 	}
 }
 
@@ -706,32 +730,30 @@ static void print_features(void)
 		PrintError("***ERROR: SMB2BMC_Get_Features:", err);
 	}
 	else {
-		printf("GPIO  : Features Set FS_GPIO \t\t\t%s\n", 
-				features.gpio_support ? "supported" : "not supported");
-		printf("CPCI  : Features Set FS_BACKPLANE_CPCI \t\t%s\n", 
-				features.cpci_support ? "supported" : "not supported");
-		printf("FUP   : Features Set FS_FIRMWARE_UPDATE \t%s\n", 
-				features.fup_support ? "supported" : "not supported");
-		printf("RTC   : Features Set FS_RTC \t\t\t%s\n", 
-				features.rtc_support ? "supported" : "not supported");
-		printf("ERRCNT: Features Set FS_ERROR_COUNTER \t\t%s\n", 
-				features.errcnt_support ? "supported" : "not supported");
-		printf("EVLOG : Features Set FS_EVENT_LOG \t\t%s\n", 
-				features.evlog_support ? "supported" : "not supported");
-		printf("VREP  : Features Set FS_VOLTAGE_REPORTING \t%s\n", 
-				features.vrep_support ? "supported" : "not supported");
-		printf("CLUS  : Features Set FS_CLUSTER_SUPPORT \t%s\n", 
-				features.clus_support ? "supported" : "not supported");
-		printf("SRTCR : Command SW_RTC_RESET \t\t\t%s\n", 
-				features.srtcr_support ? "supported" : "not supported");
-		printf("RSIMD : Command RESET_IN_MODE_SET/GET \t\t%s\n", 
-				features.rsimd_support ? "supported" : "not supported");
-		printf("EPFMD : Command EXT_PWR_FAIL_MODE_SET \t\t%s\n", 
-				features.epfmd_support ? "supported" : "not supported");
-		printf("RESMD : Command RESUME_MODE_SET/GET \t\t%s\n", 
-				features.resmd_support ? "supported" : "not supported");
-		printf("HWB   : Command HW_BOARD_GET/SET \t\t%s\n", 
-				features.hwb_support ? "supported" : "not supported");
+		printf("GPIO  : Feature Set FS_GPIO               %s\n", 
+				features.gpio_support ? "supported" : "---------");
+		printf("CPCI  : Feature Set FS_BACKPLANE_CPCI     %s\n", 
+				features.cpci_support ? "supported" : "---------");
+		printf("FUP   : Feature Set FS_FIRMWARE_UPDATE    %s\n", 
+				features.fup_support ? "supported" : "---------");
+		printf("RTC   : Feature Set FS_RTC                %s\n", 
+				features.rtc_support ? "supported" : "---------");
+		printf("ERRCNT: Feature Set FS_ERROR_COUNTER      %s\n", 
+				features.errcnt_support ? "supported" : "---------");
+		printf("EVLOG : Feature Set FS_EVENT_LOG          %s\n", 
+				features.evlog_support ? "supported" : "---------");
+		printf("VREP  : Feature Set FS_VOLTAGE_REPORTING  %s\n", 
+				features.vrep_support ? "supported" : "---------");
+		printf("SRTCR : Command     SW_RTC_RESET          %s\n", 
+				features.srtcr_support ? "supported" : "---------");
+		printf("RSIMD : Command     RESET_IN_MODE_SET/GET %s\n", 
+				features.rsimd_support ? "supported" : "---------");
+		printf("EPFMD : Command     EXT_PWR_FAIL_MODE_SET %s\n", 
+				features.epfmd_support ? "supported" : "---------");
+		printf("RESMD : Command     RESUME_MODE_SET/GET   %s\n", 
+				features.resmd_support ? "supported" : "---------");
+		printf("HWB   : Command     HW_BOARD_GET/SET      %s\n", 
+				features.hwb_support ? "supported" : "---------");
 	}
 }
 
@@ -743,9 +765,7 @@ static void print_features(void)
 static void bmc_manage_command(int bmc_manage_cmd, int argc, char* argv[])
 {	
 	switch(bmc_manage_cmd){
-		case 0x00:
-			print_bmc_manage_options();
-			break;
+		case 0:
 		case '?':
 			print_bmc_manage_options();
 			break;
@@ -761,7 +781,7 @@ static void bmc_manage_command(int bmc_manage_cmd, int argc, char* argv[])
 		case FEATURES:
 			print_features();
 			break;
-		default: printf("***ERROR: Cluster Support command not available.\n");
+		default: printf("***ERROR: BMC Management Command option not available\n");
 	}
 }
 
@@ -779,7 +799,7 @@ static void wdog_on(void)
 		PrintError("***ERROR: SMB2BMC_WDOG_enable:", err);
 	}
 	else {
-		printf("Watchdog successfully enabled.\n");
+		printf("Watchdog successfully enabled\n");
 	}
 }
 
@@ -797,7 +817,7 @@ static void wdog_off(void)
 		PrintError("***ERROR: SMB2BMC_WDOG_disable:", err);
 	}
 	else {
-		printf("Watchdog successfully disabled.\n");
+		printf("Watchdog successfully disabled\n");
 	}
 }
 
@@ -868,7 +888,7 @@ static void wdog_time_set(int argc, char* argv[])
 		}
 		else {
 			printf("Watchdog upper limit of trigger time window was\n"
-				   "successfully set to %d.\n", wd_max_tout);
+				   "successfully set to %d\n", wd_max_tout);
 		}
 	}
 	else {
@@ -890,7 +910,7 @@ static void wdog_time_get(void)
 		PrintError("***ERROR: SMB2BMC_WDOG_TimeGet:", err);
 	}
 	else {
-		printf("Watchdog upper limit of trigger time window is %d.\n", wd_max_tout);
+		printf("Watchdog upper limit of trigger time window is %d\n", wd_max_tout);
 	}
 	
 }
@@ -909,7 +929,7 @@ static void get_wdog_state(void)
 		PrintError("***ERROR: SMB2BMC_WDOG_GetState:", err);
 	}
 	else {
-		printf("Watchdog is %s.\n", wd_state ? "on" : "off");
+		printf("Watchdog is %s\n", wd_state ? "on" : "off");
 	}
 }
 
@@ -926,7 +946,7 @@ static void arm_wdog(void)
 		PrintError("***ERROR: SMB2BMC_WDOG_Arm:", err);
 	}
 	else {
-		printf("Watchdog successfully armed.\n");
+		printf("Watchdog successfully armed\n");
 	}
 }
 
@@ -944,7 +964,7 @@ static void get_wdog_armstate(void)
 		PrintError("***ERROR: SMB2BMC_WDOG_GetArmState:", err);
 	}
 	else {
-		printf("Watchdog is %s.\n", arm_state ? "armed" : "not armed");
+		printf("Watchdog is %s\n", arm_state ? "armed" : "not armed");
 	}
 }
 
@@ -968,7 +988,7 @@ static void set_wdog_mintime(int argc, char* argv[])
 		}
 		else {
 			printf("Watchdog lower limit of trigger time window was\n"
-				   "successfully set to %d.\n", wd_min_tout);
+				   "successfully set to %d\n", wd_min_tout);
 		}
 	}
 	else {
@@ -990,7 +1010,7 @@ static void get_wdog_mintime(void)
 		PrintError("***ERROR: SMB2BMC_WDOG_MinTimeGet:", err);
 	}
 	else {
-		printf("Watchdog lower limit of trigger time window is %d.\n", wd_min_tout);
+		printf("Watchdog lower limit of trigger time window is %d\n", wd_min_tout);
 	}
 }
 /****************************************************************************/
@@ -1003,7 +1023,8 @@ static void get_wdog_mintime(void)
 static void wdog_command(int wd_cmd, int argc, char* argv[])
 {	
 	switch(wd_cmd){
-		case 0x00:
+		case 0:
+		case '?':
 			print_wd_options();
 			break;
 		case WDOG_ENABLE: 
@@ -1036,7 +1057,7 @@ static void wdog_command(int wd_cmd, int argc, char* argv[])
 		case WDOG_MIN_TIME_GET:
 			get_wdog_mintime();
 			break;
-		default: printf("***ERROR: WDOG option not available.\n");
+		default: printf("***ERROR: WDOG option not available\n");
 	}
 }
 
@@ -1059,7 +1080,7 @@ static void set_res_mode(int argc, char* argv[])
 			PrintError("***ERROR: SMB2BMC_ResumeModeSet:", err);
 		}
 		else {
-			printf("Resume Mode was successfully set.\n");
+			printf("Resume Mode was successfully set\n");
 		}
 	}
 	else {
@@ -1082,10 +1103,10 @@ static void get_res_mode(void)
 	}
 	else {
 		switch(res_mode){
-			case 0x00: printf("Resume mode is off.\n");break;
-			case 0x01: printf("Resume mode is on.\n");break;
-			case 0x02: printf("Resume mode is former.\n");break;
-			default: printf("***ERROR: Undefined Resume mode.\n");
+			case 0x00: printf("Resume mode is off\n");break;
+			case 0x01: printf("Resume mode is on\n");break;
+			case 0x02: printf("Resume mode is former\n");break;
+			default: printf("***ERROR: Undefined Resume mode\n");
 		}
 	}
 }
@@ -1109,7 +1130,7 @@ static void set_ExtPwrFail_mode(int argc, char* argv[])
 			PrintError("***ERROR: SMB2BMC_ExtPwrFailModeSet:", err);
 		}
 		else {
-			printf("External power supply failure mode was successfully set.\n");
+			printf("External power supply failure mode was successfully set\n");
 		}
 	}
 	else {
@@ -1134,10 +1155,10 @@ static void get_ExtPwrFail_mode(void)
 	}
 	else {
 		if (ext_pwr_fail_mode == 0x00){
-			printf("External power supply failure mode shall be ignored.\n");
+			printf("External power supply failure mode shall be ignored\n");
 		}
 		else if (ext_pwr_fail_mode == 0x01){
-			printf("External power supply failure mode shall be treat as error.\n");
+			printf("External power supply failure mode shall be treat as error\n");
 		}
 	}
 }
@@ -1160,7 +1181,7 @@ static void set_reset_in(int argc, char* argv[])
 			PrintError("***ERROR: SMB2BMC_ResetInModeSet:", err);
 		}
 		else {
-			printf("RESET_IN mode was successfully set.\n");
+			printf("RESET_IN mode was successfully set\n");
 		}
 	}
 	else {
@@ -1184,7 +1205,7 @@ static void get_reset_in(void)
 		PrintError("***ERROR: SMB2BMC_ResetInModeGet:", err);
 	}
 	else {
-		printf("Resets are %s.\n", reset_in_mode ? "enabled" : "masked");
+		printf("Resets are %s\n", reset_in_mode ? "enabled" : "masked");
 	}
 }
 
@@ -1212,7 +1233,7 @@ static void init_sw_reset(u_int16 reset_cause)
 		PrintError("***ERROR: SMB2BMC_SW_Reset:", err);
 	}
 	else {
-		printf("Software reset was successfully initiated.\n");
+		printf("Software reset was successfully initiated\n");
 	}
 }
 
@@ -1230,7 +1251,7 @@ static void init_cold_reset(u_int16 reset_cause)
 		PrintError("***ERROR: SMB2BMC_SW_ColdReset:", err);
 	}
 	else {
-		printf("Cold reset was successfully initiated.\n");
+		printf("Cold reset was successfully initiated\n");
 	}
 }
 
@@ -1248,7 +1269,7 @@ static void init_rtc_reset(u_int16 reset_cause)
 		PrintError("***ERROR: SMB2BMC_SW_RTC_Reset:", err);
 	}
 	else {
-		printf("Cold reset with rtc reset was successfully initiated.\n");
+		printf("Cold reset with rtc reset was successfully initiated\n");
 	}
 }
 
@@ -1266,7 +1287,7 @@ static void init_halt(u_int16 reset_cause)
 		PrintError("***ERROR: SMB2BMC_SW_Halt:", err);
 	}
 	else {
-		printf("Halt successfully initiated.\n");
+		printf("Halt successfully initiated\n");
 	}
 }
 
@@ -1294,8 +1315,8 @@ static void get_last_rst_reason(void)
 		PrintError("***ERROR: SMB2BMC_RstReasonGet:", err);
 	}
 	else {
-		printf("Processor ID: %d.\n", reset_reason.procID);
-		printf("Event Code: 0x%04x.\n", reset_reason.ev_code);
+		printf("Processor ID: %d\n", reset_reason.procID);
+		printf("Event Code: 0x%04x\n", reset_reason.ev_code);
 		printf("EV_INFO_1: %d\n", reset_reason.ev_info1);
 		printf("EV_INFO_2: %d\n", reset_reason.ev_info2);
 		printf("EV_INFO_3: %d\n", reset_reason.ev_info3);
@@ -1316,7 +1337,7 @@ static void clr_last_rst_reason(void)
 		PrintError("***ERROR: SMB2BMC_RstReasonCLR:", err);
 	}
 	else {
-		printf("Last reset reason was successfully cleared.\n");
+		printf("Last reset reason was successfully cleared\n");
 	}
 }
 
@@ -1330,7 +1351,8 @@ static void pwr_rst_ctrl(int prc_cmd, int argc, char* argv[])
 	u_int16 reset_cause = 0xbeef;
 	
 	switch(prc_cmd){
-		case 0x00:
+		case 0:
+		case '?':
 			print_prc_options();
 			break;
 		case RESUME_MODE_SET:
@@ -1369,7 +1391,7 @@ static void pwr_rst_ctrl(int prc_cmd, int argc, char* argv[])
 		case RST_REASON_CLR:
 			clr_last_rst_reason();
 			break;
-		default: printf("***ERROR: Power Reset Control option not available.\n");
+		default: printf("***ERROR: Power Reset Control option not available\n");
 	}
 }
 
@@ -1389,21 +1411,21 @@ static void print_voltage_report(void)
 		PrintError("***ERROR: SMB2BMC_Volt_Max_Num:", err);
 	}
 	else {
+		printf("Number of voltages: %d\n", volt_max_num);
 		for (volt_idx=0; volt_idx < volt_max_num; volt_idx++){
+			printf("\nVoltage %d\n", volt_idx + 1);
 			err = SMB2BMC_Volt_Get(volt_idx, &volt_report);
 			if (err) {
 				PrintError("***ERROR: SMB2BMC_Volt_Get:", err);
 			}
 			else {
-				printf("\nVoltage %d\n", volt_idx + 1);
 				printf("-----------------------------------------------------\n");
-				printf("Actual voltage value is %d.\n", volt_report.actual_volt);
-				printf("Nominal voltage value is %d.\n", volt_report.nominal_volt);
-				printf("Lowest measured value of this voltage since BMC power on is %d.\n", 
+				printf("Actual voltage  : %5d\n", volt_report.actual_volt);
+				printf("Nominal voltage : %5d\n", volt_report.nominal_volt);
+				printf("Lowest measured : %5d (since BMC powered on)\n", 
 						volt_report.low_lim_volt);
-				printf("Highest measured value of this voltage since BMC power on is %d.\n",
+				printf("Highest measured: %5d (since BMC powered on)\n",
 						volt_report.up_lim_volt);
-				printf("Number of voltages: %d.\n", volt_max_num);
 			}
 			
 		}
@@ -1453,10 +1475,10 @@ static void print_evlog_status(void)
 	else {
 		printf("Event Log Status\n");
 		printf("------------------------------------------------\n");
-		printf("Timestamps are derived from %s.\n", 
+		printf("Timestamps are derived from %s\n", 
 				evlog_stat.rtcts ? "RTC" : "operation time counter");
-		printf("Max. number of entries: %d.\n", evlog_stat.max_entries);
-		printf("Actual number of entries: %d.\n", evlog_stat.act_entries);
+		printf("Max. number of entries: %d\n", evlog_stat.max_entries);
+		printf("Actual number of entries: %d\n", evlog_stat.act_entries);
 	}
 }
 
@@ -1476,11 +1498,11 @@ static void evlog_write(int argc, char* argv[])
 	unsigned int ev_info4 = 0;
 	
 	if (argc > 7){
-		sscanf( argv[3], "%d", &ev_code );
-		sscanf( argv[4], "%d", &ev_info1 );
-		sscanf( argv[5], "%d", &ev_info2 );
-		sscanf( argv[6], "%d", &ev_info3 );
-		sscanf( argv[7], "%d", &ev_info4 );
+		sscanf( argv[3], "%x", &ev_code );
+		sscanf( argv[4], "%x", &ev_info1 );
+		sscanf( argv[5], "%x", &ev_info2 );
+		sscanf( argv[6], "%x", &ev_info3 );
+		sscanf( argv[7], "%x", &ev_info4 );
 		
 		err = SMB2BMC_Add_Event((u_int16)ev_code, (u_int8)ev_info1, (u_int8)ev_info2, 
 								(u_int8)ev_info3, (u_int8)ev_info4);
@@ -1488,7 +1510,7 @@ static void evlog_write(int argc, char* argv[])
 			PrintError("***ERROR: SMB2BMC_Add_Event:", err);
 		}
 		else {
-			printf("Event was successfully added.\n");
+			printf("Event was successfully added\n");
 		}
 	}
 	else {
@@ -1520,19 +1542,19 @@ static void print_event_report(int argc, char* argv[])
 			printf("Event Report\n");
 			printf("------------------------------------------------\n");
 			printf("Event Log Index: %d\n", evlog_idx);
-			printf("Timestamp: %llu seconds.\n", event_report.tstamp);
-			printf("RTC time is %s\n", event_report.rtcv ? "valid." : "invalid!");
+			printf("Timestamp: %llu seconds\n", event_report.tstamp);
+			printf("RTC time is %s\n", event_report.rtcv ? "valid" : "invalid!");
 			if(event_report.procID == 0){
-				printf("Not processor specific.\n");
+				printf("Not processor specific\n");
 			}
 			else {
 				printf("Processor ID: %d\n", event_report.procID);
 			}
-			printf("Event Code: %d.\n", event_report.ev_code);
-			printf("Event Info_1: %d.\n", event_report.ev_info1);
-			printf("Event Info_2: %d.\n", event_report.ev_info2);
-			printf("Event Info_3: %d.\n", event_report.ev_info3);
-			printf("Event Info_4: %d.\n", event_report.ev_info4);
+			printf("Event Code  : 0x%x\n", event_report.ev_code);
+			printf("Event Info_1: 0x%x\n", event_report.ev_info1);
+			printf("Event Info_2: 0x%x\n", event_report.ev_info2);
+			printf("Event Info_3: 0x%x\n", event_report.ev_info3);
+			printf("Event Info_4: 0x%x\n", event_report.ev_info4);
 		}
 	}
 
@@ -1551,7 +1573,8 @@ static void print_event_report(int argc, char* argv[])
 static void event_log_command(int event_log_cmd, int argc, char* argv[])
 {	
 	switch(event_log_cmd){
-		case 0x00:
+		case 0:
+		case '?':
 			print_evlog_options();
 			break;
 		case EVLOG_STAT:
@@ -1563,7 +1586,7 @@ static void event_log_command(int event_log_cmd, int argc, char* argv[])
 		case EVLOG_READ: 
 			print_event_report(argc, argv);
 			break;
-		default: printf("***ERROR: Event Log command not available.\n");
+		default: printf("***ERROR: Event Log command not available\n");
 	}
 }
 
@@ -1582,7 +1605,7 @@ static void print_errcnt_max(void)
 	}
 	else {
 		if (errcnt_max_idx == 0x00){
-			printf("No error counters supported.\n");
+			printf("No error counters supported\n");
 		}
 		else {
 			printf("Number of error counters supported: %d\n", errcnt_max_idx);
@@ -1603,7 +1626,7 @@ static void clear_errcnt(void)
 		PrintError("***ERROR: SMB2BMC_ErrCnt_Clear:", err);
 	}
 	else {
-		printf("Error Counters were successfully cleared.\n");
+		printf("Error Counters were successfully cleared\n");
 	}
 }
 
@@ -1649,9 +1672,7 @@ static void print_errcnt(int argc, char* argv[])
 static void error_cnt_command(int error_cnt_cmd, int argc, char* argv[])
 {	
 	switch(error_cnt_cmd){
-		case 0x00:
-			print_errcnt_options();
-			break;
+		case 0:
 		case '?':
 			print_errcnt_options();
 			break;
@@ -1664,7 +1685,7 @@ static void error_cnt_command(int error_cnt_cmd, int argc, char* argv[])
 		case ERR_CNT_GET: 
 			print_errcnt(argc, argv);
 			break;
-		default: printf("***ERROR: Error Counter command not available.\n");
+		default: printf("***ERROR: Error Counter command not available\n");
 	}
 }
 
@@ -1677,41 +1698,34 @@ static void error_cnt_command(int error_cnt_cmd, int argc, char* argv[])
 static void set_status_output(int argc, char* argv[])
 {
 	int err;
-	unsigned int status_output;
-	unsigned int on_off;
+	unsigned int output;
+	unsigned int status;
 	
 	if (argc > 4) {
-		sscanf(argv[3], "%d", &status_output);
-		sscanf(argv[4], "%d", &on_off);
+		sscanf(argv[3], "%d", &output);
+		sscanf(argv[4], "%d", &status);
 		
-		err = SMB2BMC_StatusOutput_Set((enum STATUS_OUTPUT)status_output, (u_int8)on_off);
+		err = SMB2BMC_StatusOutput_Set((enum STATUS_OUTPUT)output, (u_int8)status);
 		if (err) {
 			PrintError("***ERROR: SMB2BMC_StatusOutput_Set:", err);
 		}
 		else {
-			switch(status_output){
+			printf("output %d - ", output);
+			switch(output){
 				case STA:
-					printf("Status LED turned %s\n", on_off ? "on" : "off");
+					printf("Status LED   : %s\n", status ? "on" : "off");
 					break;
 				case HTSWP:
-					printf("Hot Swap LED turned %s\n", on_off ? "on" : "off");
+					printf("Hot Swap LED : %s\n", status ? "on" : "off");
 					break;
 				case USR1:
-					printf("User Output %d %s\n", USR1, on_off ? "enabled" : "disabled");
-					break;
 				case USR2:
-					printf("User Output %d %s\n", USR2, on_off ? "enabled" : "disabled");
-					break;
 				case USR3:
-					printf("User Output %d %s\n", USR3, on_off ? "enabled" : "disabled");
-					break;
 				case USR4:
-					printf("User Output %d %s\n", USR4, on_off ? "enabled" : "disabled");
-					break;
 				case USR5:
-					printf("User Output %d %s\n", USR5, on_off ? "enabled" : "disabled");
+					printf("USR%d Output  : %s\n", output - 2, status ? "on" : "off");
 					break;
-				default: printf("***ERROR: Status Output not available.\n");
+				default: printf("***ERROR: Status Output not available\n");
 			}
 		}
 	}
@@ -1737,29 +1751,22 @@ static void get_status_output(void)
 			PrintError("***ERROR: SMB2BMC_StatusOutput_Get:", err);
 		}
 		else{
+			printf("output %d - ", i);
 			switch(i){
 				case STA:
-					printf("Status LED is %s\n", status ? "on" : "off");
+					printf("Status LED   : %s\n", status ? "on" : "off");
 					break;
 				case HTSWP:
-					printf("Hot Swap LED is %s\n", status ? "on" : "off");
+					printf("Hot Swap LED : %s\n", status ? "on" : "off");
 					break;
 				case USR1:
-					printf("User Output %d is %s\n", USR1, status ? "enabled" : "disabled");
-					break;
 				case USR2:
-					printf("User Output %d is %s\n", USR2, status ? "enabled" : "disabled");
-					break;
 				case USR3:
-					printf("User Output %d is %s\n", USR3, status ? "enabled" : "disabled");
-					break;
 				case USR4:
-					printf("User Output %d is %s\n", USR4, status ? "enabled" : "disabled");
-					break;
 				case USR5:
-					printf("User Output %d is %s\n", USR5, status ? "enabled" : "disabled");
+					printf("USR%d Output  : %s\n", i - 2, status ? "on" : "off");
 					break;
-				default: printf("***ERROR: Status Output not available.\n");
+				default: printf("***ERROR: Status Output not available\n");
 			}
 		}
 	}
@@ -1775,9 +1782,7 @@ static void get_status_output(void)
 static void status_outputs_command(int status_out_cmd, int argc, char* argv[])
 {	
 	switch(status_out_cmd){
-		case 0x00:
-			print_staout_options();
-			break;
+		case 0:
 		case '?':
 			print_staout_options();
 			break;
@@ -1787,7 +1792,7 @@ static void status_outputs_command(int status_out_cmd, int argc, char* argv[])
 		case STATUS_OUT_GET:
 			get_status_output();
 			break;
-		default: printf("***ERROR: Status Outputs command not available.\n");
+		default: printf("***ERROR: Status Outputs command not available\n");
 	}
 }
 
@@ -1803,7 +1808,7 @@ static void set_rtc(int argc, char* argv[])
 	unsigned int year = 0;
 	unsigned int month = 0;
 	unsigned int mday = 0;
-	unsigned int hrs = 0;
+	unsigned int hour = 0;
 	unsigned int min = 0;
 	unsigned int sec = 0;
 	
@@ -1811,18 +1816,18 @@ static void set_rtc(int argc, char* argv[])
 		sscanf( argv[3], "%d", &year );
 		sscanf( argv[4], "%d", &month );
 		sscanf( argv[5], "%d", &mday );
-		sscanf( argv[6], "%d", &hrs );
+		sscanf( argv[6], "%d", &hour );
 		sscanf( argv[7], "%d", &min );
-		sscanf( argv[7], "%d", &sec );
+		sscanf( argv[8], "%d", &sec );
 		
 		err = SMB2BMC_RTC_Set((u_int16)year, (u_int8)month, (u_int8)mday, 
-								(u_int8)hrs, (u_int8)min, (u_int8) sec);
+								(u_int8)hour, (u_int8)min, (u_int8)sec);
 		if (err) {
 			PrintError("***ERROR: SMB2BMC_RTC_Set:", err);
 		}
 		else {
-			printf("RTC was set to: %d-%d-%d, %d:%d:%d.\n", year, month, mday,
-															hrs, min, sec);
+			printf("RTC was set to: %d-%02d-%02d, %02d:%02d:%02d\n",
+				year, month, mday, hour, min, sec);
 		}
 	}
 	else {
@@ -1844,8 +1849,8 @@ static void print_rtc(void)
 		PrintError("***ERROR: SMB2BMC_RTC_Get:", err);
 	}
 	else {
-		printf("Current Time: %d-%d-%d, %d:%d:%d\n", rtc.year, rtc.month, rtc.mday, 
-												rtc.hours, rtc.minutes, rtc.seconds);
+		printf("Current Time: %d-%02d-%02d, %02d:%02d:%02d\n",
+			rtc.year, rtc.month, rtc.mday, rtc.hours, rtc.minutes, rtc.seconds);
 	}
 }
 
@@ -1859,9 +1864,7 @@ static void print_rtc(void)
 static void rtc_command(int rtc_cmd, int argc, char* argv[])
 {	
 	switch(rtc_cmd){
-		case 0x00:
-			print_rtc_options();
-			break;
+		case 0:
 		case '?':
 			print_rtc_options();
 			break;
@@ -1871,7 +1874,7 @@ static void rtc_command(int rtc_cmd, int argc, char* argv[])
 		case RTC_GET:
 			print_rtc();
 			break;
-		default: printf("***ERROR: Status Outputs command not available.\n");
+		default: printf("***ERROR: Status Outputs command not available\n");
 	}
 }
 
@@ -1919,9 +1922,7 @@ static void print_cpci_slotaddr(void)
 static void cpci_command(int cpci_cmd)
 {	
 	switch(cpci_cmd){
-		case 0x00:
-			print_cpci_options();
-			break;
+		case 0:
 		case '?':
 			print_cpci_options();
 			break;
@@ -1931,7 +1932,7 @@ static void cpci_command(int cpci_cmd)
 		case CPCI_SLOTADDR:
 			print_cpci_slotaddr();
 			break;
-		default: printf("***ERROR: Backplane CPCI command not available.\n");
+		default: printf("***ERROR: Backplane CPCI command not available\n");
 	}
 }
 
@@ -2054,9 +2055,7 @@ static void gpi_get(void)
 static void gpio_command(int gpio_cmd, int argc, char* argv[])
 {	
 	switch(gpio_cmd){
-		case 0x00:
-			print_gpio_options();
-			break;
+		case 0:
 		case '?':
 			print_gpio_options();
 			break;
@@ -2075,107 +2074,10 @@ static void gpio_command(int gpio_cmd, int argc, char* argv[])
 		case GPI_GET:
 			gpi_get();
 			break;
-		default: printf("***ERROR: Backplane CPCI command not available.\n");
+		default: printf("***ERROR: Backplane CPCI command not available\n");
 	}
 }
 
-/****************************************************************************/
-/** Get cluster channel state.
-*
-*/
-static void get_cluster_state(void)
-{
-	int err;
-	u_int8 cluster_state;
-	u_int8 link_state;
-
-	err = SMB2BMC_ClusterCh_GetState(&cluster_state);
-	if (err) {
-		PrintError("***ERROR: SMB2BMC_ClusterCh_GetState:", err);
-	}
-	else {
-		link_state = cluster_state & 0x80;
-
-		switch(cluster_state){
-			case 0x00:
-				printf("Link State: %s\n", link_state ? "Link fail" : "Link OK");
-				printf("Cluster Channel State: Disabled\n");
-				break;
-			case 0x01:
-				printf("Link State: %s\n", link_state ? "Link fail" : "Link OK");
-				printf("Cluster Channel State: Work-By\n");
-				break;
-			case 0x02:
-				printf("Link State: %s\n", link_state ? "Link fail" : "Link OK");
-				printf("Cluster Channel State: Active\n");
-				break;
-			default: 
-				printf("Link State: %s\n", link_state ? "Link fail" : "Link OK");
-				printf("***ERROR: Undefined Cluster Channel State.\n");
-		}
-	}
-}
-
-/****************************************************************************/
-/** Set cluster channel state.
-*
- *  \param argc    \IN  argument counter
- *  \param argv    \IN  argument vector
-*/
-static void set_cluster_state(int argc, char* argv[])
-{
-	int err;
-	unsigned int cluster_state;
-
-	if(argc > 3){
-		sscanf( argv[3], "%d", &cluster_state);
-		
-		if(cluster_state == 1){
-			err = SMB2BMC_ClusterCh_SetState((u_int8)cluster_state);
-			if (err) {
-				PrintError("***ERROR: SMB2BMC_ClusterCh_GetState:", err);
-			}
-			else {
-				printf("Cluster Channel State was successfully set.\n");
-			}
-		}
-		else {
-			printf( " Illegal chan. state : Only Work-by (0x01) allowed\n" );
-			printf( " Info : Other channel states cannot be commanded through this command.\n" );
-			printf( "      \"Disabled\" state can be commanded indirectly via the Fs_power_reset_control.\n" );
-			printf( "      \"Active\" state can be only entered if the BMC detects the other channel as disabled.\n" );
-		}
-	}
-	else {
-		printf("***ERROR: Not enough arguments\n");
-	}
-}
-
-/****************************************************************************/
-/** Send Cluster Support command.
-*
- *  \param argc    \IN  argument counter
- *  \param argv    \IN  argument vector
- *  \param cluster_cmd    \IN  Cluster command
-*/
-static void cluster_command(int cluster_cmd, int argc, char* argv[])
-{	
-	switch(cluster_cmd){
-		case 0x00:
-			print_cluster_options();
-			break;
-		case '?':
-			print_cluster_options();
-			break;
-		case CLUS_CHAN_STATE_GET:
-			get_cluster_state();
-			break;
-		case CLUS_CHAN_STATE_SET:
-			set_cluster_state(argc, argv);
-			break;
-		default: printf("***ERROR: Cluster Support command not available.\n");
-	}
-}
 
 /****************************************************************************/
 /** Enable/disable power on/off event logging.
@@ -2197,7 +2099,7 @@ static void set_pwr_log_mode(int argc, char* argv[])
 				PrintError("***ERROR: SMB2BMC_PWR_SetEvLog:", err);
 			}
 			else {
-				printf("Logging of power on/off events %s.\n", 
+				printf("Logging of power on/off events %s\n", 
 						pwr_log_mode ? "enabled" : "disabled");
 			}
 		}
@@ -2224,7 +2126,7 @@ static void get_pwr_log_mode(void)
 		PrintError("***ERROR: SMB2BMC_PWR_GetEvLog:", err);
 	}
 	else {
-		printf("Logging of power on/off events %s.\n", pwr_log_mode ? "enabled" : "disabled");
+		printf("Logging of power on/off events %s\n", pwr_log_mode ? "enabled" : "disabled");
 	}
 }
 
@@ -2241,7 +2143,7 @@ static void stat_frm_trigger(void)
 		PrintError("***ERROR: SMB2BMC_StatusFrame_trigger:", err);
 	}
 	else {
-		printf("New SUPV Status Frame Transfer was triggered.\n");
+		printf("New SUPV Status Frame Transfer was triggered\n");
 	}
 }
 
@@ -2264,13 +2166,13 @@ static void print_stat_frm(void)
 		PrintError("***ERROR: SMB2BMC_GetStatusFrame:", err);
 	}
 	else {
-		printf("wd_itout            = 0b%d: Watchdog is in state %s.\n",
+		printf("wd_itout            = 0b%d: Watchdog is in state %s\n",
 				status_frame.wd_itout ? 1 : 0,
 				status_frame.wd_itout ? "WD_INIT or IDLE" : "WD_RUN");
-		printf("isw_st              = 0b%d: MFB (Monitored Functional Block) is %s.\n",
+		printf("isw_st              = 0b%d: MFB (Monitored Functional Block) is %s\n",
 				status_frame.isw_st ? 1 : 0,
 				status_frame.isw_st ? "powered" : "not powered");
-		printf("fpga_rdy            = 0b%d: FPGA %s configuration loading.\n",
+		printf("fpga_rdy            = 0b%d: FPGA %s configuration loading\n",
 				status_frame.fpga_rdy ? 1 : 0,
 				status_frame.fpga_rdy ? "finished" : "has not finished");
 		printf("main_fail_fsm_state = 0x%x: MAIN_FAIL_FSM current state: ",
@@ -2291,7 +2193,7 @@ static void print_stat_frm(void)
 				status_frame.fault_cause);
 		switch(status_frame.fault_cause) {
 			case 0x00:
-				printf("SUPVCOR has not yet detected an error.\n"); 
+				printf("SUPVCOR has not yet detected an error\n"); 
 				break;
 			case 0x01:
 				printf("SUPV detected under-voltage on PWR_IN\n"); 
@@ -2354,10 +2256,10 @@ static void print_stat_frm(void)
 		printf("ov_shdn             = 0b%d: Overvoltage condition leads to %s state\n",
 				status_frame.ov_shdn ? 1 : 0,
 				status_frame.ov_shdn ? "SAFE_SHUTDOWN" : "SAFE_DISABLED");
-		printf("fpga_mon_en         = 0b%d: FPGA monitor %s.\n",
+		printf("fpga_mon_en         = 0b%d: FPGA monitor %s\n",
 				status_frame.fpga_mon_en ? 1 : 0,
 				status_frame.fpga_mon_en ? "enabled" : "disabled");
-		printf("restart             = 0b%d: SUPVCOR %s after fatal error.\n", 
+		printf("restart             = 0b%d: SUPVCOR %s after fatal error\n", 
 				status_frame.restart ? 1 : 0,
 				status_frame.restart ? "restarts" : "does not restart");
 		printf("test_mode           = 0b%d: Test mode %s\n",
@@ -2416,14 +2318,12 @@ static void print_stat_frm(void)
 *
  *  \param argc    \IN  argument counter
  *  \param argv    \IN  argument vector
- *  \param cluster_cmd    \IN  Cluster command
+ *  \param cb30c_cmd    \IN  CB30C command
 */
 static void cb30c_command(int cb30c_cmd, int argc, char* argv[])
 {	
 	switch(cb30c_cmd){
-		case 0x00:
-			print_cb30c_specific_options();
-			break;
+		case 0:
 		case '?':
 			print_cb30c_specific_options();
 			break;
@@ -2439,7 +2339,7 @@ static void cb30c_command(int cb30c_cmd, int argc, char* argv[])
 		case STAT_FRM_GET:
 			print_stat_frm();
 			break;
-		default: printf("***ERROR: CB30C Specific command not available.\n");
+		default: printf("***ERROR: CB30C Specific command not available\n");
 	}
 }
 
@@ -2458,7 +2358,3 @@ static void PrintError(char *info, int32 errCode)
 
 	printf("%s: %s\n", info, SMB2BMC_Errstring(errCode, errMsg));
 }
-
-
-
-
