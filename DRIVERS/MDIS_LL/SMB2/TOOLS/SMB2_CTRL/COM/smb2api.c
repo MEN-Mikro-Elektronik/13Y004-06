@@ -40,20 +40,32 @@
 
 #include "smb2_ctrl.h"
 
-/*
- * Macro for ignoring the return value of a function (e.g. scanf)
- */
-#ifndef IGNORE_RET_VAL
-#define IGNORE_RET_VAL(fun) { if (fun); }
+/*--------------------------------------+
+|   DEFINES                             |
++--------------------------------------*/
+#define STR_XFER_LEN    20
+
+/* Windows exclusive stuff to avoid compiler issues */
+#ifdef WINNT
+	#define snprintf _snprintf
+	/* still using deprecated functions like sscanf, sprintf,.. */
+	#pragma warning(disable:4996)
+	#define IGNORE_RET_VAL(fun) fun
+/* non-Windows stuff to avoid compiler issues */
+#elif
+	/* Macro for ignoring the return value of a function (e.g. scanf) */
+	#ifndef IGNORE_RET_VAL
+		#define IGNORE_RET_VAL(fun) { if (fun); }
+	#endif
 #endif
 
 /*-----------------------------------------+
 |  PROTOTYPES                              |
 +-----------------------------------------*/
 static void AlertCbFunc( void *cbArg );
-static int internFunc( int argc, char **argv );
-
-#define STR_XFER_LEN    20
+#ifdef VXWORKS
+	static int internFunc( int argc, char **argv );
+#endif
 
 /**********************************************************************/
 /** Ask user for specified parameters
@@ -67,10 +79,13 @@ static int32 AskUser(
 	u_int8		*readWrite
 ){
 	u_int32	tmp;
+
+#ifdef VXWORKS
 	int ac=0;
 	char *pc=NULL;
 	/* satisfy vxWorks compiler.. */
 	tmp = internFunc( ac, &pc);
+#endif
 	
 	if( flags ){
 		if( SMB2CTRL_flag ){
@@ -428,7 +443,7 @@ extern int32 SMB2CTRL_I2CXfer()
 
 		printf("--- Message #%d ---\n", n);
 
-		AskUser( (unsigned int*)&msg[n].flags, (unsigned int*)&msg[n].addr, 0, 0, 0, 0 );
+		AskUser( (u_int32*)&msg[n].flags, (u_int16*)&msg[n].addr, 0, 0, 0, 0 );
 
 		/* set buffer pointer behind the SMB_I2CMESSAGE struct */
 		msg[n].buf = (u_int8*)(&msg[n]) + sizeof(SMB_I2CMESSAGE);
@@ -526,7 +541,7 @@ extern int32 SMB2CTRL_AlertCbInstall()
 
 	printf("SMB2CTRL_AlertCbInstall:\n");
 	AskUser( 0, &addr, 0, 0, 0, 0 );
-	printf(" alertCallCount=%d\n", (int)SMB2CTRL_alertCallCount);
+	printf(" alertCallCount=%u\n", SMB2CTRL_alertCallCount);
 
 	return SMB2API_AlertCbInstall( SMB2CTRL_smbHdl, addr, AlertCbFunc,
 				(void*)(INT32_OR_64)addr );
@@ -551,7 +566,7 @@ extern int32 SMB2CTRL_AlertCbInstallSig()
 	fflush( stdin );
 	IGNORE_RET_VAL(scanf("%x", &sigCode));
 	
-	printf(" alertCallCount=%d\n", (int)SMB2CTRL_alertCallCount);
+	printf(" alertCallCount=%u\n", SMB2CTRL_alertCallCount);
 
 	return SMB2API_AlertCbInstallSig( SMB2CTRL_smbHdl, addr, AlertCbFunc,
 									  (void*)(INT32_OR_64)addr, sigCode );
@@ -577,7 +592,7 @@ extern int32 SMB2CTRL_AlertCbRemove()
 		return err;
 
 	printf(" cbArg=0x%x (should be the address)\n", cbArg);
-	printf(" alertCallCount=%d\n", (int)SMB2CTRL_alertCallCount);
+	printf(" alertCallCount=%u\n", SMB2CTRL_alertCallCount);
 
 	return 0;
 }
@@ -589,8 +604,13 @@ extern int32 SMB2CTRL_AlertCbRemove()
  */
 static void AlertCbFunc( void *cbArg )
 {
+	u_int32		addr;
+
 	SMB2CTRL_alertCallCount++;
-	printf(">>> AlertCbFunc called with cbArg=%p, alertCallCount=%d\n", cbArg, (int)SMB2CTRL_alertCallCount );
+
+	addr = (u_int32)cbArg;
+	printf(">>> AlertCbFunc called with cbArg=0x%x, alertCallCount=%u\n",
+		addr, SMB2CTRL_alertCallCount );
 }
 
 /**********************************************************************/
@@ -770,9 +790,10 @@ extern int32 SMB2CTRL_List()
 	return -1;
 }
 
-/* dummy to satisfy compiler, unused */
-static int internFunc( int argc, char **argv )
-{
-	return 0;
-}
-
+#ifdef VXWORKS
+	/* dummy to satisfy compiler, unused */
+	static int internFunc( int argc, char **argv )
+	{
+		return 0;
+	}
+#endif

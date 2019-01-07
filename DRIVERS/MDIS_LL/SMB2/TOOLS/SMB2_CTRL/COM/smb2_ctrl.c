@@ -134,7 +134,8 @@ int main(int argc, char* argv[])
 	u_int32 wordData=0;
 	u_int32 byteData=0;
 	u_int32 offs=0;
-	u_int32 num=0, i=0;
+	int32   i=0;
+	int32   num=0;
 	u_int8  readwrite;
 	u_int8  length = SMB_BLOCK_MAX_BYTES;
 	u_int8  blkData[SMB_BLOCK_MAX_BYTES];
