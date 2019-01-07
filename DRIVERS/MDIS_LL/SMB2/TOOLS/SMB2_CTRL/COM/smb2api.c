@@ -59,14 +59,14 @@ static int internFunc( int argc, char **argv );
 /** Ask user for specified parameters
  */
 static int32 AskUser(
-	unsigned int 	*flags,
-	unsigned int *addr,
+	u_int32		*flags,
+	u_int16		*addr,
 	u_int8		*cmdAddr,
 	u_int8		*byteData,
 	u_int16		*wordData,
 	u_int8		*readWrite
 ){
-	unsigned int 	tmp;
+	u_int32	tmp;
 	int ac=0;
 	char *pc=NULL;
 	/* satisfy vxWorks compiler.. */
@@ -128,7 +128,7 @@ static int32 AskUserBlk(
 {
 	u_int8	n;
 	u_int8	maxLength = *length;
-	int	tmp=0;
+	u_int32	tmp=0;
 
 	printf(" number of bytes to write (1..%d)", maxLength);
 	/* limit user input */
@@ -156,8 +156,8 @@ static int32 AskUserBlk(
  */
 extern int32 SMB2CTRL_QuickComm()
 {
-	unsigned int	flags=0;
-	unsigned int	addr=0;
+	u_int32		flags=0;
+	u_int16		addr=0;
 	u_int8		rw;
 
 	printf("SMB2CTRL_QuickComm:\n");
@@ -173,8 +173,8 @@ extern int32 SMB2CTRL_QuickComm()
  */
 extern int32 SMB2CTRL_WriteByte()
 {
-	unsigned int	flags=0;
-	unsigned int	addr=0;
+	u_int32		flags=0;
+	u_int16		addr=0;
 	u_int8		byteData;
 
 	printf("SMB2CTRL_WriteByte:\n");
@@ -190,8 +190,8 @@ extern int32 SMB2CTRL_WriteByte()
  */
 extern int32 SMB2CTRL_ReadByte()
 {
-	unsigned int	flags=0;
-	unsigned int	addr=0;
+	u_int32		flags=0;
+	u_int16		addr=0;
 	u_int8		byteData;
 	int32		err;
 
@@ -214,8 +214,8 @@ extern int32 SMB2CTRL_ReadByte()
  */
 extern int32 SMB2CTRL_WriteByteData()
 {
-	unsigned int	flags=0;
-	unsigned int	addr=0;
+	u_int32		flags=0;
+	u_int16		addr=0;
 	u_int8		cmdAddr;
 	u_int8		byteData;
 
@@ -232,8 +232,8 @@ extern int32 SMB2CTRL_WriteByteData()
  */
 extern int32 SMB2CTRL_ReadByteData()
 {
-	unsigned int	flags=0;
-	unsigned int	addr=0;
+	u_int32		flags=0;
+	u_int16		addr=0;
 	u_int8		cmdAddr;
 	u_int8		byteData;
 	int32		err;
@@ -257,8 +257,8 @@ extern int32 SMB2CTRL_ReadByteData()
  */
 extern int32 SMB2CTRL_WriteWordData()
 {
-	unsigned int	flags=0;
-	unsigned int	addr=0;
+	u_int32		flags=0;
+	u_int16		addr=0;
 	u_int8		cmdAddr;
 	u_int16		wordData;
 
@@ -275,8 +275,8 @@ extern int32 SMB2CTRL_WriteWordData()
  */
 extern int32 SMB2CTRL_ReadWordData()
 {
-	unsigned int	flags=0;
-	unsigned int	addr=0;
+	u_int32		flags=0;
+	u_int16		addr=0;
 	u_int8		cmdAddr;
 	u_int16		wordData;
 	int32		err;
@@ -300,8 +300,8 @@ extern int32 SMB2CTRL_ReadWordData()
  */
 extern int32 SMB2CTRL_WriteBlockData()
 {
-	unsigned int	flags=0;
-	unsigned int	addr=0;
+	u_int32		flags=0;
+	u_int16		addr=0;
 	u_int8		cmdAddr;
 	u_int8		length=SMB_BLOCK_MAX_BYTES;
 	u_int8		blkData[SMB_BLOCK_MAX_BYTES];
@@ -320,8 +320,8 @@ extern int32 SMB2CTRL_WriteBlockData()
  */
 extern int32 SMB2CTRL_ReadBlockData()
 {
-	unsigned int	flags=0;
-	unsigned int	addr=0;
+	u_int32		flags=0;
+	u_int16		addr=0;
 	u_int8		cmdAddr;
 	u_int8		length;
 	u_int8		blkData[SMB_BLOCK_MAX_BYTES];
@@ -346,8 +346,8 @@ extern int32 SMB2CTRL_ReadBlockData()
  */
 extern int32 SMB2CTRL_ProcessCall()
 {
-	unsigned int	flags=0;
-	unsigned int	addr=0;
+	u_int32		flags=0;
+	u_int16		addr=0;
 	u_int8		cmdAddr;
 	u_int16		wordData;
 	int32		err;
@@ -371,8 +371,8 @@ extern int32 SMB2CTRL_ProcessCall()
  */
 extern int32 SMB2CTRL_BlockProcessCall()
 {
-	unsigned int	flags=0;
-	unsigned int	addr=0;
+	u_int32		flags=0;
+	u_int16		addr=0;
 	u_int8		cmdAddr;
 	u_int8		readLen;
 	u_int8		writeLen=SMB_BLOCK_MAX_BYTES;
@@ -463,7 +463,7 @@ ERR_EXIT:
  */
 extern int32 SMB2CTRL_Errstring()
 {
-	int		errCode;
+	int32		errCode;
     static char errMsg[512];
 
 	printf("SMB2CTRL_Errstring:\n");
@@ -498,8 +498,8 @@ extern int32 SMB2CTRL_Ident()
  */
 extern int32 SMB2CTRL_AlertResponse()
 {
-	unsigned int	flags=0;
-	unsigned int	addr=0;
+	u_int32		flags=0;
+	u_int16		addr=0;
 	u_int16		alertCnt;
 	int32		err;
 
@@ -522,7 +522,7 @@ extern int32 SMB2CTRL_AlertResponse()
  */
 extern int32 SMB2CTRL_AlertCbInstall()
 {
-	unsigned int 	addr=0;
+	u_int16		addr=0;
 
 	printf("SMB2CTRL_AlertCbInstall:\n");
 	AskUser( 0, &addr, 0, 0, 0, 0 );
@@ -541,8 +541,8 @@ extern int32 SMB2CTRL_AlertCbInstall()
  */
 extern int32 SMB2CTRL_AlertCbInstallSig()
 {
-	unsigned int	addr=0;
-	unsigned int	sigCode	= 0;
+	u_int16		addr=0;
+	u_int32		sigCode=0;
 
 	printf("SMB2CTRL_AlertCbInstallSig:\n");
 	AskUser( 0, &addr, 0, 0, 0, 0 );
@@ -565,8 +565,8 @@ extern int32 SMB2CTRL_AlertCbInstallSig()
  */
 extern int32 SMB2CTRL_AlertCbRemove()
 {
-	unsigned int	addr=0;
-	int		cbArg;
+	u_int16		addr=0;
+	u_int32		cbArg;
 	int32		err;
 
 	printf("SMB2CTRL_AlertCbRemove:\n");
@@ -600,15 +600,15 @@ static void AlertCbFunc( void *cbArg )
  */
 extern int32 SMB2CTRL_Mtest()
 {
-	unsigned int	flags=0;
-	unsigned int	addr=0;
+	u_int32		flags=0;
+	u_int16		addr=0;
 	u_int8		cmdAddrStart=0, cmdAddr=0;
 	int32		err=0;
 	u_int8		bytes, words, n;
 	u_int8		bytePat, byteRead;
 	u_int16		wordPat, wordRead;
 	u_int32		errCount;
-	int		tmp=0;
+	u_int32		tmp=0;
 	char		errMsg[512];
 
 	printf("Simple memory test:\n");

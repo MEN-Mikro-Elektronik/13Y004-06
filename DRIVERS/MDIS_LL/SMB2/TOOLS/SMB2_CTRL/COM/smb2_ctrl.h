@@ -64,7 +64,7 @@
 extern u_int32	SMB2CTRL_alertCallCount;	/* alert counter */
 extern void		*SMB2CTRL_smbHdl;			/* SMB2 handle */
 extern u_int8	SMB2CTRL_flag;
-extern int	SMB2CTRL_errCount;
+extern u_int32	SMB2CTRL_errCount;
 
 /*--------------------------------------+
 |   PROTOTYPES                          |
