@@ -39,6 +39,7 @@
   The main features of the Shelf controller API are:\n
 		- Get the power supply status SMB2SHC_GetPSU_State()
 		- Get the system temperature  SMB2SHC_GetTemperature()
+		- Set the ambient temperature SMB2SHC_SetTemperature()
 		- Get the fan status          SMB2SHC_GetFAN_State()
 		- Get the voltage levels      SMB2SHC_GetVoltLevel()
 		- Get the UPS charging state  SMB2SHC_GetUPS_State()

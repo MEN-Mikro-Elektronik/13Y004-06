@@ -40,12 +40,14 @@
 #define SHC_VOLT_GET_OPCODE  0x04
 #define SHC_UPS_GET_OPCODE   0x05
 #define SHC_CONF_GET_OPCODE  0x06
+#define SHC_TEMP_SET_OPCODE  0x07
 #define SHC_SH_DOWN_OPCODE   0x10
 #define SHC_PWR_OFF_OPCODE   0x11
 #define SHC_FVER_GET_OPCODE  0x80
 
 /* data lengths */
 #define SHC_PSU_GET_LENGTH   0x03
+#define SHC_TEMP_SET_LENGTH  0x03
 #define SHC_FAN_GET_LENGTH   0x09
 #define SHC_VOLT_GET_LENGTH  0x08
 #define SHC_UPS_GET_LENGTH   0x04
@@ -63,6 +65,8 @@
 #define TO_FAN_STAT_BYTE(fan_id) (fan_id * 3)
 #define TO_FAN_RPM_LSB(fan_nr)   (TO_FAN_STAT_BYTE(fan_nr) + 1)
 #define TO_FAN_RPM_MSB(fan_nr)   (TO_FAN_STAT_BYTE(fan_nr) + 2)
+
+#define SET_TEMP_ENABLE      0x01
 
 #define SHC_SMBADDR          0xea
 #define SHC_SMBFLAGS         0x00
@@ -196,17 +200,58 @@ int32 __MAPILIB SMB2SHC_Exit()
  *
  *  The temperature will be read in Kelvin
  *
- *  \param     value    \OUT  Temperature read from the device
+ *  \param     tempK    \OUT  Temperature (Kelvin) read from the device
  *  \return    0 on success or error code
  *
  *  \sa SMB2SHC_GetTemperature
  */
-int32 __MAPILIB SMB2SHC_GetTemperature(u_int16 *value)
+int32 __MAPILIB SMB2SHC_GetTemperature(u_int16 *tempK)
 {
+	int err;
+	u_int8 length;
+	u_int8 blkData[SMB_BLOCK_MAX_BYTES];
+
+	err = SMB2API_ReadBlockData(SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
+								SHC_TEMP_SET_OPCODE, &length, blkData);
+	if (err)
+		return err;
+
+	if (length != SHC_TEMP_SET_LENGTH)
+		return SMB2_SHC_ERR_LENGTH;
+
+	if (blkData[0] != SET_TEMP_ENABLE){
 	return SMB2API_ReadWordData(SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
-								SHC_TEMP_OPCODE, value);
+									SHC_TEMP_OPCODE, tempK);
+	}
+	else{
+		*tempK = *tempK | ((u_int16)blkData[2]<<8); /* MSB */
+		*tempK = *tempK |  (u_int16)blkData[1];     /* LSB */
 }
 
+	return SMB2_SHC_ERR_NO;
+}
+
+/****************************************************************************/
+/** Write the ambient temperature to the shelf controller (for one minute)
+ *
+ *  The temperature will be set in Kelvin
+ *
+ *  \param     tempK    \IN  Temperature (Kelvin) set to the device
+ *  \return    0 on success or error code
+ *
+ *  \sa SMB2SHC_SetTemperature
+ */
+int32 __MAPILIB SMB2SHC_SetTemperature(u_int16 tempK)
+{
+	u_int8 blkData[SMB_BLOCK_MAX_BYTES];
+	
+	blkData[0] = (u_int8)SET_TEMP_ENABLE; 
+	blkData[1] = (u_int8)tempK;      /* LSB */
+	blkData[2] = (u_int8)(tempK>>8); /* MSB */
+	
+	return SMB2API_WriteBlockData( SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
+									SHC_TEMP_SET_OPCODE, SHC_TEMP_SET_LENGTH, blkData);
+}
 
 /****************************************************************************/
 /** Get the Power Supply Report of the selected PSU
