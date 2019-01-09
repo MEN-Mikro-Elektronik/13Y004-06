@@ -48,7 +48,7 @@ static const char RCSid[]="$Id: smb2_shc_ctrl.c,v 1.2 2015/02/24 17:26:39 MRoth 
 /*-------------------------------------+
 |   DEFINES                            |
 +-------------------------------------*/
-#define ABS_ZERO    273    /* calculate Celsius from Kelvin */
+#define ABS_ZERO    273    /* -273 Celsius = 0 Kelvin */
 
 /*-------------------------------------+
 |   GLOBALS                            |
@@ -59,6 +59,8 @@ void *SMB2CTRL_smbHdl;
 /*-------------------------------------+
 |   PROTOTYPES                         |
 +-------------------------------------*/
+static void header(void);
+static void usage(void);
 static void print_psu(int32 psu_id);
 static void print_fan(int32 fan_id);
 static void print_voltlevel(void);
@@ -66,12 +68,13 @@ static void print_ups(int32 ups_id);
 static void shut_down(void);
 static void power_off(void);
 static void print_configdata(void);
+static void get_temperature(void);
+static void set_temperature(int32 tempC);
 static void get_psu_state(u_int32 psu_nbr);
 static void get_ups_state(u_int32 ups_nbr);
 static void get_fan_state(u_int32 fan_nbr);
 static void print_firm_version(void);
 static void PrintError(char *info, int32 errCode);
-
 
 /********************************* header ***********************************/
 /**  Prints the headline
@@ -95,7 +98,8 @@ static void usage(void)
 		"Options:\n"
 		"    devName      device name e.g. smb2_1                   \n"
 		"    -?           Usage                                     \n"
-		"    -t           Get Temperature                           \n"
+		"    -t           Get system/ambient temperature                    \n"
+		"    -T=[dec]     Set ambient temperature (Celsius) for FAN control \n"		
 		"    -i           Get shelf controller API identifier       \n"
 		"    -p=[psu_id]  Get status of one or all PSU              \n"
 		"                 (psu_id: 0 to 3, 0: to get all psu status)\n"
@@ -130,15 +134,14 @@ int main(int argc, char** argv)
 	char argbuf[100];
 	char *deviceP = NULL;
 	u_int32 id_nbr=0;
-	u_int16 tempK;
-	u_int16 tempC;
+	int32 tempC;
 
 	header();
 
 	/*--------------------+
 	|  check arguments    |
 	+--------------------*/
-	errstr = UTL_ILLIOPT("?cf=op=irstu=v", argbuf);
+	errstr = UTL_ILLIOPT("?cf=op=irstT=u=v", argbuf);
 	if (errstr) {
 		printf("*** %s\n", errstr);
 		usage();
@@ -185,15 +188,14 @@ int main(int argc, char** argv)
 	if (UTL_TSTOPT("i"))
 		printf("%s\n", SMB2SHC_Ident());
 
-	/* get temperature */
-	if (UTL_TSTOPT("t")) {
-		err = SMB2SHC_GetTemperature((u_int16*)&tempK);
-		if (err) {
-			PrintError("***ERROR: SMB2SHC_GET_TEMP", err);
-			goto EXIT;
-		}
-		tempC = tempK - ABS_ZERO;
-		printf("Temperature: %dK (%dC)\n", tempK, tempC);
+	/* get system/ambient temperature */
+	if (UTL_TSTOPT("t"))
+		get_temperature();
+
+	/* set ambient temperature */
+	if ((optP = UTL_TSTOPT("T="))) {
+		sscanf(optP, "%d", &tempC);
+		set_temperature(tempC);
 	}
 
 	/* get voltage levels */
@@ -333,6 +335,57 @@ static void print_ups(int32 ups_id)
 		printf("UPS %d provides PWR:\t%s\n", ups_id + 1,
 			shc_ups_state.provPWR ? "TRUE" : "FALSE");
 		printf("UPS %d charging level in %%: %d\n", ups_id + 1, shc_ups_state.chrg_lvl);
+	}
+}
+
+/****************************************************************************/
+/** Get system/ambient temperature
+*/
+static void get_temperature()
+{
+	int err;
+	int16 tempK, tempC;
+
+	err = SMB2SHC_GetTemperature((u_int16*)&tempK);
+	if (err) {
+		PrintError("***ERROR: SMB2SHC_GET_TEMP", err);
+	}
+	else{
+		/* get Celsius */
+		tempC = tempK - ABS_ZERO;
+		printf("Temperature: %dK (%dC)\n", tempK, tempC);
+	}
+}
+
+/****************************************************************************/
+/** Set ambient temperature
+*
+*  \param tempC    \IN  temperature in Celsius
+*/
+static void set_temperature(int32 tempC)
+{
+	int err;
+	u_int16 tempK;
+
+	printf("Set ambient temperature to %dC (for at least 40sec).\n", tempC);
+
+	/* get Kelvin */
+	tempK = (u_int16)(tempC + ABS_ZERO);
+
+	err = SMB2SHC_SetTemperature(tempK);
+	if (err) {
+		PrintError("***ERROR: SMB2SHC_SET_TEMP", err);
+	}
+	else{	
+		/* read back temperature */
+		err = SMB2SHC_GetTemperature((u_int16*)&tempK);
+		if (err) {
+			PrintError("***ERROR: SMB2SHC_GET_TEMP", err);
+		}
+		else{
+			tempC = (int32)(tempK - ABS_ZERO);
+			printf("New Temperature: %dK (%dC)\n", tempK, tempC);
+		}
 	}
 }
 
