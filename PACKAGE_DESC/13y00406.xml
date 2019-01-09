@@ -2,8 +2,8 @@
 <package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="packagedesc.xsd">
 	<name>13y00406</name>
 	<description>MDIS5 SMB2 driver package</description>
-	<date>2016-07-13</date>
-	<revision>1.40</revision>
+	<date>2018-12-19</date>
+	<revision>1.41</revision>
 	<docroot>LIBSRC/SMB2_API/DOC/html/index.html</docroot>
 	<!-- Models	-->
 	<modellist>
@@ -183,10 +183,10 @@
 			<makefilepath>SMB2/TOOLS/SMB2_TOUCH/COM/program.mak</makefilepath>
 		</swmodule>
 		<swmodule>
-			<name>smb2_bmc</name>
-			<description>Tool to control BMC features</description>
+			<name>smb2_bmc_ctrl</name>
+			<description>Tool to control the Board Management Controller via the SMB2_BMC API</description>
 			<type>Driver Specific Tool</type>
-			<makefilepath>SMB2/TOOLS/SMB2_BMC/COM/program.mak</makefilepath>
+			<makefilepath>SMB2/TOOLS/SMB2_BMC_CTRL/COM/program.mak</makefilepath>
 		</swmodule>
 		<swmodule>
 			<name>smb2_shc_ctrl</name>
@@ -224,5 +224,11 @@
 			<type>Driver Specific Tool</type>
 			<makefilepath>SMB2/TOOLS/SMB2_TEST/COM/program.mak</makefilepath>
 		</swmodule>
-	</swmodulelist>
+	<swmodule internal="true">
+      <name>smb2_bmc</name>
+      <description>Tool to control BMC features e.g. on F75P CPU boards</description>
+      <type>Driver Specific Tool</type>
+      <makefilepath>SMB2/TOOLS/SMB2_BMC/COM/program.mak</makefilepath>
+    </swmodule>
+  </swmodulelist>
 </package>
