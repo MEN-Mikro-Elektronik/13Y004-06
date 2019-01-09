@@ -119,6 +119,13 @@
 #define BMC_EVLOG_WRITE_IDX         0x43
 /**@}*/
 
+/*! \defgroup FS_CB30C_SPECIFIC Feature Set CB30 specific commands */
+#define CB30C_PWR_LOG_SET       	0x44
+#define CB30C_PWR_LOG_GET       	0x44
+#define CB30C_STAT_FRM_TRIG       	0xB3
+#define CB30C_STAT_FRM_GET       	0xB4
+/**@}*/
+
 /*! \defgroup FS_STATUS_OUTPUTS Feature Set FS_STATUS_OUTPUTS */
 #define BMC_STATUS_OUTPUT_SET       0xA0
 #define BMC_STATUS_OUTPUT_GET       0xA0
