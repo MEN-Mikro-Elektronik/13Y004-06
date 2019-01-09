@@ -141,6 +141,12 @@
 				<makefilepath>SMB2_API/COM/library.mak</makefilepath>
 		</swmodule>
 		<swmodule>
+			<name>smb2_bmc_api</name>
+			<description>Application interface for SMB2 BMC</description>
+				<type>User Library</type>
+				<makefilepath>SMB2_BMC_API/COM/library.mak</makefilepath>
+		</swmodule>
+		<swmodule>
 			<name>smb2_shc</name>
 			<description>Application interface for SMB2 Shelf Controller</description>
 				<type>User Library</type>
