@@ -69,53 +69,56 @@ static int32 Dispatch(void);
 
 
 /**********************************************************************/
-/**  Prints the headline
- */
-static void header(void)
-{
-	printf(
-		"===========================================================\n"
-		" smb2_ctrl : Tool to access SMBus devices via the SMB2_API \n"
-		"                                                           \n"
-		" !!! Please be careful when you write to SMBus devices. !!!\n"
-		" !!! Otherwise you may destroy important data (e.g. on  !!!\n"
-		" !!! EEPROMs) or you may cause damage to the HW.        !!!\n"
-		"                                                           \n"
-		"===========================================================\n");
-}
-
-/**********************************************************************/
 /**  Prints the program usage
  */
 static void usage(void)
 {
-		printf( "\nUsage: smb2_ctrl <devName> [<-f>] [<command>] [<opts>]\n");
-		printf( "       devName  : device name e.g. smb2_1             \n");
-		printf( "       <-f>     : ask for flags                       \n");
-		printf( "       --- command mode e.g. for scripting ---        \n");
-		printf( "       command  : choose one of the following commands:    \n"
+	printf( "\n"
+		"Usage   : smb2_ctrl <devName> [<-f>] [<command>] [<opts>]     \n"
+		"Function: Access SMBus devices                                \n"
+		"Options:\n"
+		"    devName : SMB2 device name e.g. smb2_1                    \n"
+		"+---------------------------------------------------------+\n"
+		"| If you specify a command, the tool operates in Command  |\n"
+		"| Mode (e.g. for scripting). Otherwise, the tool provides |\n"
+		"| a Command Line Interface with extended functionality.   |\n"
+		"+---------------------------------------------------------+\n"
+		"Command Mode:\n"
+		"    list : List SMB devices that accepts ReadByte commands.   \n"
+		"           A few SMB devices accepts ReadByte commands only   \n"
+		"           after other commands or not at all.                \n"
 				"                  wb  : WriteByte       rb  : ReadByte     \n"
 				"                  wbd : WriteByteData   rbd : ReadByteData \n"
 				"                  wwd : WriteWordData   rwd : ReadWordData \n"
-				"                  rbk : ReadBlockData   pc  : ProcessCall  \n"
-				"                  q   : QuickComm                          \n"
-				"                  list: list all available SMB devices     \n"
-				"       [-a=hex]   address of SMB2 device\n"
-				"       [-o=hex]   offset................................[0]\n"
-				"       [-d=hex]   data to write                            \n"
-				"       [-n=hex]   number of bytes for memory dump          \n"
-				"       [-r]       read access for SMB2CTRL_QuickComm       \n"
-				"\n"
+		"    rbk  : ReadBlockData       wbk  : WriteBlockData          \n"
+		"    pc   : ProcessCall         q    : QuickComm               \n"
+		"Command Mode Options:\n"
+		"    [-r]      : read access for QuickComm                     \n"
+		"    [-F=hex]  : set SMB flags (default=0x00)                  \n"
+		"    [-a=hex]  : address of SMB2 device                        \n"
+		"    [-o=hex]  : offset (default=0)                            \n"
+		"    [-d=hex]  : data to write (non-block access - wbd/wwd)    \n"
+		"    [hex ..]  : data to write (block access - wbk)            \n"
+		"    [-n=hex]  : number of bytes for memory dump               \n"
+		"CLI Mode Options:\n"
+		"    <-f>      : ask for flags                                 \n"
 				"Calling examples:\n"
-				"\n--- User mode (extended functions) ---\n"
-				"  smb2_ctrl smb2_1 \n"
-				"\n--- Command mode ---\n"
-				"- write single byte: \n"
+		"  _____Command Mode_____                                      \n"
+		"  - write byte:\n"
 				"    smb2_ctrl smb2_1 wbd -a=0xac -o=5 -d=0x12 \n"
-				"- read 0x7f bytes: \n"
-				"    smb2_ctrl smb2_1 rbd -a=0xae -n=0x7f \n"
-				"\n(c)Copyright 2006 by MEN Mikro Elektronik GmbH\n%s\n", RCSid
-		);
+		"  - read 128 bytes:\n"
+		"    smb2_ctrl smb2_1 rbd -a=0xae -n=0x80\n"
+		"  - block write 3 bytes to offset 0x5:\n"
+		"    smb2_ctrl smb2_1 wbk -a=0xae -o=0x05 0xaa 0xff 0xee\n"
+		"  _____CLI Mode_____                                          \n"
+		"  - execute CLI Mode:\n"
+		"    smb2_ctrl smb2_1\n\n"
+		"+------------------------------------------------------+\n"
+		"!! Please be careful when you write to SMBus devices. !!\n"
+		"!! Otherwise you may destroy important data (e.g. on  !!\n"
+		"!! EEPROMs) or you may cause damage to the HW.        !!\n"
+		"+------------------------------------------------------+\n"
+		"(c)Copyright 2018 by MEN Mikro Elektronik GmbH\n%s\n", RCSid);
 }
 
 /**********************************************************************/
@@ -129,16 +132,18 @@ static void usage(void)
 int main(int argc, char* argv[])
 {
 	int32   ret=0, err=0;
-	u_int32 smbAddr=0x0;
+	int32   smbAddr=0x0;
 	u_int32 flags=0x0;
 	u_int32 wordData=0;
 	u_int32 byteData=0;
 	u_int32 offs=0;
+	u_int32	tmp=0;
 	int32   i=0;
 	int32   num=0;
 	u_int8  readwrite;
-	u_int8  length = SMB_BLOCK_MAX_BYTES;
-	u_int8  blkData[SMB_BLOCK_MAX_BYTES];
+	u_int8  length=0;
+	u_int8  max_length = SMB_BLOCK_MAX_BYTES;
+	u_int8  blkData[SMB_BLOCK_MAX_BYTES]={0};
 	char    *errstr=NULL, ebuf[100];
 	char    *optP=NULL;
 
@@ -159,7 +164,6 @@ int main(int argc, char* argv[])
 		return 1;
 	}
 	if( UTL_TSTOPT("?") ) {
-		header();
 		usage();
 		return 0;
 	}
@@ -179,7 +183,6 @@ int main(int argc, char* argv[])
 		}
 	}
 	if( !G_dev ) {
-		header();
 		usage();
 		return 0;
 	}
@@ -201,8 +204,6 @@ int main(int argc, char* argv[])
 		
 		SMB2CTRL_flag  = ( UTL_TSTOPT("f") ? 1 : 0 );    /* ask for SMB flag */
 		
-		header();
-		
 		SMB2CTRL_CmdHelp();
 	
 		/* enter command dispatcher */
@@ -213,6 +214,12 @@ int main(int argc, char* argv[])
 	| Command mode              |
 	+--------------------------*/
 	else{
+		if( UTL_TSTOPT("f") ) {
+			printf( "*** You are in Command Mode! Please use param. -F= if you need to use flags!\n" );
+			usage();
+			goto CLEANUP;
+		}
+		
 		/* SMB device address */
 		if( (optP = UTL_TSTOPT("a=")) ) {
 			sscanf( optP, "%x", &smbAddr );
@@ -355,18 +362,42 @@ int main(int argc, char* argv[])
 			}
 			printf( "\n" );
 		}
-		/* Read Block Data */
-		else if( !(strncmp(G_cmd, "rbk", 3)) ) {
+		/* Write Block Data */
+		else if( !(strncmp(G_cmd, "wbk", 3)) ) {
 			if( (optP = UTL_TSTOPT("o=")) ) {
 				sscanf( optP, "%x", &offs );
+			}			
+			for( i=3; i<argc; i++ ) {
+				if( *argv[i] != '-' ) {
+					sscanf( argv[i], "%x", &tmp );
+					blkData[length] = (u_int8)tmp;
+					printf( "blkData[%d]=0x%02x\n",	length, blkData[length] );
+					length++;
+					if( length>(SMB_BLOCK_MAX_BYTES) ) {
+						break;
+					}
+				}
 			}
-			err = SMB2API_ReadBlockData( SMB2CTRL_smbHdl, (u_int8)flags, (u_int8)smbAddr, (u_int8)offs, &length, blkData );
+			err = SMB2API_WriteBlockData( SMB2CTRL_smbHdl, (u_int8)flags, (u_int8)smbAddr, (u_int8)offs, length, blkData );
+
 			if( err ){
 				SMB2CTRL_PrintStatus(err);
 				ret=1;
 				goto CLEANUP;
 			}
-			UTL_Memdump("Read data", (char*)blkData, length, 1);
+		}
+		/* Read Block Data */
+		else if( !(strncmp(G_cmd, "rbk", 3)) ) {
+			if( (optP = UTL_TSTOPT("o=")) ) {
+				sscanf( optP, "%x", &offs );
+			}
+			err = SMB2API_ReadBlockData( SMB2CTRL_smbHdl, (u_int8)flags, (u_int8)smbAddr, (u_int8)offs, &max_length, blkData );
+			if( err ){
+				SMB2CTRL_PrintStatus(err);
+				ret=1;
+				goto CLEANUP;
+			}
+			UTL_Memdump("Read data", (char*)blkData, max_length, 1);
 		}
 		/* QuickComm */
 		else if( !(strncmp(G_cmd, "q", 1)) ) {
@@ -448,7 +479,9 @@ extern int32 SMB2CTRL_CmdHelp( void )
 		   " -i2c   : SMB2CTRL_I2CXfer\n"
 		   " -ers   : SMB2CTRL_Errstring          -id    : SMB2CTRL_Ident              \n"
     	   "__________TOOLS___________\n"
-		   " -list  : SMB2CTRL_List all available SMB devices\n"
+		   " -list  : List SMB devices that accepts ReadByte commands.\n"
+		   "          A few SMB devices accepts ReadByte commands only\n"
+		   "          after other commands or not at all.             \n"
 		   " -mt    : Simple memory test (e.g. for EEPROMS)\n"
 		   "\n"
            );
