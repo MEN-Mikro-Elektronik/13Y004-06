@@ -6,19 +6,21 @@
 #
 #    Description: Makefile definitions for the SMB2_EETEMP tool
 #
-#---------------------------------[ History ]---------------------------------
-#
-#   $Log: program.mak,v $
-#   Revision 1.2  2014/10/01 09:05:37  ts
-#   R: compiling the other tools smb2_boardident and _bmc failed due to link order of libs
-#   M: changed order of libmdis and libsmb2 in this tool too
-#
-#   Revision 1.1  2011/06/09 13:04:59  MRoth
-#   Initial Revision
-#
 #-----------------------------------------------------------------------------
-#   (c) Copyright 2011 by MEN Mikro Elektronik GmbH, Nuremberg, Germany
+#   Copyright (c) 2011-2019, MEN Mikro Elektronik GmbH
 #*****************************************************************************
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 MAK_NAME=smb2_eetemp
 

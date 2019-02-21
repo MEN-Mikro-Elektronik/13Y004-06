@@ -14,15 +14,9 @@
  *
  *      Required: libraries: mdis_api, usr_oss, usr_utl, smb2_api, smb2_bmc_api
  *
- *--------------------------------[ History ]-------------------------------
  *
- * $Log: smb2_bmc_ctrl.c,v $
- * Revision 1.2  2015/08/14 17:53:29  awerner
- * R: Windows package does not compile due to some cast warnings.
- * M: Fixed warnings and added casts to the functions calls.
- *
- *--------------------------------------------------------------------------
- * (c) Copyright 2014 by MEN Mikro Elektronik GmbH, Nuremberg, Germany
+ *---------------------------------------------------------------------------
+ * Copyright (c) 2014-2019, MEN Mikro Elektronik GmbH
  ****************************************************************************/
 /*
 * This program is free software: you can redistribute it and/or modify

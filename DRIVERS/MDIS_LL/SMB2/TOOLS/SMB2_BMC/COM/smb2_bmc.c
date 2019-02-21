@@ -13,21 +13,9 @@
  *
  *     Required:  libraries: mdis_api, usr_oss, smb2_api
  *
- *--------------------------------[ History ]--------------------------------
- *
- * $Log: smb2_bmc.c,v $
- * Revision 1.2  2014/07/04 14:35:27  MRoth
- * R: malfunction of wdts/wdmts/rstcl/csg
- * M: a) replaced SMB2API_QuickComm with SMB2API_WriteByte function
- *    b) changed wdts, wdmts functions to 100/10 msec steps
- *    c) added BMC_RST_REASON_CLR_DATA in rstcl function
- *    d) fixed link state interpretation in csg function
- *
- * Revision 1.1  2014/01/07 17:38:02  MRoth
- * Initial Revision
  *
  *---------------------------------------------------------------------------
- * (c) Copyright 2013 by MEN Mikro Elektronik GmbH, Nuremberg, Germany
+ * Copyright (c) 2013-2019, MEN Mikro Elektronik GmbH
  ****************************************************************************/
 /*
 * This program is free software: you can redistribute it and/or modify

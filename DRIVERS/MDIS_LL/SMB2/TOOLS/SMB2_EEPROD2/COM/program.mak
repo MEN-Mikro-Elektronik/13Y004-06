@@ -6,22 +6,21 @@
 #
 #    Description: Makefile definitions for the SMB2_EEPROD2 tool
 #
-#---------------------------------[ History ]---------------------------------
-#
-#   $Log: program.mak,v $
-#   Revision 1.2  2014/10/01 09:05:35  ts
-#   R: compiling the other tools smb2_boardident and _bmc failed due to link order of libs
-#   M: changed order of libmdis and libsmb2 in this tool too
-#
-#   Revision 1.1  2009/07/31 17:25:30  MRoth
-#   Initial Revision
-#
-#   Revision 1.1  2009/07/17 15:25:10  MRoth
-#   Initial Revision
-#
 #-----------------------------------------------------------------------------
-#   (c) Copyright 2009 by MEN Mikro Elektronik GmbH, Nuremberg, Germany
+#   Copyright (c) 2009-2019, MEN Mikro Elektronik GmbH
 #*****************************************************************************
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 MAK_NAME=smb2_eeprod2
 

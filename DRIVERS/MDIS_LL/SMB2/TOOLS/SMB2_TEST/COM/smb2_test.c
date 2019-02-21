@@ -13,14 +13,9 @@
  *
  *     Required: libraries: mdis_api, usr_oss, usr_utl, smb2_api
  *
- *--------------------------------[ History ]--------------------------------
- *
- * $Log: smb2_test.c,v $
- * Revision 1.1  2016/04/11 11:15:58  dpfeuffer
- * Initial Revision
  *
  *---------------------------------------------------------------------------
- * (c) Copyright 2016 by MEN Mikro Elektronik GmbH, Nuremberg, Germany
+ * Copyright (c) 2016-2019, MEN Mikro Elektronik GmbH
  ****************************************************************************/
 /*
 * This program is free software: you can redistribute it and/or modify

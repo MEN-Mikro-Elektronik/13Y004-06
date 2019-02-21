@@ -14,17 +14,9 @@
  *
  *      Required: libraries: mdis_api, usr_oss, usr_utl, smb2_api, smb2_shc
  *
- *--------------------------------[ History ]-------------------------------
  *
- * $Log: smb2_shc_ctrl.c,v $
- * Revision 1.2  2015/02/24 17:26:39  MRoth
- * R: 1. temperature calculation delivers wrong values
- *    2. cosmetics
- * M: 1. changed temperature variables to u_int16
- *    2. revised code
- *
- *--------------------------------------------------------------------------
- * (c) Copyright 2014 by MEN Mikro Elektronik GmbH, Nuremberg, Germany
+ *---------------------------------------------------------------------------
+ * Copyright (c) 2014-2019, MEN Mikro Elektronik GmbH
  ****************************************************************************/
 /*
 * This program is free software: you can redistribute it and/or modify

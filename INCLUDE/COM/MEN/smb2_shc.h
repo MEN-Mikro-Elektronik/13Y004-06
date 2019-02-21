@@ -12,7 +12,7 @@
  *    \switches  -
  *
  *---------------------------------------------------------------------------
- * (c) Copyright 2014 by MEN Mikro Elektronik GmbH, Nuremberg, Germany
+ * Copyright (c) 2014-2019, MEN Mikro Elektronik GmbH
  ****************************************************************************/
 /*
 * This program is free software: you can redistribute it and/or modify

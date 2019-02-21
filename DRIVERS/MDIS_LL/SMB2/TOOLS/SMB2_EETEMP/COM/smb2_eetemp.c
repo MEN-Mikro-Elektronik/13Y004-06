@@ -17,23 +17,9 @@
  *
  *     Required: libraries: mdis_api, usr_oss, usr_utl, smb2_api
  *
- *--------------------------------[ History ]--------------------------------
- *
- * $Log: smb2_eetemp.c,v $
- * Revision 1.3  2014/12/08 10:47:15  MRoth
- * R: read temperature only possible in a loop
- * M: a) changed default to one cycle
- *    b) added -l parameter for endless loop
- *
- * Revision 1.2  2014/10/15 13:00:54  awerner
- * R: disable warnings (Win Secure functions) with pragma cause compiler error in linux
- * M: Added WINNT define to only disable warnings in Windows
- *
- * Revision 1.1  2011/06/09 13:05:01  MRoth
- * Initial Revision
  *
  *---------------------------------------------------------------------------
- * (c) Copyright 2011 by MEN Mikro Elektronik GmbH, Nuremberg, Germany
+ * Copyright (c) 2011-2019, MEN Mikro Elektronik GmbH
  ****************************************************************************/
 /*
 * This program is free software: you can redistribute it and/or modify

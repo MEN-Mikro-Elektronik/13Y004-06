@@ -20,38 +20,9 @@
  *     \switches _BIG_ENDIAN_/_LITTLE_ENDIAN_
  *
  *
- *--------------------------------[ History ]--------------------------------
  *
- * $Log: smb2_boardident.c,v $
- * Revision 1.6  2014/07/17 17:00:15  ts
- * R: some more unused variables appeared on gcc 4.8, linux kernel 3.14.6
- * M: removed unused variables
- *
- * Revision 1.5  2014/07/17 16:49:03  ts
- * R: compile under linux gcc 4.8, kernel 3.14 warned about unknown pragma directive
- * M: made Windows-specific preprocessor macro dependent on #define WINNT
- *
- * Revision 1.4  2014/07/03 17:45:55  MRoth
- * R: 1) EEPROM dump showed wrong content
- *    2) cosmetics
- * M: 1) output actual content of EEPROM with readbyte function
- *    2) rewritten some code
- *
- * Revision 1.3  2010/02/11 15:08:01  MRoth
- * R: cosmetics
- * M: a) fixed output of function DumpIdProm() to be consistent with smb2_eeprod2 tool
- *    b) changed declaration of variable smbAddr to avoid potential malfunction
- *
- * Revision 1.2  2009/08/14 15:53:09  MRoth
- * R1: APB5 warnings and Errors
- * R2: cosmetics
- * M1: changed definition of variable i from int to u_int8 in functions SmbIdPromRead()
- * M2: fixed some comments and outputs in function DumpIdProm()
- *
- * Revision 1.1  2009/07/31 17:25:26  MRoth
- * Initial Revision
  *---------------------------------------------------------------------------
- * (c) Copyright 2009 by MEN Mikro Elektronik GmbH, Nuremberg, Germany
+ * Copyright (c) 2009-2019, MEN Mikro Elektronik GmbH
  ****************************************************************************/
 /*
 * This program is free software: you can redistribute it and/or modify
