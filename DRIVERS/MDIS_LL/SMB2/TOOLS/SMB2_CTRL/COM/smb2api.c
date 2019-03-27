@@ -30,6 +30,7 @@
 */
 
 #include "smb2_ctrl.h"
+#include <stdint.h>
 
 /*--------------------------------------+
 |   DEFINES                             |
@@ -599,7 +600,7 @@ static void AlertCbFunc( void *cbArg )
 
 	SMB2CTRL_alertCallCount++;
 
-	addr = (u_int32)cbArg;
+	addr = (u_int32)(uintptr_t)cbArg;
 	printf(">>> AlertCbFunc called with cbArg=0x%x, alertCallCount=%u\n",
 		addr, SMB2CTRL_alertCallCount );
 }
