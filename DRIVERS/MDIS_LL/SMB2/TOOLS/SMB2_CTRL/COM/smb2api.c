@@ -43,7 +43,7 @@
 	#pragma warning(disable:4996)
 	#define IGNORE_RET_VAL(fun) fun
 /* non-Windows stuff to avoid compiler issues */
-#elif
+#else
 	/* Macro for ignoring the return value of a function (e.g. scanf) */
 	#ifndef IGNORE_RET_VAL
 		#define IGNORE_RET_VAL(fun) { if (fun); }
