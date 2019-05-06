@@ -155,7 +155,7 @@
 /** \example smb2_min.dsc */
 /** \example smb2_max.dsc */
 
-/*! \page dummy
+/*! \page smb2apidummy MEN logo
 
  \menimages
 

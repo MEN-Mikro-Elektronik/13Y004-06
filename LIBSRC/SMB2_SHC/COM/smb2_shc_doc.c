@@ -60,7 +60,7 @@
 
 */
 /** \example smb2_shc_ctrl.c */
-/*! \page dummy
+/*! \page smb2shcdummy MEN logo
 
  \menimages
 
