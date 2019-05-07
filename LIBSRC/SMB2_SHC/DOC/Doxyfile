@@ -1,0 +1,20 @@
+@INCLUDE_PATH = $(MEN_DOXYGENTMPL)
+@INCLUDE = DoxyfileCommon
+
+PROJECT_NAME           = "SMB2SHC"
+PROJECT_NUMBER         = "(Shelf Controller API)"
+INPUT                  = ../COM/smb2_shc_doc.c \
+                         ../COM/smb2_shc.c \
+                         ../../../INCLUDE/COM/MEN/smb2_shc.h
+EXAMPLE_RECURSIVE      = YES
+EXAMPLE_PATH           = $(MEN_MDIS_DRV_SRC)/SMB2/TOOLS/SMB2_SHC_CTRL/COM
+OUTPUT_DIRECTORY       = .
+EXTRACT_ALL            = NO
+EXTRACT_STATIC         = YES
+GENERATE_HTMLHELP      = YES
+WARNINGS               = YES
+WARN_IF_DOC_ERROR      = YES
+WARN_IF_UNDOCUMENTED   = YES
+GENERATE_HTMLHELP      = YES
+
+IMAGE_PATH             += .
