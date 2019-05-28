@@ -8,17 +8,18 @@
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group____SMB2__SHC.html#a1"><param name="Name" value="SMB2SHC_Errstring"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group____SMB2__SHC.html#a3"><param name="Name" value="SMB2SHC_Exit"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="group____SMB2__SHC.html#a11"><param name="Name" value="SMB2SHC_GetConf_Data"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="group____SMB2__SHC.html#a6"><param name="Name" value="SMB2SHC_GetFAN_State"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="group____SMB2__SHC.html#a12"><param name="Name" value="SMB2SHC_GetFirm_Ver"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="group____SMB2__SHC.html#a5"><param name="Name" value="SMB2SHC_GetPSU_State"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="group____SMB2__SHC.html#a12"><param name="Name" value="SMB2SHC_GetConf_Data"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="group____SMB2__SHC.html#a7"><param name="Name" value="SMB2SHC_GetFAN_State"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="group____SMB2__SHC.html#a13"><param name="Name" value="SMB2SHC_GetFirm_Ver"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="group____SMB2__SHC.html#a6"><param name="Name" value="SMB2SHC_GetPSU_State"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group____SMB2__SHC.html#a4"><param name="Name" value="SMB2SHC_GetTemperature"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="group____SMB2__SHC.html#a8"><param name="Name" value="SMB2SHC_GetUPS_State"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="group____SMB2__SHC.html#a7"><param name="Name" value="SMB2SHC_GetVoltLevel"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="group____SMB2__SHC.html#a9"><param name="Name" value="SMB2SHC_GetUPS_State"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="group____SMB2__SHC.html#a8"><param name="Name" value="SMB2SHC_GetVoltLevel"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group____SMB2__SHC.html#a0"><param name="Name" value="SMB2SHC_Ident"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="group____SMB2__SHC.html#a2"><param name="Name" value="SMB2SHC_Init"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="group____SMB2__SHC.html#a10"><param name="Name" value="SMB2SHC_PowerOff"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="group____SMB2__SHC.html#a9"><param name="Name" value="SMB2SHC_ShutDown"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="group____SMB2__SHC.html#a11"><param name="Name" value="SMB2SHC_PowerOff"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="group____SMB2__SHC.html#a5"><param name="Name" value="SMB2SHC_SetTemperature"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="group____SMB2__SHC.html#a10"><param name="Name" value="SMB2SHC_ShutDown"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="See Also" value="SMB2SHC_Errstring"><param name="Name" value="SMB2SHC_Errstring"></OBJECT>
   <UL>
@@ -30,19 +31,19 @@
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="See Also" value="SMB2SHC_GetConf_Data"><param name="Name" value="SMB2SHC_GetConf_Data"></OBJECT>
   <UL>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="group____SMB2__SHC.html#a11"><param name="Name" value="_SMB2_SHC"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="group____SMB2__SHC.html#a12"><param name="Name" value="_SMB2_SHC"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="See Also" value="SMB2SHC_GetFAN_State"><param name="Name" value="SMB2SHC_GetFAN_State"></OBJECT>
   <UL>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="group____SMB2__SHC.html#a6"><param name="Name" value="_SMB2_SHC"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="group____SMB2__SHC.html#a7"><param name="Name" value="_SMB2_SHC"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="See Also" value="SMB2SHC_GetFirm_Ver"><param name="Name" value="SMB2SHC_GetFirm_Ver"></OBJECT>
   <UL>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="group____SMB2__SHC.html#a12"><param name="Name" value="_SMB2_SHC"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="group____SMB2__SHC.html#a13"><param name="Name" value="_SMB2_SHC"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="See Also" value="SMB2SHC_GetPSU_State"><param name="Name" value="SMB2SHC_GetPSU_State"></OBJECT>
   <UL>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="group____SMB2__SHC.html#a5"><param name="Name" value="_SMB2_SHC"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="group____SMB2__SHC.html#a6"><param name="Name" value="_SMB2_SHC"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="See Also" value="SMB2SHC_GetTemperature"><param name="Name" value="SMB2SHC_GetTemperature"></OBJECT>
   <UL>
@@ -50,11 +51,11 @@
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="See Also" value="SMB2SHC_GetUPS_State"><param name="Name" value="SMB2SHC_GetUPS_State"></OBJECT>
   <UL>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="group____SMB2__SHC.html#a8"><param name="Name" value="_SMB2_SHC"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="group____SMB2__SHC.html#a9"><param name="Name" value="_SMB2_SHC"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="See Also" value="SMB2SHC_GetVoltLevel"><param name="Name" value="SMB2SHC_GetVoltLevel"></OBJECT>
   <UL>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="group____SMB2__SHC.html#a7"><param name="Name" value="_SMB2_SHC"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="group____SMB2__SHC.html#a8"><param name="Name" value="_SMB2_SHC"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="See Also" value="SMB2SHC_Ident"><param name="Name" value="SMB2SHC_Ident"></OBJECT>
   <UL>
@@ -66,9 +67,13 @@
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="See Also" value="SMB2SHC_PowerOff"><param name="Name" value="SMB2SHC_PowerOff"></OBJECT>
   <UL>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="group____SMB2__SHC.html#a10"><param name="Name" value="_SMB2_SHC"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="group____SMB2__SHC.html#a11"><param name="Name" value="_SMB2_SHC"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="See Also" value="SMB2SHC_SetTemperature"><param name="Name" value="SMB2SHC_SetTemperature"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="group____SMB2__SHC.html#a5"><param name="Name" value="_SMB2_SHC"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="See Also" value="SMB2SHC_ShutDown"><param name="Name" value="SMB2SHC_ShutDown"></OBJECT>
   <UL>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="group____SMB2__SHC.html#a9"><param name="Name" value="_SMB2_SHC"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="group____SMB2__SHC.html#a10"><param name="Name" value="_SMB2_SHC"></OBJECT>
 </UL>

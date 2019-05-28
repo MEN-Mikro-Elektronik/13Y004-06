@@ -45,7 +45,7 @@ structSMB__DESC__SCH.html
 structSMB__ENTRIES.html
 structSMB__HANDLE.html
 _smb2_swmodules.html
-dummy.html
+smb2apidummy.html
 group____SMB2__API.html
 group____SMB2__ERR.html
 group____SMB2__FLAG.html

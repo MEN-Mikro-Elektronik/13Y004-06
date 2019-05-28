@@ -11,8 +11,8 @@
 
 <div class="left_to_right" style="padding-top: 6px; background-color: #F0F0F0; height: 110px; border-bottom: 2px solid #D1D1D2;">
 	<!-- Titel -->
-	<img src="menlogo.gif" alt="MEN" style="float: left; height: 103px; width: 155px; margin: 0px;"></a>
-	<h1 style="margin: 0px; padding-top: 35px; padding-bottom: 0px;">SMB2_API &nbsp; for SMB2 fileset 1.38</h1>
+	<img src="menlogo.gif" alt="MEN" style="float: left; height: 103px; width: 155px; margin: 0px;">
+	<h1 style="margin: 0px; padding-top: 35px; padding-bottom: 0px;">SMB2_API &nbsp; </h1>
 	<h3>Example Documentation</h3>
 </div>
 
@@ -27,24 +27,24 @@
 <span class="comment"> ************                   SMB2_F601                         ************</span>
 <span class="comment"> ************                                                    ************</span>
 <span class="comment"> ****************************************************************************/</span>
- <span class="comment">/*-------------------------------[ History ]--------------------------------</span>
-<span class="comment"> *</span>
-<span class="comment"> * $Log: smb2_f601.c,v $</span>
-<span class="comment"> * Revision 1.4  2007/01/24 11:38:14  DPfeuffer</span>
-<span class="comment"> * prevents now to drive inputs</span>
-<span class="comment"> *</span>
-<span class="comment"> * Revision 1.3  2006/08/04 17:07:00  ts</span>
-<span class="comment"> * #include &lt;stdlib.h&gt; to avoid implicit decl. warning of atoi()</span>
-<span class="comment"> *</span>
-<span class="comment"> * Revision 1.2  2006/08/03 13:54:10  DPfeuffer</span>
-<span class="comment"> * cosmetics</span>
-<span class="comment"> *</span>
-<span class="comment"> * Revision 1.1  2006/05/31 08:22:24  DPfeuffer</span>
-<span class="comment"> * Initial Revision</span>
-<span class="comment"> *</span>
+ <span class="comment">/*</span>
 <span class="comment"> *---------------------------------------------------------------------------</span>
-<span class="comment"> * (c) Copyright 2006 by MEN mikro elektronik GmbH, Nuernberg, Germany</span>
+<span class="comment"> * Copyright (c) 2006-2019, MEN Mikro Elektronik GmbH</span>
 <span class="comment"> ****************************************************************************/</span>
+<span class="comment">/*</span>
+<span class="comment">* This program is free software: you can redistribute it and/or modify</span>
+<span class="comment">* it under the terms of the GNU General Public License as published by</span>
+<span class="comment">* the Free Software Foundation, either version 2 of the License, or</span>
+<span class="comment">* (at your option) any later version.</span>
+<span class="comment">*</span>
+<span class="comment">* This program is distributed in the hope that it will be useful,</span>
+<span class="comment">* but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="comment">* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="comment">* GNU General Public License for more details.</span>
+<span class="comment">*</span>
+<span class="comment">* You should have received a copy of the GNU General Public License</span>
+<span class="comment">* along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="comment">*/</span>
 
 <span class="preprocessor">#include &lt;stdio.h&gt;</span>
 <span class="preprocessor">#include &lt;string.h&gt;</span>
@@ -135,7 +135,7 @@
     <span class="comment">/*----------------------+</span>
 <span class="comment">    |  init SMB2 library    |</span>
 <span class="comment">    +----------------------*/</span>
-    err = <a name="a16"></a><a class="code" href="group____SMB2__API.html#a1">SMB2API_Init</a>( device, &amp;smbHdl );
+    err = <a name="a17"></a><a class="code" href="group____SMB2__API.html#a1">SMB2API_Init</a>( device, &amp;smbHdl );
     <span class="keywordflow">if</span>( err ){
         PrintError(<span class="stringliteral">"SMB2API_Init"</span>, err);
         <span class="keywordflow">return</span>(1);
@@ -145,7 +145,7 @@
         <span class="comment">/*----------------------+</span>
 <span class="comment">        |  set outputs          |</span>
 <span class="comment">        +----------------------*/</span>
-        err = <a name="a17"></a><a class="code" href="group____SMB2__API.html#a4">SMB2API_WriteByte</a>( smbHdl, 0, F601IO_ADDR,
+        err = <a name="a18"></a><a class="code" href="group____SMB2__API.html#a4">SMB2API_WriteByte</a>( smbHdl, 0, F601IO_ADDR,
                 (u_int8)(out | F601IO_IN_MASK) );
         <span class="keywordflow">if</span>( err ){
             PrintError(<span class="stringliteral">"SMB2API_WriteByte"</span>, err);
@@ -206,7 +206,7 @@ ERR_EXIT:
     <span class="comment">/*----------------------+</span>
 <span class="comment">    |  exit SMB2 library    |</span>
 <span class="comment">    +----------------------*/</span>
-    err = <a name="a18"></a><a class="code" href="group____SMB2__API.html#a2">SMB2API_Exit</a>( &amp;smbHdl );
+    err = <a name="a19"></a><a class="code" href="group____SMB2__API.html#a2">SMB2API_Exit</a>( &amp;smbHdl );
     <span class="keywordflow">if</span>( err ){
         PrintError(<span class="stringliteral">"SMB2API_Exit"</span>, err);
         ret = 1;
@@ -232,7 +232,7 @@ ERR_EXIT:
     int32   err, n;
     u_int8  inVal;
 
-    err = <a name="a19"></a><a class="code" href="group____SMB2__API.html#a5">SMB2API_ReadByte</a>( smbHdl, 0, F601IO_ADDR, &amp;inVal );
+    err = <a name="a20"></a><a class="code" href="group____SMB2__API.html#a5">SMB2API_ReadByte</a>( smbHdl, 0, F601IO_ADDR, &amp;inVal );
     <span class="keywordflow">if</span>( err ){
         PrintError(<span class="stringliteral">"SMB2API_ReadByte"</span>, err);
         <span class="keywordflow">return</span>(1);
@@ -258,7 +258,7 @@ ERR_EXIT:
     <span class="keywordflow">if</span>( !errCode )
         errCode = UOS_ErrnoGet();
 
-    printf(<span class="stringliteral">"*** can't %s: %s\n"</span>, info, <a name="a20"></a><a class="code" href="group____SMB2__API.html#a16">SMB2API_Errstring</a>( errCode, errMsg ));
+    printf(<span class="stringliteral">"*** can't %s: %s\n"</span>, info, <a name="a21"></a><a class="code" href="group____SMB2__API.html#a16">SMB2API_Errstring</a>( errCode, errMsg ));
 }
 
 </pre></div>
@@ -269,11 +269,10 @@ ERR_EXIT:
 <!-- Footer -->
 	<p class="footer">
 	Generated for SMB2_API using <a href="http://www.doxygen.org">doxygen</a>.<br>
-	Copyright &copy; 2016 <a href="http://www.men.de">MEN Mikro Elektronik GmbH</a>. All Rights Reserved.
+	Copyright &copy; 2019 <a href="http://www.men.de">MEN Mikro Elektronik GmbH</a>. All Rights Reserved.
 	</p>
 </div>
 
 </body>
 </html>
 
- 

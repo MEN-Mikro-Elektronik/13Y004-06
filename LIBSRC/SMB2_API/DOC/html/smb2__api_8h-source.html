@@ -11,8 +11,8 @@
 
 <div class="left_to_right" style="padding-top: 6px; background-color: #F0F0F0; height: 110px; border-bottom: 2px solid #D1D1D2;">
 	<!-- Titel -->
-	<img src="menlogo.gif" alt="MEN" style="float: left; height: 103px; width: 155px; margin: 0px;"></a>
-	<h1 style="margin: 0px; padding-top: 35px; padding-bottom: 0px;">SMB2_API &nbsp; for SMB2 fileset 1.38</h1>
+	<img src="menlogo.gif" alt="MEN" style="float: left; height: 103px; width: 155px; margin: 0px;">
+	<h1 style="margin: 0px; padding-top: 35px; padding-bottom: 0px;">SMB2_API &nbsp; </h1>
 	<h3>smb2_api.h Source File</h3>
 </div>
 
@@ -23,111 +23,110 @@
 <center>
 <a class="qindex" href="index.html">Main Page</a> &nbsp; <a class="qindex" href="modules.html">Modules</a> &nbsp; <a class="qindex" href="annotated.html">Data Structures</a> &nbsp; <a class="qindex" href="files.html">File List</a> &nbsp; <a class="qindex" href="functions.html">Data Fields</a> &nbsp; <a class="qindex" href="globals.html">Globals</a> &nbsp; <a class="qindex" href="pages.html">Related Pages</a> &nbsp; <a class="qindex" href="examples.html">Examples</a> &nbsp; </center>
 <hr><h1>smb2_api.h</h1><a href="smb2__api_8h.html">Go to the documentation of this file.</a><div class="fragment"><pre>00001 <span class="comment">/***********************  I n c l u d e  -  F i l e  ************************/</span>
-00014 <span class="comment">/*-------------------------------[ History ]---------------------------------</span>
-00015 <span class="comment"> *</span>
-00016 <span class="comment"> * $Log: smb2__api_8h-source.html,v $
-00016 <span class="comment"> * Revision 1.39  2016/04/11 11:17:30  dpfeuffer
-00016 <span class="comment"> * (AUTOCI) Checkin due to new revision 1.38 of fileset ART/13Y004-06/13Y004-06
-00016 <span class="comment"> *</span>
-00017 <span class="comment"> * Revision 3.3  2007/07/24 13:32:23  DPfeuffer</span>
-00018 <span class="comment"> * - undo: SMB2API_Exit Prototype to match changed SMB2 lib API</span>
-00019 <span class="comment"> *</span>
-00020 <span class="comment"> * Revision 3.2  2006/10/05 17:44:12  cs</span>
-00021 <span class="comment"> * changed:</span>
-00022 <span class="comment"> *   - SMB2API_Exit Prototype to match changed SMB2 lib API</span>
-00023 <span class="comment"> *</span>
-00024 <span class="comment"> * Revision 3.1  2006/02/28 15:57:49  DPfeuffer</span>
-00025 <span class="comment"> * Initial Revision</span>
-00026 <span class="comment"> *</span>
-00027 <span class="comment"> *---------------------------------------------------------------------------</span>
-00028 <span class="comment"> * (c) Copyright 2006 by MEN Mikro Elektronik GmbH, Nuremberg, Germany</span>
-00029 <span class="comment"> ****************************************************************************/</span>
-00030 <span class="preprocessor">#ifndef _SMB2_API_H</span>
-00031 <span class="preprocessor"></span><span class="preprocessor">#  define _SMB2_API_H</span>
-00032 <span class="preprocessor"></span>
-00033 <span class="preprocessor">#  ifdef __cplusplus</span>
-00034 <span class="preprocessor"></span>      <span class="keyword">extern</span> <span class="stringliteral">"C"</span> {
-00035 <span class="preprocessor">#  endif</span>
-00036 <span class="preprocessor"></span>
-00037 <span class="preprocessor">#define SMB2_API</span>
-00038 <span class="preprocessor"></span><span class="preprocessor">#include &lt;<a class="code" href="smb2_8h.html">MEN/smb2.h</a>&gt;</span>
-00039 
-00040 
-00041 <span class="comment">/*-----------------------------------------+</span>
-00042 <span class="comment">|  PROTOTYPES                              |</span>
-00043 <span class="comment">+-----------------------------------------*/</span>
-00044 int32 __MAPILIB <a class="code" href="group____SMB2__API.html#a1">SMB2API_Init</a>( <span class="keywordtype">char</span> *device, <span class="keywordtype">void</span> **smbHdlP );
-00045 
-00046 <span class="keywordtype">char</span>* __MAPILIB <a class="code" href="group____SMB2__API.html#a0">SMB2API_Ident</a>( <span class="keywordtype">void</span> );
+00014 <span class="comment">/*</span>
+00015 <span class="comment"> *---------------------------------------------------------------------------</span>
+00016 <span class="comment"> * Copyright (c) 2006-2019, MEN Mikro Elektronik GmbH</span>
+00017 <span class="comment"> ****************************************************************************/</span>
+00018 <span class="comment">/*</span>
+00019 <span class="comment">* This program is free software: you can redistribute it and/or modify</span>
+00020 <span class="comment">* it under the terms of the GNU General Public License as published by</span>
+00021 <span class="comment">* the Free Software Foundation, either version 2 of the License, or</span>
+00022 <span class="comment">* (at your option) any later version.</span>
+00023 <span class="comment">*</span>
+00024 <span class="comment">* This program is distributed in the hope that it will be useful,</span>
+00025 <span class="comment">* but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+00026 <span class="comment">* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+00027 <span class="comment">* GNU General Public License for more details.</span>
+00028 <span class="comment">*</span>
+00029 <span class="comment">* You should have received a copy of the GNU General Public License</span>
+00030 <span class="comment">* along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+00031 <span class="comment">*/</span>
+00032 <span class="preprocessor">#ifndef _SMB2_API_H</span>
+00033 <span class="preprocessor"></span><span class="preprocessor">#  define _SMB2_API_H</span>
+00034 <span class="preprocessor"></span>
+00035 <span class="preprocessor">#  ifdef __cplusplus</span>
+00036 <span class="preprocessor"></span>      <span class="keyword">extern</span> <span class="stringliteral">"C"</span> {
+00037 <span class="preprocessor">#  endif</span>
+00038 <span class="preprocessor"></span>
+00039 <span class="preprocessor">#define SMB2_API</span>
+00040 <span class="preprocessor"></span><span class="preprocessor">#include &lt;<a class="code" href="smb2_8h.html">MEN/smb2.h</a>&gt;</span>
+00041 
+00042 
+00043 <span class="comment">/*-----------------------------------------+</span>
+00044 <span class="comment">|  PROTOTYPES                              |</span>
+00045 <span class="comment">+-----------------------------------------*/</span>
+00046 int32 __MAPILIB <a class="code" href="group____SMB2__API.html#a1">SMB2API_Init</a>( <span class="keywordtype">char</span> *device, <span class="keywordtype">void</span> **smbHdlP );
 00047 
-00048 int32 __MAPILIB <a class="code" href="group____SMB2__API.html#a2">SMB2API_Exit</a>( <span class="keywordtype">void</span> **smbHdlP );
+00048 <span class="keywordtype">char</span>* __MAPILIB <a class="code" href="group____SMB2__API.html#a0">SMB2API_Ident</a>( <span class="keywordtype">void</span> );
 00049 
-00050 int32 __MAPILIB <a class="code" href="group____SMB2__API.html#a3">SMB2API_QuickComm</a>(
-00051     <span class="keywordtype">void</span> *smbHdl, u_int32 flags, u_int16 addr, u_int8 readWrite );
-00052 
-00053 int32 __MAPILIB <a class="code" href="group____SMB2__API.html#a4">SMB2API_WriteByte</a>(
-00054     <span class="keywordtype">void</span> *smbHdl, u_int32 flags, u_int16 addr, u_int8 data );
-00055 int32 __MAPILIB <a class="code" href="group____SMB2__API.html#a5">SMB2API_ReadByte</a>(
-00056     <span class="keywordtype">void</span> *smbHdl, u_int32 flags, u_int16 addr, u_int8 *dataP );
-00057 
-00058 int32 __MAPILIB <a class="code" href="group____SMB2__API.html#a6">SMB2API_WriteByteData</a>(
-00059     <span class="keywordtype">void</span> *smbHdl, u_int32 flags, u_int16 addr, u_int8 cmdAddr, u_int8 data );
-00060 int32 __MAPILIB <a class="code" href="group____SMB2__API.html#a7">SMB2API_ReadByteData</a>(
-00061     <span class="keywordtype">void</span> *smbHdl, u_int32 flags, u_int16 addr, u_int8 cmdAddr, u_int8 *dataP );
-00062 
-00063 int32 __MAPILIB <a class="code" href="group____SMB2__API.html#a8">SMB2API_WriteWordData</a>(
-00064     <span class="keywordtype">void</span> *smbHdl, u_int32 flags, u_int16 addr, u_int8 cmdAddr, u_int16 data );
-00065 int32 __MAPILIB <a class="code" href="group____SMB2__API.html#a9">SMB2API_ReadWordData</a>(
-00066     <span class="keywordtype">void</span> *smbHdl, u_int32 flags, u_int16 addr, u_int8 cmdAddr, u_int16 *dataP );
-00067 
-00068 int32 __MAPILIB <a class="code" href="group____SMB2__API.html#a10">SMB2API_WriteBlockData</a>(
-00069     <span class="keywordtype">void</span> *smbHdl, u_int32 flags, u_int16 addr, u_int8 cmdAddr,
-00070     u_int8 length, u_int8 *dataP);
-00071 int32 __MAPILIB <a class="code" href="group____SMB2__API.html#a11">SMB2API_ReadBlockData</a>(
-00072     <span class="keywordtype">void</span> *smbHdl, u_int32 flags, u_int16 addr, u_int8 cmdAddr,
-00073     u_int8 *lengthP, u_int8 *dataP);
-00074 
-00075 int32 __MAPILIB <a class="code" href="group____SMB2__API.html#a12">SMB2API_ProcessCall</a>(
-00076     <span class="keywordtype">void</span> *smbHdl, u_int32 flags, u_int16 addr, u_int8 cmdAddr, u_int16 *dataP );
-00077 
-00078 int32 __MAPILIB <a class="code" href="group____SMB2__API.html#a13">SMB2API_BlockProcessCall</a>(
-00079     <span class="keywordtype">void</span> *smbHdl, u_int32 flags, u_int16 addr, u_int8 cmdAddr,
-00080     u_int8 writeLen, u_int8 *writeDataP, u_int8 *readLenP, u_int8 *readDataP );
-00081 
-00082 int32 __MAPILIB <a class="code" href="group____SMB2__API.html#a17">SMB2API_AlertResponse</a>(
-00083     <span class="keywordtype">void</span> *smbHdl, u_int32 flags, u_int16 addr, u_int16 *alertCntP);
-00084 
-00085 int32 __MAPILIB <a class="code" href="group____SMB2__API.html#a18">SMB2API_AlertCbInstall</a>(
-00086     <span class="keywordtype">void</span> *smbHdl, u_int16 addr, <span class="keywordtype">void</span> (*cbFuncP)( <span class="keywordtype">void</span> *cbArg ), <span class="keywordtype">void</span> *cbArgP );
-00087 
-00088 int32 __MAPILIB <a class="code" href="group____SMB2__API.html#a19">SMB2API_AlertCbInstallSig</a>(
-00089     <span class="keywordtype">void</span> *smbHdl, u_int16 addr, <span class="keywordtype">void</span> (*cbFuncP)( <span class="keywordtype">void</span> *cbArg ), <span class="keywordtype">void</span> *cbArgP, u_int32 sigCode );
-00090 
-00091 int32 __MAPILIB <a class="code" href="group____SMB2__API.html#a20">SMB2API_AlertCbRemove</a>(
-00092     <span class="keywordtype">void</span> *smbHdl, u_int16 addr, <span class="keywordtype">void</span> **cbArgP );
-00093 
-00094 <span class="comment">/* SMB2API_ReservedFctP1..P4 */</span>
+00050 int32 __MAPILIB <a class="code" href="group____SMB2__API.html#a2">SMB2API_Exit</a>( <span class="keywordtype">void</span> **smbHdlP );
+00051 
+00052 int32 __MAPILIB <a class="code" href="group____SMB2__API.html#a3">SMB2API_QuickComm</a>(
+00053     <span class="keywordtype">void</span> *smbHdl, u_int32 flags, u_int16 addr, u_int8 readWrite );
+00054 
+00055 int32 __MAPILIB <a class="code" href="group____SMB2__API.html#a4">SMB2API_WriteByte</a>(
+00056     <span class="keywordtype">void</span> *smbHdl, u_int32 flags, u_int16 addr, u_int8 data );
+00057 int32 __MAPILIB <a class="code" href="group____SMB2__API.html#a5">SMB2API_ReadByte</a>(
+00058     <span class="keywordtype">void</span> *smbHdl, u_int32 flags, u_int16 addr, u_int8 *dataP );
+00059 
+00060 int32 __MAPILIB <a class="code" href="group____SMB2__API.html#a6">SMB2API_WriteByteData</a>(
+00061     <span class="keywordtype">void</span> *smbHdl, u_int32 flags, u_int16 addr, u_int8 cmdAddr, u_int8 data );
+00062 int32 __MAPILIB <a class="code" href="group____SMB2__API.html#a7">SMB2API_ReadByteData</a>(
+00063     <span class="keywordtype">void</span> *smbHdl, u_int32 flags, u_int16 addr, u_int8 cmdAddr, u_int8 *dataP );
+00064 
+00065 int32 __MAPILIB <a class="code" href="group____SMB2__API.html#a8">SMB2API_WriteWordData</a>(
+00066     <span class="keywordtype">void</span> *smbHdl, u_int32 flags, u_int16 addr, u_int8 cmdAddr, u_int16 data );
+00067 int32 __MAPILIB <a class="code" href="group____SMB2__API.html#a9">SMB2API_ReadWordData</a>(
+00068     <span class="keywordtype">void</span> *smbHdl, u_int32 flags, u_int16 addr, u_int8 cmdAddr, u_int16 *dataP );
+00069 
+00070 int32 __MAPILIB <a class="code" href="group____SMB2__API.html#a10">SMB2API_WriteBlockData</a>(
+00071     <span class="keywordtype">void</span> *smbHdl, u_int32 flags, u_int16 addr, u_int8 cmdAddr,
+00072     u_int8 length, u_int8 *dataP);
+00073 int32 __MAPILIB <a class="code" href="group____SMB2__API.html#a11">SMB2API_ReadBlockData</a>(
+00074     <span class="keywordtype">void</span> *smbHdl, u_int32 flags, u_int16 addr, u_int8 cmdAddr,
+00075     u_int8 *lengthP, u_int8 *dataP);
+00076 
+00077 int32 __MAPILIB <a class="code" href="group____SMB2__API.html#a12">SMB2API_ProcessCall</a>(
+00078     <span class="keywordtype">void</span> *smbHdl, u_int32 flags, u_int16 addr, u_int8 cmdAddr, u_int16 *dataP );
+00079 
+00080 int32 __MAPILIB <a class="code" href="group____SMB2__API.html#a13">SMB2API_BlockProcessCall</a>(
+00081     <span class="keywordtype">void</span> *smbHdl, u_int32 flags, u_int16 addr, u_int8 cmdAddr,
+00082     u_int8 writeLen, u_int8 *writeDataP, u_int8 *readLenP, u_int8 *readDataP );
+00083 
+00084 int32 __MAPILIB <a class="code" href="group____SMB2__API.html#a17">SMB2API_AlertResponse</a>(
+00085     <span class="keywordtype">void</span> *smbHdl, u_int32 flags, u_int16 addr, u_int16 *alertCntP);
+00086 
+00087 int32 __MAPILIB <a class="code" href="group____SMB2__API.html#a18">SMB2API_AlertCbInstall</a>(
+00088     <span class="keywordtype">void</span> *smbHdl, u_int16 addr, <span class="keywordtype">void</span> (*cbFuncP)( <span class="keywordtype">void</span> *cbArg ), <span class="keywordtype">void</span> *cbArgP );
+00089 
+00090 int32 __MAPILIB <a class="code" href="group____SMB2__API.html#a19">SMB2API_AlertCbInstallSig</a>(
+00091     <span class="keywordtype">void</span> *smbHdl, u_int16 addr, <span class="keywordtype">void</span> (*cbFuncP)( <span class="keywordtype">void</span> *cbArg ), <span class="keywordtype">void</span> *cbArgP, u_int32 sigCode );
+00092 
+00093 int32 __MAPILIB <a class="code" href="group____SMB2__API.html#a20">SMB2API_AlertCbRemove</a>(
+00094     <span class="keywordtype">void</span> *smbHdl, u_int16 addr, <span class="keywordtype">void</span> **cbArgP );
 00095 
-00096 int32 __MAPILIB <a class="code" href="group____SMB2__API.html#a14">SMB2API_SmbXfer</a>(
-00097     <span class="keywordtype">void</span> *smbHdl, u_int32 flags, u_int16 addr, u_int8 readWrite,
-00098     u_int8 cmdAddr, u_int8 size, u_int8 *dataP );
-00099 
-00100 int32 __MAPILIB <a class="code" href="group____SMB2__API.html#a15">SMB2API_I2CXfer</a>(
-00101     <span class="keywordtype">void</span> *smbHdl, <a class="code" href="structI2CMESSAGE.html">SMB_I2CMESSAGE</a> msg[], u_int32 num );
-00102 
-00103 <span class="keywordtype">char</span>* __MAPILIB <a class="code" href="group____SMB2__API.html#a16">SMB2API_Errstring</a>(
-00104     int32 errCode, <span class="keywordtype">char</span> *strBuf );
-00105 
-00106 
-00107 <span class="preprocessor">#  ifdef __cplusplus</span>
-00108 <span class="preprocessor"></span>      }
-00109 <span class="preprocessor">#  endif</span>
-00110 <span class="preprocessor"></span>
-00111 <span class="preprocessor">#endif</span><span class="comment">/*_SMB2_API_H*/</span>
-00112 
-00113 
+00096 <span class="comment">/* SMB2API_ReservedFctP1..P4 */</span>
+00097 
+00098 int32 __MAPILIB <a class="code" href="group____SMB2__API.html#a14">SMB2API_SmbXfer</a>(
+00099     <span class="keywordtype">void</span> *smbHdl, u_int32 flags, u_int16 addr, u_int8 readWrite,
+00100     u_int8 cmdAddr, u_int8 size, u_int8 *dataP );
+00101 
+00102 int32 __MAPILIB <a class="code" href="group____SMB2__API.html#a15">SMB2API_I2CXfer</a>(
+00103     <span class="keywordtype">void</span> *smbHdl, <a class="code" href="structI2CMESSAGE.html">SMB_I2CMESSAGE</a> msg[], u_int32 num );
+00104 
+00105 <span class="keywordtype">char</span>* __MAPILIB <a class="code" href="group____SMB2__API.html#a16">SMB2API_Errstring</a>(
+00106     int32 errCode, <span class="keywordtype">char</span> *strBuf );
+00107 
+00108 
+00109 <span class="preprocessor">#  ifdef __cplusplus</span>
+00110 <span class="preprocessor"></span>      }
+00111 <span class="preprocessor">#  endif</span>
+00112 <span class="preprocessor"></span>
+00113 <span class="preprocessor">#endif</span><span class="comment">/*_SMB2_API_H*/</span>
 00114 
 00115 
+00116 
+00117 
 </pre></div>
 	</div>
 </div>
@@ -136,11 +135,10 @@
 <!-- Footer -->
 	<p class="footer">
 	Generated for SMB2_API using <a href="http://www.doxygen.org">doxygen</a>.<br>
-	Copyright &copy; 2016 <a href="http://www.men.de">MEN Mikro Elektronik GmbH</a>. All Rights Reserved.
+	Copyright &copy; 2019 <a href="http://www.men.de">MEN Mikro Elektronik GmbH</a>. All Rights Reserved.
 	</p>
 </div>
 
 </body>
 </html>
 
- 

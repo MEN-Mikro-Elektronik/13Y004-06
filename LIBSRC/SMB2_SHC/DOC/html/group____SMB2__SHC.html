@@ -11,7 +11,7 @@
 
 <div class="left_to_right" style="padding-top: 6px; background-color: #F0F0F0; height: 110px; border-bottom: 2px solid #D1D1D2;">
 	<!-- Titel -->
-	<img src="menlogo.gif" alt="MEN" style="float: left; height: 103px; width: 155px; margin: 0px;"></a>
+	<img src="menlogo.gif" alt="MEN" style="float: left; height: 103px; width: 155px; margin: 0px;">
 	<h1 style="margin: 0px; padding-top: 35px; padding-bottom: 0px;">SMB2SHC &nbsp; (Shelf Controller API)</h1>
 	<h3>SMB2_SHC</h3>
 </div>
@@ -34,24 +34,26 @@
 <tr><td>&nbsp;</td><td><em class="mdesc">Initialization of the shelf controller library.</em> <a href="#a2"></a><em></em><br><br></td></tr>
 <tr><td nowrap align=right valign=top>int32 __MAPILIB&nbsp;</td><td valign=bottom><a class="el" href="group____SMB2__SHC.html#a3">SMB2SHC_Exit</a> ()</td></tr>
 <tr><td>&nbsp;</td><td><em class="mdesc">Deinitialization of the shelf controller library.</em> <a href="#a3"></a><em></em><br><br></td></tr>
-<tr><td nowrap align=right valign=top>int32 __MAPILIB&nbsp;</td><td valign=bottom><a class="el" href="group____SMB2__SHC.html#a4">SMB2SHC_GetTemperature</a> (u_int16 *value)</td></tr>
+<tr><td nowrap align=right valign=top>int32 __MAPILIB&nbsp;</td><td valign=bottom><a class="el" href="group____SMB2__SHC.html#a4">SMB2SHC_GetTemperature</a> (u_int16 *tempK)</td></tr>
 <tr><td>&nbsp;</td><td><em class="mdesc">Read the inner temperature of the shelf controller.</em> <a href="#a4"></a><em></em><br><br></td></tr>
-<tr><td nowrap align=right valign=top>int32 __MAPILIB&nbsp;</td><td valign=bottom><a class="el" href="group____SMB2__SHC.html#a5">SMB2SHC_GetPSU_State</a> (enum <a class="el" href="smb2__shc_8h.html#a34">SHC_PSU_NR</a> psu_nr, struct <a class="el" href="structshc__psu.html">shc_psu</a> *<a class="el" href="structshc__psu.html">shc_psu</a>)</td></tr>
-<tr><td>&nbsp;</td><td><em class="mdesc">Get the Power Supply Report of the selected PSU.</em> <a href="#a5"></a><em></em><br><br></td></tr>
-<tr><td nowrap align=right valign=top>int32 __MAPILIB&nbsp;</td><td valign=bottom><a class="el" href="group____SMB2__SHC.html#a6">SMB2SHC_GetFAN_State</a> (enum <a class="el" href="smb2__shc_8h.html#a35">SHC_FAN_NR</a> fan_nr, struct <a class="el" href="structshc__fan.html">shc_fan</a> *<a class="el" href="structshc__fan.html">shc_fan</a>)</td></tr>
-<tr><td>&nbsp;</td><td><em class="mdesc">Get the FAN status of the selected FAN.</em> <a href="#a6"></a><em></em><br><br></td></tr>
-<tr><td nowrap align=right valign=top>int32 __MAPILIB&nbsp;</td><td valign=bottom><a class="el" href="group____SMB2__SHC.html#a7">SMB2SHC_GetVoltLevel</a> (enum <a class="el" href="smb2__shc_8h.html#a37">SHC_PWR_MON_ID</a> pwr_mon_nr, u_int16 *volt_value)</td></tr>
-<tr><td>&nbsp;</td><td><em class="mdesc">Get the voltage levels on power monitor inputs.</em> <a href="#a7"></a><em></em><br><br></td></tr>
-<tr><td nowrap align=right valign=top>int32 __MAPILIB&nbsp;</td><td valign=bottom><a class="el" href="group____SMB2__SHC.html#a8">SMB2SHC_GetUPS_State</a> (enum <a class="el" href="smb2__shc_8h.html#a38">SHC_UPS_NR</a> ups_nr, struct <a class="el" href="structshc__ups.html">shc_ups</a> *shc_ups_state)</td></tr>
-<tr><td>&nbsp;</td><td><em class="mdesc">Get the uninterruptible Power Supply Report of the selected UPS.</em> <a href="#a8"></a><em></em><br><br></td></tr>
-<tr><td nowrap align=right valign=top>int32 __MAPILIB&nbsp;</td><td valign=bottom><a class="el" href="group____SMB2__SHC.html#a9">SMB2SHC_ShutDown</a> ()</td></tr>
-<tr><td>&nbsp;</td><td><em class="mdesc">CPU indicates shutdown.</em> <a href="#a9"></a><em></em><br><br></td></tr>
-<tr><td nowrap align=right valign=top>int32 __MAPILIB&nbsp;</td><td valign=bottom><a class="el" href="group____SMB2__SHC.html#a10">SMB2SHC_PowerOff</a> ()</td></tr>
-<tr><td>&nbsp;</td><td><em class="mdesc">CPU indicates that it wants to shut off the power supply.</em> <a href="#a10"></a><em></em><br><br></td></tr>
-<tr><td nowrap align=right valign=top>int32 __MAPILIB&nbsp;</td><td valign=bottom><a class="el" href="group____SMB2__SHC.html#a11">SMB2SHC_GetConf_Data</a> (struct <a class="el" href="structshc__configdata.html">shc_configdata</a> *configdata)</td></tr>
-<tr><td>&nbsp;</td><td><em class="mdesc">Get the Configuration Data.</em> <a href="#a11"></a><em></em><br><br></td></tr>
-<tr><td nowrap align=right valign=top>int32 __MAPILIB&nbsp;</td><td valign=bottom><a class="el" href="group____SMB2__SHC.html#a12">SMB2SHC_GetFirm_Ver</a> (struct <a class="el" href="structshc__fwversion.html">shc_fwversion</a> *fw_version)</td></tr>
-<tr><td>&nbsp;</td><td><em class="mdesc">Get the firmware version.</em> <a href="#a12"></a><em></em><br><br></td></tr>
+<tr><td nowrap align=right valign=top>int32 __MAPILIB&nbsp;</td><td valign=bottom><a class="el" href="group____SMB2__SHC.html#a5">SMB2SHC_SetTemperature</a> (u_int16 tempK)</td></tr>
+<tr><td>&nbsp;</td><td><em class="mdesc">Write the ambient temperature to the shelf controller (for one minute).</em> <a href="#a5"></a><em></em><br><br></td></tr>
+<tr><td nowrap align=right valign=top>int32 __MAPILIB&nbsp;</td><td valign=bottom><a class="el" href="group____SMB2__SHC.html#a6">SMB2SHC_GetPSU_State</a> (enum <a class="el" href="smb2__shc_8h.html#a35">SHC_PSU_NR</a> psu_nr, struct <a class="el" href="structshc__psu.html">shc_psu</a> *<a class="el" href="structshc__psu.html">shc_psu</a>)</td></tr>
+<tr><td>&nbsp;</td><td><em class="mdesc">Get the Power Supply Report of the selected PSU.</em> <a href="#a6"></a><em></em><br><br></td></tr>
+<tr><td nowrap align=right valign=top>int32 __MAPILIB&nbsp;</td><td valign=bottom><a class="el" href="group____SMB2__SHC.html#a7">SMB2SHC_GetFAN_State</a> (enum <a class="el" href="smb2__shc_8h.html#a36">SHC_FAN_NR</a> fan_nr, struct <a class="el" href="structshc__fan.html">shc_fan</a> *<a class="el" href="structshc__fan.html">shc_fan</a>)</td></tr>
+<tr><td>&nbsp;</td><td><em class="mdesc">Get the FAN status of the selected FAN.</em> <a href="#a7"></a><em></em><br><br></td></tr>
+<tr><td nowrap align=right valign=top>int32 __MAPILIB&nbsp;</td><td valign=bottom><a class="el" href="group____SMB2__SHC.html#a8">SMB2SHC_GetVoltLevel</a> (enum <a class="el" href="smb2__shc_8h.html#a38">SHC_PWR_MON_ID</a> pwr_mon_nr, u_int16 *volt_value)</td></tr>
+<tr><td>&nbsp;</td><td><em class="mdesc">Get the voltage levels on power monitor inputs.</em> <a href="#a8"></a><em></em><br><br></td></tr>
+<tr><td nowrap align=right valign=top>int32 __MAPILIB&nbsp;</td><td valign=bottom><a class="el" href="group____SMB2__SHC.html#a9">SMB2SHC_GetUPS_State</a> (enum <a class="el" href="smb2__shc_8h.html#a39">SHC_UPS_NR</a> ups_nr, struct <a class="el" href="structshc__ups.html">shc_ups</a> *shc_ups_state)</td></tr>
+<tr><td>&nbsp;</td><td><em class="mdesc">Get the uninterruptible Power Supply Report of the selected UPS.</em> <a href="#a9"></a><em></em><br><br></td></tr>
+<tr><td nowrap align=right valign=top>int32 __MAPILIB&nbsp;</td><td valign=bottom><a class="el" href="group____SMB2__SHC.html#a10">SMB2SHC_ShutDown</a> ()</td></tr>
+<tr><td>&nbsp;</td><td><em class="mdesc">CPU indicates shutdown.</em> <a href="#a10"></a><em></em><br><br></td></tr>
+<tr><td nowrap align=right valign=top>int32 __MAPILIB&nbsp;</td><td valign=bottom><a class="el" href="group____SMB2__SHC.html#a11">SMB2SHC_PowerOff</a> ()</td></tr>
+<tr><td>&nbsp;</td><td><em class="mdesc">CPU indicates that it wants to shut off the power supply.</em> <a href="#a11"></a><em></em><br><br></td></tr>
+<tr><td nowrap align=right valign=top>int32 __MAPILIB&nbsp;</td><td valign=bottom><a class="el" href="group____SMB2__SHC.html#a12">SMB2SHC_GetConf_Data</a> (struct <a class="el" href="structshc__configdata.html">shc_configdata</a> *configdata)</td></tr>
+<tr><td>&nbsp;</td><td><em class="mdesc">Get the Configuration Data.</em> <a href="#a12"></a><em></em><br><br></td></tr>
+<tr><td nowrap align=right valign=top>int32 __MAPILIB&nbsp;</td><td valign=bottom><a class="el" href="group____SMB2__SHC.html#a13">SMB2SHC_GetFirm_Ver</a> (struct <a class="el" href="structshc__fwversion.html">shc_fwversion</a> *fw_version)</td></tr>
+<tr><td>&nbsp;</td><td><em class="mdesc">Get the firmware version.</em> <a href="#a13"></a><em></em><br><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 The SMB2_SHC API provides access functions to communicate with the Shelf Controller from user mode applications.
@@ -103,7 +105,7 @@ Convert SMB2SHC, SMB2 and MDIS error codes to strings.
 </dl>
 <dl compact><dt><b>Returns:</b></dt><dd><em>strBuf</em> </dd></dl>
 <dl compact><dt><b>Examples: </b></dt><dd>
-<a class="el" href="smb2__shc__ctrl_8c-example.html#a46">smb2_shc_ctrl.c</a>.</dl>    </td>
+<a class="el" href="smb2__shc__ctrl_8c-example.html#a47">smb2_shc_ctrl.c</a>.</dl>    </td>
   </tr>
 </table>
 <a name="a3" doxytag="smb2_shc.c::SMB2SHC_Exit"></a><p>
@@ -137,10 +139,10 @@ Deinitialization of the shelf controller library.
 <dl compact><dt><b>Returns:</b></dt><dd>0 on success or error code</dd></dl>
 <dl compact><dt><b>See also:</b></dt><dd><a class="el" href="group____SMB2__SHC.html#a3">SMB2SHC_Exit</a> </dd></dl>
 <dl compact><dt><b>Examples: </b></dt><dd>
-<a class="el" href="smb2__shc__ctrl_8c-example.html#a3">smb2_shc_ctrl.c</a>.</dl>    </td>
+<a class="el" href="smb2__shc__ctrl_8c-example.html#a2">smb2_shc_ctrl.c</a>.</dl>    </td>
   </tr>
 </table>
-<a name="a11" doxytag="smb2_shc.c::SMB2SHC_GetConf_Data"></a><p>
+<a name="a12" doxytag="smb2_shc.c::SMB2SHC_GetConf_Data"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -174,12 +176,12 @@ Get the Configuration Data.
   </table>
 </dl>
 <dl compact><dt><b>Returns:</b></dt><dd>0 on success or error code</dd></dl>
-<dl compact><dt><b>See also:</b></dt><dd><a class="el" href="group____SMB2__SHC.html#a11">SMB2SHC_GetConf_Data</a> </dd></dl>
+<dl compact><dt><b>See also:</b></dt><dd><a class="el" href="group____SMB2__SHC.html#a12">SMB2SHC_GetConf_Data</a> </dd></dl>
 <dl compact><dt><b>Examples: </b></dt><dd>
-<a class="el" href="smb2__shc__ctrl_8c-example.html#a24">smb2_shc_ctrl.c</a>.</dl>    </td>
+<a class="el" href="smb2__shc__ctrl_8c-example.html#a25">smb2_shc_ctrl.c</a>.</dl>    </td>
   </tr>
 </table>
-<a name="a6" doxytag="smb2_shc.c::SMB2SHC_GetFAN_State"></a><p>
+<a name="a7" doxytag="smb2_shc.c::SMB2SHC_GetFAN_State"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -187,7 +189,7 @@ Get the Configuration Data.
         <tr>
           <td class="md" nowrap valign="top"> int32 __MAPILIB SMB2SHC_GetFAN_State </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top">enum <a class="el" href="smb2__shc_8h.html#a35">SHC_FAN_NR</a>&nbsp;</td>
+          <td class="md" nowrap valign="top">enum <a class="el" href="smb2__shc_8h.html#a36">SHC_FAN_NR</a>&nbsp;</td>
           <td class="mdname" nowrap> <em>fan_nr</em>, </td>
         </tr>
         <tr>
@@ -223,12 +225,12 @@ Get the FAN status of the selected FAN.
   </table>
 </dl>
 <dl compact><dt><b>Returns:</b></dt><dd>0 on success or error code</dd></dl>
-<dl compact><dt><b>See also:</b></dt><dd><a class="el" href="group____SMB2__SHC.html#a6">SMB2SHC_GetFAN_State</a> </dd></dl>
+<dl compact><dt><b>See also:</b></dt><dd><a class="el" href="group____SMB2__SHC.html#a7">SMB2SHC_GetFAN_State</a> </dd></dl>
 <dl compact><dt><b>Examples: </b></dt><dd>
-<a class="el" href="smb2__shc__ctrl_8c-example.html#a10">smb2_shc_ctrl.c</a>.</dl>    </td>
+<a class="el" href="smb2__shc__ctrl_8c-example.html#a9">smb2_shc_ctrl.c</a>.</dl>    </td>
   </tr>
 </table>
-<a name="a12" doxytag="smb2_shc.c::SMB2SHC_GetFirm_Ver"></a><p>
+<a name="a13" doxytag="smb2_shc.c::SMB2SHC_GetFirm_Ver"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -262,12 +264,12 @@ Get the firmware version.
   </table>
 </dl>
 <dl compact><dt><b>Returns:</b></dt><dd>0 on success or error code</dd></dl>
-<dl compact><dt><b>See also:</b></dt><dd><a class="el" href="group____SMB2__SHC.html#a12">SMB2SHC_GetFirm_Ver</a> </dd></dl>
+<dl compact><dt><b>See also:</b></dt><dd><a class="el" href="group____SMB2__SHC.html#a13">SMB2SHC_GetFirm_Ver</a> </dd></dl>
 <dl compact><dt><b>Examples: </b></dt><dd>
-<a class="el" href="smb2__shc__ctrl_8c-example.html#a39">smb2_shc_ctrl.c</a>.</dl>    </td>
+<a class="el" href="smb2__shc__ctrl_8c-example.html#a40">smb2_shc_ctrl.c</a>.</dl>    </td>
   </tr>
 </table>
-<a name="a5" doxytag="smb2_shc.c::SMB2SHC_GetPSU_State"></a><p>
+<a name="a6" doxytag="smb2_shc.c::SMB2SHC_GetPSU_State"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -275,7 +277,7 @@ Get the firmware version.
         <tr>
           <td class="md" nowrap valign="top"> int32 __MAPILIB SMB2SHC_GetPSU_State </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top">enum <a class="el" href="smb2__shc_8h.html#a34">SHC_PSU_NR</a>&nbsp;</td>
+          <td class="md" nowrap valign="top">enum <a class="el" href="smb2__shc_8h.html#a35">SHC_PSU_NR</a>&nbsp;</td>
           <td class="mdname" nowrap> <em>psu_nr</em>, </td>
         </tr>
         <tr>
@@ -311,9 +313,9 @@ Get the Power Supply Report of the selected PSU.
   </table>
 </dl>
 <dl compact><dt><b>Returns:</b></dt><dd>0 on success or error code</dd></dl>
-<dl compact><dt><b>See also:</b></dt><dd><a class="el" href="group____SMB2__SHC.html#a5">SMB2SHC_GetPSU_State</a> </dd></dl>
+<dl compact><dt><b>See also:</b></dt><dd><a class="el" href="group____SMB2__SHC.html#a6">SMB2SHC_GetPSU_State</a> </dd></dl>
 <dl compact><dt><b>Examples: </b></dt><dd>
-<a class="el" href="smb2__shc__ctrl_8c-example.html#a5">smb2_shc_ctrl.c</a>.</dl>    </td>
+<a class="el" href="smb2__shc__ctrl_8c-example.html#a4">smb2_shc_ctrl.c</a>.</dl>    </td>
   </tr>
 </table>
 <a name="a4" doxytag="smb2_shc.c::SMB2SHC_GetTemperature"></a><p>
@@ -325,7 +327,7 @@ Get the Power Supply Report of the selected PSU.
           <td class="md" nowrap valign="top"> int32 __MAPILIB SMB2SHC_GetTemperature </td>
           <td class="md" valign="top">(&nbsp;</td>
           <td class="md" nowrap valign="top">u_int16 *&nbsp;</td>
-          <td class="mdname1" valign="top" nowrap> <em>value</em>          </td>
+          <td class="mdname1" valign="top" nowrap> <em>tempK</em>          </td>
           <td class="md" valign="top">&nbsp;)&nbsp;</td>
           <td class="md" nowrap></td>
         </tr>
@@ -347,16 +349,16 @@ Read the inner temperature of the shelf controller.
 The temperature will be read in Kelvin<p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign=top><em>value</em>&nbsp;</td><td><b>OUT</b> Temperature read from the device </td></tr>
+    <tr><td valign=top><em>tempK</em>&nbsp;</td><td><b>OUT</b> Temperature (Kelvin) read from the device </td></tr>
   </table>
 </dl>
 <dl compact><dt><b>Returns:</b></dt><dd>0 on success or error code</dd></dl>
 <dl compact><dt><b>See also:</b></dt><dd><a class="el" href="group____SMB2__SHC.html#a4">SMB2SHC_GetTemperature</a> </dd></dl>
 <dl compact><dt><b>Examples: </b></dt><dd>
-<a class="el" href="smb2__shc__ctrl_8c-example.html#a2">smb2_shc_ctrl.c</a>.</dl>    </td>
+<a class="el" href="smb2__shc__ctrl_8c-example.html#a20">smb2_shc_ctrl.c</a>.</dl>    </td>
   </tr>
 </table>
-<a name="a8" doxytag="smb2_shc.c::SMB2SHC_GetUPS_State"></a><p>
+<a name="a9" doxytag="smb2_shc.c::SMB2SHC_GetUPS_State"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -364,7 +366,7 @@ The temperature will be read in Kelvin<p>
         <tr>
           <td class="md" nowrap valign="top"> int32 __MAPILIB SMB2SHC_GetUPS_State </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top">enum <a class="el" href="smb2__shc_8h.html#a38">SHC_UPS_NR</a>&nbsp;</td>
+          <td class="md" nowrap valign="top">enum <a class="el" href="smb2__shc_8h.html#a39">SHC_UPS_NR</a>&nbsp;</td>
           <td class="mdname" nowrap> <em>ups_nr</em>, </td>
         </tr>
         <tr>
@@ -400,12 +402,12 @@ Get the uninterruptible Power Supply Report of the selected UPS.
   </table>
 </dl>
 <dl compact><dt><b>Returns:</b></dt><dd>0 on success or error code</dd></dl>
-<dl compact><dt><b>See also:</b></dt><dd><a class="el" href="group____SMB2__SHC.html#a8">SMB2SHC_GetUPS_State</a> </dd></dl>
+<dl compact><dt><b>See also:</b></dt><dd><a class="el" href="group____SMB2__SHC.html#a9">SMB2SHC_GetUPS_State</a> </dd></dl>
 <dl compact><dt><b>Examples: </b></dt><dd>
-<a class="el" href="smb2__shc__ctrl_8c-example.html#a16">smb2_shc_ctrl.c</a>.</dl>    </td>
+<a class="el" href="smb2__shc__ctrl_8c-example.html#a15">smb2_shc_ctrl.c</a>.</dl>    </td>
   </tr>
 </table>
-<a name="a7" doxytag="smb2_shc.c::SMB2SHC_GetVoltLevel"></a><p>
+<a name="a8" doxytag="smb2_shc.c::SMB2SHC_GetVoltLevel"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -413,7 +415,7 @@ Get the uninterruptible Power Supply Report of the selected UPS.
         <tr>
           <td class="md" nowrap valign="top"> int32 __MAPILIB SMB2SHC_GetVoltLevel </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top">enum <a class="el" href="smb2__shc_8h.html#a37">SHC_PWR_MON_ID</a>&nbsp;</td>
+          <td class="md" nowrap valign="top">enum <a class="el" href="smb2__shc_8h.html#a38">SHC_PWR_MON_ID</a>&nbsp;</td>
           <td class="mdname" nowrap> <em>pwr_mon_nr</em>, </td>
         </tr>
         <tr>
@@ -449,9 +451,9 @@ Get the voltage levels on power monitor inputs.
   </table>
 </dl>
 <dl compact><dt><b>Returns:</b></dt><dd>0 on success or error code</dd></dl>
-<dl compact><dt><b>See also:</b></dt><dd><a class="el" href="group____SMB2__SHC.html#a7">SMB2SHC_GetVoltLevel</a> </dd></dl>
+<dl compact><dt><b>See also:</b></dt><dd><a class="el" href="group____SMB2__SHC.html#a8">SMB2SHC_GetVoltLevel</a> </dd></dl>
 <dl compact><dt><b>Examples: </b></dt><dd>
-<a class="el" href="smb2__shc__ctrl_8c-example.html#a14">smb2_shc_ctrl.c</a>.</dl>    </td>
+<a class="el" href="smb2__shc__ctrl_8c-example.html#a13">smb2_shc_ctrl.c</a>.</dl>    </td>
   </tr>
 </table>
 <a name="a0" doxytag="smb2_shc.c::SMB2SHC_Ident"></a><p>
@@ -527,7 +529,7 @@ Initialization of the shelf controller library.
 <a class="el" href="smb2__shc__ctrl_8c-example.html#a0">smb2_shc_ctrl.c</a>.</dl>    </td>
   </tr>
 </table>
-<a name="a10" doxytag="smb2_shc.c::SMB2SHC_PowerOff"></a><p>
+<a name="a11" doxytag="smb2_shc.c::SMB2SHC_PowerOff"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -555,12 +557,52 @@ Initialization of the shelf controller library.
 CPU indicates that it wants to shut off the power supply.
 <p>
 <dl compact><dt><b>Returns:</b></dt><dd>0 on success or error code</dd></dl>
-<dl compact><dt><b>See also:</b></dt><dd><a class="el" href="group____SMB2__SHC.html#a10">SMB2SHC_PowerOff</a> </dd></dl>
+<dl compact><dt><b>See also:</b></dt><dd><a class="el" href="group____SMB2__SHC.html#a11">SMB2SHC_PowerOff</a> </dd></dl>
 <dl compact><dt><b>Examples: </b></dt><dd>
-<a class="el" href="smb2__shc__ctrl_8c-example.html#a22">smb2_shc_ctrl.c</a>.</dl>    </td>
+<a class="el" href="smb2__shc__ctrl_8c-example.html#a23">smb2_shc_ctrl.c</a>.</dl>    </td>
   </tr>
 </table>
-<a name="a9" doxytag="smb2_shc.c::SMB2SHC_ShutDown"></a><p>
+<a name="a5" doxytag="smb2_shc.c::SMB2SHC_SetTemperature"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top"> int32 __MAPILIB SMB2SHC_SetTemperature </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">u_int16&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>tempK</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Write the ambient temperature to the shelf controller (for one minute).
+<p>
+The temperature will be set in Kelvin<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign=top><em>tempK</em>&nbsp;</td><td><b>IN</b> Temperature (Kelvin) set to the device </td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>Returns:</b></dt><dd>0 on success or error code</dd></dl>
+<dl compact><dt><b>See also:</b></dt><dd><a class="el" href="group____SMB2__SHC.html#a5">SMB2SHC_SetTemperature</a> </dd></dl>
+<dl compact><dt><b>Examples: </b></dt><dd>
+<a class="el" href="smb2__shc__ctrl_8c-example.html#a21">smb2_shc_ctrl.c</a>.</dl>    </td>
+  </tr>
+</table>
+<a name="a10" doxytag="smb2_shc.c::SMB2SHC_ShutDown"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -588,9 +630,9 @@ CPU indicates that it wants to shut off the power supply.
 CPU indicates shutdown.
 <p>
 <dl compact><dt><b>Returns:</b></dt><dd>0 on success or error code</dd></dl>
-<dl compact><dt><b>See also:</b></dt><dd><a class="el" href="group____SMB2__SHC.html#a9">SMB2SHC_ShutDown</a> </dd></dl>
+<dl compact><dt><b>See also:</b></dt><dd><a class="el" href="group____SMB2__SHC.html#a10">SMB2SHC_ShutDown</a> </dd></dl>
 <dl compact><dt><b>Examples: </b></dt><dd>
-<a class="el" href="smb2__shc__ctrl_8c-example.html#a21">smb2_shc_ctrl.c</a>.</dl>    </td>
+<a class="el" href="smb2__shc__ctrl_8c-example.html#a22">smb2_shc_ctrl.c</a>.</dl>    </td>
   </tr>
 </table>
 
@@ -601,11 +643,10 @@ CPU indicates shutdown.
 <!-- Footer -->
 	<p class="footer">
 	Generated for SMB2SHC using <a href="http://www.doxygen.org">doxygen</a>.<br>
-	Copyright &copy; 2015 <a href="http://www.men.de">MEN Mikro Elektronik GmbH</a>. All Rights Reserved.
+	Copyright &copy; 2019 <a href="http://www.men.de">MEN Mikro Elektronik GmbH</a>. All Rights Reserved.
 	</p>
 </div>
 
 </body>
 </html>
 
- 

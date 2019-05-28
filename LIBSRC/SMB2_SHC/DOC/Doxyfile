@@ -1,7 +1,7 @@
 @INCLUDE_PATH = $(MEN_DOXYGENTMPL)
 @INCLUDE = DoxyfileCommon
 
-#MDIS_COMMIT=
+#MDIS_COMMIT=95dae6e57615c11a0514381cd1b737b777b13eee
 
 PROJECT_NAME           = "SMB2SHC"
 PROJECT_NUMBER         = "(Shelf Controller API)"

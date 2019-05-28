@@ -11,8 +11,8 @@
 
 <div class="left_to_right" style="padding-top: 6px; background-color: #F0F0F0; height: 110px; border-bottom: 2px solid #D1D1D2;">
 	<!-- Titel -->
-	<img src="menlogo.gif" alt="MEN" style="float: left; height: 103px; width: 155px; margin: 0px;"></a>
-	<h1 style="margin: 0px; padding-top: 35px; padding-bottom: 0px;">SMB2_API &nbsp; for SMB2 fileset 1.38</h1>
+	<img src="menlogo.gif" alt="MEN" style="float: left; height: 103px; width: 155px; margin: 0px;">
+	<h1 style="margin: 0px; padding-top: 35px; padding-bottom: 0px;">SMB2_API &nbsp; </h1>
 	<h3>Example Documentation</h3>
 </div>
 
@@ -23,42 +23,36 @@
 <center>
 <a class="qindex" href="index.html">Main Page</a> &nbsp; <a class="qindex" href="modules.html">Modules</a> &nbsp; <a class="qindex" href="annotated.html">Data Structures</a> &nbsp; <a class="qindex" href="files.html">File List</a> &nbsp; <a class="qindex" href="functions.html">Data Fields</a> &nbsp; <a class="qindex" href="globals.html">Globals</a> &nbsp; <a class="qindex" href="pages.html">Related Pages</a> &nbsp; <a class="qindex" href="examples.html">Examples</a> &nbsp; </center>
 <hr><h1>smb2_ctrl.c</h1><div class="fragment"><pre><span class="comment">/*********************  P r o g r a m  -  M o d u l e ***********************/</span>
-<span class="comment">/*-------------------------------[ History ]---------------------------------</span>
-<span class="comment"> *</span>
-<span class="comment"> * $Log: smb2__ctrl_8c-example.html,v $
-<span class="comment"> * Revision 1.39  2016/04/11 11:17:36  dpfeuffer
-<span class="comment"> * (AUTOCI) Checkin due to new revision 1.38 of fileset ART/13Y004-06/13Y004-06
-<span class="comment"> *</span>
-<span class="comment"> * Revision 1.6  2014/10/15 13:00:46  awerner</span>
-<span class="comment"> * R: Compiler cause warning in scanf if u_int8 or u_int16 is used.</span>
-<span class="comment"> * M: Use always u_int32 in scanf and cast the variable in SMB2API functions.</span>
-<span class="comment"> *</span>
-<span class="comment"> * Revision 1.5  2014/07/03 17:45:52  MRoth</span>
-<span class="comment"> * R: scripting not possible, user input always necessary</span>
-<span class="comment"> * M: added command mode interface including dump functionality for SMBus devices</span>
-<span class="comment"> *</span>
-<span class="comment"> * Revision 1.4  2009/06/22 11:59:15  dpfeuffer</span>
-<span class="comment"> * R: MDVE warnings</span>
-<span class="comment"> * M: added prefix SMB2CTRL to external globals and functions</span>
-<span class="comment"> *</span>
-<span class="comment"> * Revision 1.3  2006/05/31 08:22:13  DPfeuffer</span>
-<span class="comment"> * added commands -id, -list</span>
-<span class="comment"> *</span>
-<span class="comment"> * Revision 1.2  2006/03/03 10:52:36  DPfeuffer</span>
-<span class="comment"> * - main declaration fixed</span>
-<span class="comment"> *</span>
-<span class="comment"> * Revision 1.1  2006/02/28 15:57:31  DPfeuffer</span>
-<span class="comment"> * Initial Revision</span>
-<span class="comment"> *</span>
+<span class="comment">/*</span>
 <span class="comment"> *---------------------------------------------------------------------------</span>
-<span class="comment"> * (c) Copyright by MEN Mikro Elektronik GmbH, Nuremberg, Germany </span>
+<span class="comment"> * Copyright (c) 2019, MEN Mikro Elektronik GmbH</span>
 <span class="comment"> ****************************************************************************/</span>
-<span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">char</span> RCSid[]=<span class="stringliteral">"$Id: smb2__ctrl_8c-example.html,v 1.39 2016/04/11 11:17:36 dpfeuffer Exp $"</span>;
+<span class="comment">/*</span>
+<span class="comment">* This program is free software: you can redistribute it and/or modify</span>
+<span class="comment">* it under the terms of the GNU General Public License as published by</span>
+<span class="comment">* the Free Software Foundation, either version 2 of the License, or</span>
+<span class="comment">* (at your option) any later version.</span>
+<span class="comment">*</span>
+<span class="comment">* This program is distributed in the hope that it will be useful,</span>
+<span class="comment">* but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="comment">* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="comment">* GNU General Public License for more details.</span>
+<span class="comment">*</span>
+<span class="comment">* You should have received a copy of the GNU General Public License</span>
+<span class="comment">* along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="comment">*/</span>
+<span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">char</span> RCSid[]=<span class="stringliteral">"$Id: smb2_ctrl.c,v 1.6 2014/10/15 13:00:46 awerner Exp $"</span>;
 
 <span class="preprocessor">#include "smb2_ctrl.h"</span>
 <span class="preprocessor">#include "cmd_tbl.h"</span>
-<span class="preprocessor">#include "ident.h"</span>
 
+<span class="comment">/*</span>
+<span class="comment"> * Macro for ignoring the return value of a function (e.g. scanf)</span>
+<span class="comment"> */</span>
+<span class="preprocessor">#ifndef IGNORE_RET_VAL</span>
+<span class="preprocessor"></span><span class="preprocessor">#define IGNORE_RET_VAL(fun) { if (fun); }</span>
+<span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<span class="preprocessor"></span>
 <span class="comment">/*--------------------------------------+</span>
 <span class="comment">|   GLOBALS                             |</span>
 <span class="comment">+--------------------------------------*/</span>
@@ -74,65 +68,77 @@ u_int8      SMB2CTRL_flag;
 <span class="comment">+--------------------------------------*/</span>
 <span class="keyword">static</span> int32 Dispatch(<span class="keywordtype">void</span>);
 
-<span class="comment">/**********************************************************************/</span>
-<span class="keyword">static</span> <span class="keywordtype">void</span> header(<span class="keywordtype">void</span>)
-{
-    printf(
-        <span class="stringliteral">"===========================================================\n"</span>
-        <span class="stringliteral">" smb2_ctrl : Tool to access SMBus devices via the SMB2_API \n"</span>
-        <span class="stringliteral">"                                                           \n"</span>
-        <span class="stringliteral">" !!! Please be careful when you write to SMBus devices. !!!\n"</span>
-        <span class="stringliteral">" !!! Otherwise you may destroy important data (e.g. on  !!!\n"</span>
-        <span class="stringliteral">" !!! EEPROMs) or you may cause damage to the HW.        !!!\n"</span>
-        <span class="stringliteral">"                                                           \n"</span>
-        <span class="stringliteral">"===========================================================\n"</span>);
-}
+<span class="preprocessor">#define CMD_LEN         10</span>
+<span class="preprocessor"></span><span class="preprocessor">#define INPUT_BUF_LEN   1024  </span><span class="comment">/* much larger than cmd buf */</span>
+
 
 <span class="comment">/**********************************************************************/</span>
 <span class="keyword">static</span> <span class="keywordtype">void</span> usage(<span class="keywordtype">void</span>)
 {
-        printf( <span class="stringliteral">"\nUsage: smb2_ctrl &lt;devName&gt; [&lt;-f&gt;] [&lt;command&gt;] [&lt;opts&gt;]\n"</span>);
-        printf( <span class="stringliteral">"       devName  : device name e.g. smb2_1             \n"</span>);
-        printf( <span class="stringliteral">"       &lt;-f&gt;     : ask for flags                       \n"</span>);
-        printf( <span class="stringliteral">"       --- command mode e.g. for scripting ---        \n"</span>);
-        printf( <span class="stringliteral">"       command  : choose one of the following commands:    \n"</span>
+    printf( <span class="stringliteral">"\n"</span>
+        <span class="stringliteral">"Usage   : smb2_ctrl &lt;devName&gt; [&lt;-f&gt;] [&lt;command&gt;] [&lt;opts&gt;]     \n"</span>
+        <span class="stringliteral">"Function: Access SMBus devices                                \n"</span>
+        <span class="stringliteral">"Options:\n"</span>
+        <span class="stringliteral">"    devName : SMB2 device name e.g. smb2_1                    \n"</span>
+        <span class="stringliteral">"+---------------------------------------------------------+\n"</span>
+        <span class="stringliteral">"| If you specify a command, the tool operates in Command  |\n"</span>
+        <span class="stringliteral">"| Mode (e.g. for scripting). Otherwise, the tool provides |\n"</span>
+        <span class="stringliteral">"| a Command Line Interface with extended functionality.   |\n"</span>
+        <span class="stringliteral">"+---------------------------------------------------------+\n"</span>
+        <span class="stringliteral">"Command Mode:\n"</span>
+        <span class="stringliteral">"    list : List SMB devices that accepts ReadByte commands.   \n"</span>
+        <span class="stringliteral">"           A few SMB devices accepts ReadByte commands only   \n"</span>
+        <span class="stringliteral">"           after other commands or not at all.                \n"</span>
                 <span class="stringliteral">"                  wb  : WriteByte       rb  : ReadByte     \n"</span>
                 <span class="stringliteral">"                  wbd : WriteByteData   rbd : ReadByteData \n"</span>
                 <span class="stringliteral">"                  wwd : WriteWordData   rwd : ReadWordData \n"</span>
-                <span class="stringliteral">"                  rbk : ReadBlockData   pc  : ProcessCall  \n"</span>
-                <span class="stringliteral">"                  q   : QuickComm                          \n"</span>
-                <span class="stringliteral">"                  list: list all available SMB devices     \n"</span>
-                <span class="stringliteral">"       [-a=hex]   address of SMB2 device\n"</span>
-                <span class="stringliteral">"       [-o=hex]   offset................................[0]\n"</span>
-                <span class="stringliteral">"       [-d=hex]   data to write                            \n"</span>
-                <span class="stringliteral">"       [-n=hex]   number of bytes for memory dump          \n"</span>
-                <span class="stringliteral">"       [-r]       read access for SMB2CTRL_QuickComm       \n"</span>
-                <span class="stringliteral">"\n"</span>
+        <span class="stringliteral">"    rbk  : ReadBlockData       wbk  : WriteBlockData          \n"</span>
+        <span class="stringliteral">"    pc   : ProcessCall         q    : QuickComm               \n"</span>
+        <span class="stringliteral">"Command Mode Options:\n"</span>
+        <span class="stringliteral">"    [-r]      : read access for QuickComm                     \n"</span>
+        <span class="stringliteral">"    [-F=hex]  : set SMB flags (default=0x00)                  \n"</span>
+        <span class="stringliteral">"    [-a=hex]  : address of SMB2 device                        \n"</span>
+        <span class="stringliteral">"    [-o=hex]  : offset (default=0)                            \n"</span>
+        <span class="stringliteral">"    [-d=hex]  : data to write (non-block access - wbd/wwd)    \n"</span>
+        <span class="stringliteral">"    [hex ..]  : data to write (block access - wbk)            \n"</span>
+        <span class="stringliteral">"    [-n=hex]  : number of bytes for memory dump               \n"</span>
+        <span class="stringliteral">"CLI Mode Options:\n"</span>
+        <span class="stringliteral">"    &lt;-f&gt;      : ask for flags                                 \n"</span>
                 <span class="stringliteral">"Calling examples:\n"</span>
-                <span class="stringliteral">"\n--- User mode (extended functions) ---\n"</span>
-                <span class="stringliteral">"  smb2_ctrl smb2_1 \n"</span>
-                <span class="stringliteral">"\n--- Command mode ---\n"</span>
-                <span class="stringliteral">"- write single byte: \n"</span>
+        <span class="stringliteral">"  _____Command Mode_____                                      \n"</span>
+        <span class="stringliteral">"  - write byte:\n"</span>
                 <span class="stringliteral">"    smb2_ctrl smb2_1 wbd -a=0xac -o=5 -d=0x12 \n"</span>
-                <span class="stringliteral">"- read 0x7f bytes: \n"</span>
-                <span class="stringliteral">"    smb2_ctrl smb2_1 rbd -a=0xae -n=0x7f \n"</span>
-                <span class="stringliteral">"\n(c)Copyright 2006 by MEN Mikro Elektronik GmbH\n%s\n"</span>, RCSid
-        );
+        <span class="stringliteral">"  - read 128 bytes:\n"</span>
+        <span class="stringliteral">"    smb2_ctrl smb2_1 rbd -a=0xae -n=0x80\n"</span>
+        <span class="stringliteral">"  - block write 3 bytes to offset 0x5:\n"</span>
+        <span class="stringliteral">"    smb2_ctrl smb2_1 wbk -a=0xae -o=0x05 0xaa 0xff 0xee\n"</span>
+        <span class="stringliteral">"  _____CLI Mode_____                                          \n"</span>
+        <span class="stringliteral">"  - execute CLI Mode:\n"</span>
+        <span class="stringliteral">"    smb2_ctrl smb2_1\n\n"</span>
+        <span class="stringliteral">"+------------------------------------------------------+\n"</span>
+        <span class="stringliteral">"!! Please be careful when you write to SMBus devices. !!\n"</span>
+        <span class="stringliteral">"!! Otherwise you may destroy important data (e.g. on  !!\n"</span>
+        <span class="stringliteral">"!! EEPROMs) or you may cause damage to the HW.        !!\n"</span>
+        <span class="stringliteral">"+------------------------------------------------------+\n"</span>
+        <span class="stringliteral">"(c)Copyright 2018 by MEN Mikro Elektronik GmbH\n%s\n"</span>, RCSid);
 }
 
 <span class="comment">/**********************************************************************/</span>
 <span class="keywordtype">int</span> main(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span>* argv[])
 {
     int32   ret=0, err=0;
-    u_int32 smbAddr=0x0;
+    int32   smbAddr=0x0;
     u_int32 flags=0x0;
     u_int32 wordData=0;
     u_int32 byteData=0;
     u_int32 offs=0;
-    int32   num=0, i=0;
+    u_int32 tmp=0;
+    int32   i=0;
+    int32   num=0;
     u_int8  readwrite;
-    u_int8  length = <a class="code" href="smb2_8h.html#a60">SMB_BLOCK_MAX_BYTES</a>;
-    u_int8  blkData[<a class="code" href="smb2_8h.html#a60">SMB_BLOCK_MAX_BYTES</a>];
+    u_int8  length=0;
+    u_int8  max_length = <a class="code" href="smb2_8h.html#a60">SMB_BLOCK_MAX_BYTES</a>;
+    u_int8  blkData[<a class="code" href="smb2_8h.html#a60">SMB_BLOCK_MAX_BYTES</a>]={0};
     <span class="keywordtype">char</span>    *errstr=NULL, ebuf[100];
     <span class="keywordtype">char</span>    *optP=NULL;
 
@@ -153,7 +159,6 @@ u_int8      SMB2CTRL_flag;
         <span class="keywordflow">return</span> 1;
     }
     <span class="keywordflow">if</span>( UTL_TSTOPT(<span class="stringliteral">"?"</span>) ) {
-        header();
         usage();
         <span class="keywordflow">return</span> 0;
     }
@@ -173,7 +178,6 @@ u_int8      SMB2CTRL_flag;
         }
     }
     <span class="keywordflow">if</span>( !G_dev ) {
-        header();
         usage();
         <span class="keywordflow">return</span> 0;
     }
@@ -195,8 +199,6 @@ u_int8      SMB2CTRL_flag;
         
         SMB2CTRL_flag  = ( UTL_TSTOPT(<span class="stringliteral">"f"</span>) ? 1 : 0 );    <span class="comment">/* ask for SMB flag */</span>
         
-        header();
-        
         SMB2CTRL_CmdHelp();
     
         <span class="comment">/* enter command dispatcher */</span>
@@ -207,6 +209,12 @@ u_int8      SMB2CTRL_flag;
 <span class="comment">    | Command mode              |</span>
 <span class="comment">    +--------------------------*/</span>
     <span class="keywordflow">else</span>{
+        <span class="keywordflow">if</span>( UTL_TSTOPT(<span class="stringliteral">"f"</span>) ) {
+            printf( <span class="stringliteral">"*** You are in Command Mode! Please use param. -F= if you need to use flags!\n"</span> );
+            usage();
+            <span class="keywordflow">goto</span> CLEANUP;
+        }
+        
         <span class="comment">/* SMB device address */</span>
         <span class="keywordflow">if</span>( (optP = UTL_TSTOPT(<span class="stringliteral">"a="</span>)) ) {
             sscanf( optP, <span class="stringliteral">"%x"</span>, &amp;smbAddr );
@@ -349,23 +357,47 @@ u_int8      SMB2CTRL_flag;
             }
             printf( <span class="stringliteral">"\n"</span> );
         }
-        <span class="comment">/* Read Block Data */</span>
-        <span class="keywordflow">else</span> <span class="keywordflow">if</span>( !(strncmp(G_cmd, <span class="stringliteral">"rbk"</span>, 3)) ) {
+        <span class="comment">/* Write Block Data */</span>
+        <span class="keywordflow">else</span> <span class="keywordflow">if</span>( !(strncmp(G_cmd, <span class="stringliteral">"wbk"</span>, 3)) ) {
             <span class="keywordflow">if</span>( (optP = UTL_TSTOPT(<span class="stringliteral">"o="</span>)) ) {
                 sscanf( optP, <span class="stringliteral">"%x"</span>, &amp;offs );
+            }           
+            <span class="keywordflow">for</span>( i=3; i&lt;argc; i++ ) {
+                <span class="keywordflow">if</span>( *argv[i] != <span class="charliteral">'-'</span> ) {
+                    sscanf( argv[i], <span class="stringliteral">"%x"</span>, &amp;tmp );
+                    blkData[length] = (u_int8)tmp;
+                    printf( <span class="stringliteral">"blkData[%d]=0x%02x\n"</span>, length, blkData[length] );
+                    length++;
+                    <span class="keywordflow">if</span>( length&gt;(SMB_BLOCK_MAX_BYTES) ) {
+                        <span class="keywordflow">break</span>;
+                    }
+                }
             }
-            err = <a name="a11"></a><a class="code" href="group____SMB2__API.html#a11">SMB2API_ReadBlockData</a>( SMB2CTRL_smbHdl, (u_int8)flags, (u_int8)smbAddr, (u_int8)offs, &amp;length, blkData );
+            err = <a name="a11"></a><a class="code" href="group____SMB2__API.html#a10">SMB2API_WriteBlockData</a>( SMB2CTRL_smbHdl, (u_int8)flags, (u_int8)smbAddr, (u_int8)offs, length, blkData );
+
             <span class="keywordflow">if</span>( err ){
                 SMB2CTRL_PrintStatus(err);
                 ret=1;
                 <span class="keywordflow">goto</span> CLEANUP;
             }
-            UTL_Memdump(<span class="stringliteral">"Read data"</span>, (<span class="keywordtype">char</span>*)blkData, length, 1);
+        }
+        <span class="comment">/* Read Block Data */</span>
+        <span class="keywordflow">else</span> <span class="keywordflow">if</span>( !(strncmp(G_cmd, <span class="stringliteral">"rbk"</span>, 3)) ) {
+            <span class="keywordflow">if</span>( (optP = UTL_TSTOPT(<span class="stringliteral">"o="</span>)) ) {
+                sscanf( optP, <span class="stringliteral">"%x"</span>, &amp;offs );
+            }
+            err = <a name="a12"></a><a class="code" href="group____SMB2__API.html#a11">SMB2API_ReadBlockData</a>( SMB2CTRL_smbHdl, (u_int8)flags, (u_int8)smbAddr, (u_int8)offs, &amp;max_length, blkData );
+            <span class="keywordflow">if</span>( err ){
+                SMB2CTRL_PrintStatus(err);
+                ret=1;
+                <span class="keywordflow">goto</span> CLEANUP;
+            }
+            UTL_Memdump(<span class="stringliteral">"Read data"</span>, (<span class="keywordtype">char</span>*)blkData, max_length, 1);
         }
         <span class="comment">/* QuickComm */</span>
         <span class="keywordflow">else</span> <span class="keywordflow">if</span>( !(strncmp(G_cmd, <span class="stringliteral">"q"</span>, 1)) ) {
             readwrite = ( UTL_TSTOPT(<span class="stringliteral">"r"</span>) ? <a class="code" href="smb2_8h.html#a9">SMB_READ</a> : <a class="code" href="smb2_8h.html#a10">SMB_WRITE</a> ); <span class="comment">/* read(1) or write(0) access */</span>
-            err = <a name="a12"></a><a class="code" href="group____SMB2__API.html#a3">SMB2API_QuickComm</a>( SMB2CTRL_smbHdl, (u_int8)flags, (u_int8)smbAddr, readwrite );
+            err = <a name="a13"></a><a class="code" href="group____SMB2__API.html#a3">SMB2API_QuickComm</a>( SMB2CTRL_smbHdl, (u_int8)flags, (u_int8)smbAddr, readwrite );
             SMB2CTRL_PrintStatus(err);
             <span class="keywordflow">if</span>( err ){
                 ret=1;
@@ -386,7 +418,7 @@ u_int8      SMB2CTRL_flag;
                 ret = 1;
                 <span class="keywordflow">goto</span> CLEANUP;
             }
-            err = <a name="a13"></a><a class="code" href="group____SMB2__API.html#a12">SMB2API_ProcessCall</a>( SMB2CTRL_smbHdl, (u_int8)flags, (u_int8)smbAddr, (u_int8)offs, (u_int16*)&amp;wordData );
+            err = <a name="a14"></a><a class="code" href="group____SMB2__API.html#a12">SMB2API_ProcessCall</a>( SMB2CTRL_smbHdl, (u_int8)flags, (u_int8)smbAddr, (u_int8)offs, (u_int16*)&amp;wordData );
             <span class="keywordflow">if</span>( err ){
                 SMB2CTRL_PrintStatus(err);
                 ret=1;
@@ -405,14 +437,14 @@ CLEANUP:
     <span class="comment">/*--------------------+</span>
 <span class="comment">    |  exit library       |</span>
 <span class="comment">    +--------------------*/</span>
-    <span class="keywordflow">if</span>( (err = <a name="a14"></a><a class="code" href="group____SMB2__API.html#a2">SMB2API_Exit</a>( &amp;SMB2CTRL_smbHdl )) ){
+    <span class="keywordflow">if</span>( (err = <a name="a15"></a><a class="code" href="group____SMB2__API.html#a2">SMB2API_Exit</a>( &amp;SMB2CTRL_smbHdl )) ){
         SMB2CTRL_PrintStatus(err);
         ret = 1;
     }
     
 EXIT:
     printf(<span class="stringliteral">"\nExiting program...\n"</span>);
-    printf(<span class="stringliteral">"Sum of all occured error(s): %d\n"</span>, SMB2CTRL_errCount);
+    printf(<span class="stringliteral">"Sum of all occured error(s): %u\n"</span>, SMB2CTRL_errCount);
 
     <span class="keywordflow">return</span> ret;
 }
@@ -438,7 +470,9 @@ EXIT:
            <span class="stringliteral">" -i2c   : SMB2CTRL_I2CXfer\n"</span>
            <span class="stringliteral">" -ers   : SMB2CTRL_Errstring          -id    : SMB2CTRL_Ident              \n"</span>
            <span class="stringliteral">"__________TOOLS___________\n"</span>
-           <span class="stringliteral">" -list  : SMB2CTRL_List all available SMB devices\n"</span>
+           <span class="stringliteral">" -list  : List SMB devices that accepts ReadByte commands.\n"</span>
+           <span class="stringliteral">"          A few SMB devices accepts ReadByte commands only\n"</span>
+           <span class="stringliteral">"          after other commands or not at all.             \n"</span>
            <span class="stringliteral">" -mt    : Simple memory test (e.g. for EEPROMS)\n"</span>
            <span class="stringliteral">"\n"</span>
            );
@@ -450,7 +484,8 @@ EXIT:
 <span class="keyword">static</span> int32 Dispatch( <span class="keywordtype">void</span> )
 {
     int32   ii;             
-    <span class="keywordtype">char</span>    cmd[10];
+    <span class="keywordtype">char</span>    cmd[CMD_LEN];
+    <span class="keywordtype">char</span>    cmdtmp[INPUT_BUF_LEN];
     u_int8  found;
 
     <span class="keywordflow">while</span>(1) {
@@ -459,7 +494,10 @@ EXIT:
         printf(<span class="stringliteral">"\ndev=%s ==&gt; cmd: -"</span>, G_dev);
 
         fflush( stdin );
-        scanf(<span class="stringliteral">"%s"</span>,cmd);
+        
+        IGNORE_RET_VAL(scanf(<span class="stringliteral">"%s"</span>,cmdtmp));
+        strncpy(cmd, cmdtmp, CMD_LEN);
+        cmd[CMD_LEN-1] = 0; <span class="comment">/* klocwork id5163 */</span>
 
         <span class="comment">/* exit program */</span>
         <span class="keywordflow">if</span> (strcmp(cmd, <span class="stringliteral">"e"</span>) == 0) {
@@ -496,7 +534,7 @@ EXIT:
         <span class="keywordflow">break</span>;
     <span class="keywordflow">default</span>:
         printf(<span class="stringliteral">" ************************** ERROR **************************\n"</span> );
-        printf(<span class="stringliteral">"\007 %s\n"</span>, <a name="a15"></a><a class="code" href="group____SMB2__API.html#a16">SMB2API_Errstring</a>( errCode, errMsg ) );
+        printf(<span class="stringliteral">"\007 %s\n"</span>, <a name="a16"></a><a class="code" href="group____SMB2__API.html#a16">SMB2API_Errstring</a>( errCode, errMsg ) );
         SMB2CTRL_errCount++;
     }
 }
@@ -510,11 +548,10 @@ EXIT:
 <!-- Footer -->
 	<p class="footer">
 	Generated for SMB2_API using <a href="http://www.doxygen.org">doxygen</a>.<br>
-	Copyright &copy; 2016 <a href="http://www.men.de">MEN Mikro Elektronik GmbH</a>. All Rights Reserved.
+	Copyright &copy; 2019 <a href="http://www.men.de">MEN Mikro Elektronik GmbH</a>. All Rights Reserved.
 	</p>
 </div>
 
 </body>
 </html>
 
- 

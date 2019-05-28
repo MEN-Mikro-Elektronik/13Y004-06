@@ -11,8 +11,8 @@
 
 <div class="left_to_right" style="padding-top: 6px; background-color: #F0F0F0; height: 110px; border-bottom: 2px solid #D1D1D2;">
 	<!-- Titel -->
-	<img src="menlogo.gif" alt="MEN" style="float: left; height: 103px; width: 155px; margin: 0px;"></a>
-	<h1 style="margin: 0px; padding-top: 35px; padding-bottom: 0px;">SMB2_API &nbsp; for SMB2 fileset 1.38</h1>
+	<img src="menlogo.gif" alt="MEN" style="float: left; height: 103px; width: 155px; margin: 0px;">
+	<h1 style="margin: 0px; padding-top: 35px; padding-bottom: 0px;">SMB2_API &nbsp; </h1>
 	<h3>Example Documentation</h3>
 </div>
 
@@ -27,6 +27,20 @@
 <span class="comment"> ************                  SMB2_BOARDIDENT                   ************</span>
 <span class="comment"> ************                                                    ************</span>
 <span class="comment"> ****************************************************************************/</span>
+<span class="comment">/*</span>
+<span class="comment">* This program is free software: you can redistribute it and/or modify</span>
+<span class="comment">* it under the terms of the GNU General Public License as published by</span>
+<span class="comment">* the Free Software Foundation, either version 2 of the License, or</span>
+<span class="comment">* (at your option) any later version.</span>
+<span class="comment">*</span>
+<span class="comment">* This program is distributed in the hope that it will be useful,</span>
+<span class="comment">* but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="comment">* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="comment">* GNU General Public License for more details.</span>
+<span class="comment">*</span>
+<span class="comment">* You should have received a copy of the GNU General Public License</span>
+<span class="comment">* along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="comment">*/</span>
 <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">char</span> RCSid[]=<span class="stringliteral">"$Id: smb2_boardident.c,v 1.6 2014/07/17 17:00:15 ts Exp $"</span>;
 
 <span class="comment">/*-------------------------------------+</span>
@@ -162,7 +176,7 @@ EEPROD2 G_eeprd2;
 
     <span class="comment">/* SMB device(EEPROM) address */</span>
     <span class="keywordflow">if</span>( addrP != NULL ) {
-        sscanf( addrP, <span class="stringliteral">"%x"</span>, &amp;smbAddr );
+        sscanf( addrP, <span class="stringliteral">"%x"</span>, (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>*)&amp;smbAddr );
     }
     <span class="keywordflow">else</span> {
         smbAddr = DEFAULT_ID_PROM_ADDR; <span class="comment">/* 0xae */</span>
@@ -183,7 +197,7 @@ EEPROD2 G_eeprd2;
 
     <span class="comment">/* some output at the beginning */</span>
     header();
-    printf(<span class="stringliteral">"Accessing %s: smbAddr 0x%2x\n"</span>, deviceP, smbAddr);
+    printf(<span class="stringliteral">"Accessing %s: smbAddr 0x%2x\n"</span>, deviceP, (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>)smbAddr);
 
     <span class="comment">/* read content of EEPROM */</span>
     ret = SmbIdPromRead( (u_int8)smbAddr );
@@ -286,10 +300,10 @@ EXIT:
     printf( <span class="stringliteral">"\n EEPROD-ID  = 0x%X\n"</span>, (G_eeprd2.pd_id &gt;&gt; 4) );
 
     <span class="keywordflow">if</span>( G_eeprd2.pd_serial == 0xFFFFFFFF ) {
-        printf( <span class="stringliteral">" Serial#    = 0x%X\n"</span>, (SWAPLONG(G_eeprd2.pd_serial)) );
+        printf( <span class="stringliteral">" Serial#    = 0x%X\n"</span>, (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>)(SWAPLONG(G_eeprd2.pd_serial)) );
     }
     <span class="keywordflow">else</span> {
-        printf( <span class="stringliteral">" Serial#    = %08u\n"</span>, (SWAPLONG(G_eeprd2.pd_serial)) );
+        printf( <span class="stringliteral">" Serial#    = %08u\n"</span>, (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>)(SWAPLONG(G_eeprd2.pd_serial)) );
     }
 
     <span class="keywordflow">if</span>( (G_eeprd2.pd_revision[0] == 0xFF) || (G_eeprd2.pd_revision[1] == 0xFF)
@@ -398,11 +412,10 @@ EXIT:
 <!-- Footer -->
 	<p class="footer">
 	Generated for SMB2_API using <a href="http://www.doxygen.org">doxygen</a>.<br>
-	Copyright &copy; 2016 <a href="http://www.men.de">MEN Mikro Elektronik GmbH</a>. All Rights Reserved.
+	Copyright &copy; 2019 <a href="http://www.men.de">MEN Mikro Elektronik GmbH</a>. All Rights Reserved.
 	</p>
 </div>
 
 </body>
 </html>
 
- 
