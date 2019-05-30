@@ -5,7 +5,7 @@
 	<date>2018-12-19</date>
 	<revision>1.41</revision>
 	<docroot>LIBSRC/SMB2_API/DOC/html/index.html</docroot>
-	<!-- Models	-->
+	<!-- Models -->
 	<modellist>
 		<model>
 			<hwname>SMB2</hwname>
@@ -20,7 +20,7 @@
 					<value>0</value>
 					<defaultvalue>0</defaultvalue>
 				</setting>
-		  	</settinglist>
+			</settinglist>
 		</model>
 		<model>
 			<hwname>SMB2</hwname>
@@ -54,7 +54,7 @@
 			<settinglist>
 				<setting>
 					<name>SMB_BUSNBR</name>
-		 			<description>SMBus bus number</description>
+					<description>SMBus bus number</description>
 					<type>U_INT32</type>
 					<value>0</value>
 					<defaultvalue>0</defaultvalue>
@@ -93,7 +93,7 @@
 			<settinglist>
 				<setting>
 					<name>SMB_BUSNBR</name>
-		 			<description>SMBus bus number</description>
+					<description>SMBus bus number</description>
 					<type>U_INT32</type>
 					<value>0</value>
 					<defaultvalue>0</defaultvalue>
@@ -117,7 +117,7 @@
 			<settinglist>
 				<setting>
 					<name>SMB_BUSNBR</name>
-		 			<description>SMBus bus number</description>
+					<description>SMBus bus number</description>
 					<type>U_INT32</type>
 					<value>0</value>
 					<defaultvalue>0</defaultvalue>
@@ -125,7 +125,7 @@
 			</settinglist>
 		</model>
 	</modellist>
-	<!-- Global	software modules -->
+	<!-- Global software modules -->
 	<swmodulelist>
 		<swmodule swap="false">
 			<name>smb2</name>
@@ -224,11 +224,11 @@
 			<type>Driver Specific Tool</type>
 			<makefilepath>SMB2/TOOLS/SMB2_TEST/COM/program.mak</makefilepath>
 		</swmodule>
-	<swmodule internal="true">
-      <name>smb2_bmc</name>
-      <description>Tool to control BMC features e.g. on F75P CPU boards</description>
-      <type>Driver Specific Tool</type>
-      <makefilepath>SMB2/TOOLS/SMB2_BMC/COM/program.mak</makefilepath>
-    </swmodule>
-  </swmodulelist>
+		<swmodule internal="true">
+			<name>smb2_bmc</name>
+			<description>Tool to control BMC features e.g. on F75P CPU boards</description>
+			<type>Driver Specific Tool</type>
+			<makefilepath>SMB2/TOOLS/SMB2_BMC/COM/program.mak</makefilepath>
+		</swmodule>
+	</swmodulelist>
 </package>
