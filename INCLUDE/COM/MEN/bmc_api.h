@@ -3,8 +3,6 @@
  *        \file  bmc_api.h
  *
  *      \author  Roman.Schneider@men.de
- *        $Date: 2015/07/12 11:48:18 $
- *    $Revision: 3.3 $
  *
  *     \project  SMB2 Library
  *       \brief  BMC API interface

@@ -6,8 +6,6 @@
 /*!
  *        \file  smb2_poe.c
  *      \author  michael.roth@men.de
- *        $Date: 2014/12/17 11:27:29 $
- *    $Revision: 1.5 $
  *
  *       \brief  Tool to set/get ports power states via the SMB2_API
  *               Only for the 14G301-02 PIC firmware
@@ -37,7 +35,6 @@
 * You should have received a copy of the GNU General Public License
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-static const char RCSid[]="$Id: smb2_poe.c,v 1.5 2014/12/17 11:27:29 MRoth Exp $";
 
 /*--------------------------------------+
 |  INCLUDES                             |
@@ -49,6 +46,8 @@ static const char RCSid[]="$Id: smb2_poe.c,v 1.5 2014/12/17 11:27:29 MRoth Exp $
 #include <MEN/usr_oss.h>
 #include <MEN/usr_utl.h>
 #include <MEN/smb2_api.h>
+
+static const char IdentString[]=MENT_XSTR(MAK_REVISION);
 
 /* still using deprecated sscanf, sprintf,.. */
 #ifdef WINNT
@@ -98,7 +97,7 @@ static void usage(void)
 		"     smb2_poe smb2_1 -r\n"
 		"\n"
 	);
-	printf("(c)Copyright 2014 by MEN Mikro Elektronik GmbH\n%s\n", RCSid);
+	printf("Copyright (c) 2014-2019, MEN Mikro Elektronik GmbH\n%s\n", IdentString);
 }
 
 /***************************************************************************/

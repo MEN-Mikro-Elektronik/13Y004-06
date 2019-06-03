@@ -3,8 +3,6 @@
  *        \file  smb2_apidoc.c
  *
  *      \author  dieter.pfeuffer@men.de
- *        $Date: 2009/07/31 17:25:31 $
- *    $Revision: 1.3 $
  *
  *      \brief   User documentation for SMB2_API
  *

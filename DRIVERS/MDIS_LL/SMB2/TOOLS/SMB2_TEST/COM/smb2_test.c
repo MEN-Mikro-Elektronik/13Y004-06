@@ -6,8 +6,6 @@
 /*!
  *         \file smb2_test.c
  *       \author dieter.pfeuffer@men.de
- *        $Date: 2016/04/11 11:15:58 $
- *    $Revision: 1.1 $
  *
  *        \brief Test tool for SMB2 functionality.
  *

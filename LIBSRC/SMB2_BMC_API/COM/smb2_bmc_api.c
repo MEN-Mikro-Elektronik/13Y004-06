@@ -3,8 +3,6 @@
  *        \file  smb2_bmc_api.c
  *
  *      \author  quoc.bui@men.de
- *        $Date: 2018/12/19 12:54:16 $
- *    $Revision: 1.3 $
  *
  *       \brief  API functions to access the MEN BMC
  *
@@ -38,6 +36,8 @@
 #include <MEN/smb2_bmc_api.h>
 #include <MEN/smb2_api.h>
 #include <MEN/mdis_err.h>
+
+static const char IdentString[]=MENT_XSTR(MAK_REVISION);
 
 /*-----------------------------------------+
 |  DEFINES                                 |
@@ -194,7 +194,7 @@ void *SMB2BMC_smbHdl;
  */
 char* __MAPILIB SMB2BMC_Ident(void)
 {
-	return "SMB2_BMC_API: $Id: smb2_bmc_api.c,v 1.3 2018/12/19 12:54:16 DPfeuffer Exp $";
+	return( (char*) IdentString );
 }
 
 

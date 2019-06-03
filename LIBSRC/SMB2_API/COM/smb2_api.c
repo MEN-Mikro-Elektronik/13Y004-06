@@ -3,8 +3,6 @@
  *        \file  smb2_api.c
  *
  *      \author  dieter.pfeuffer@men.de
- *        $Date: 2010/04/19 13:42:16 $
- *    $Revision: 1.9 $
  *
  *  	 \brief  API functions to access the SMB2 MDIS driver
  *
@@ -41,6 +39,8 @@
 #define SMB2_API_COMPILE
 #include <MEN/smb2_api.h>
 #include <MEN/smb2_drv.h>
+
+static const char IdentString[]=MENT_XSTR(MAK_REVISION);
 
 /*-----------------------------------------+
 |  DEFINES                                 |
@@ -151,7 +151,7 @@ static void __MAPILIB SigHandler(u_int32 sigCode);
  */
 char* __MAPILIB SMB2API_Ident(	void )
 {
-    return( "SMB2_API: $Id: smb2_api.c,v 1.9 2010/04/19 13:42:16 dpfeuffer Exp $" );
+    return( (char*) IdentString );
 }
 
 /**********************************************************************/
@@ -769,7 +769,7 @@ int32 __MAPILIB SMB2API_I2CXfer(
  *
  * where \em errtype describes if the error code comes from the system
  * or the driver, \em errcode describes the error code in hexadecimal
- * format or in the operating system’s native format. \em errdescr is the
+ * format or in the operating system\92s native format. \em errdescr is the
  * corresponding error message string.
  *
  * \b Examples:

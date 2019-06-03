@@ -3,8 +3,6 @@
  *        \file  smb2_drv.c
  *
  *      \author  dieter.pfeuffer@men.de
- *        $Date: 2009/06/22 11:59:07 $
- *    $Revision: 1.9 $
  *
  *      \brief   Generic low-level driver for devices on SMBus
  *
@@ -119,6 +117,8 @@ typedef struct
 /* include files which need LL_HANDLE */
 #include <MEN/ll_entry.h>   /* low-level driver jump table  */
 #include <MEN/smb2_drv.h>	/* SMB2 driver header file */
+
+static const char IdentString[]=MENT_XSTR(MAK_REVISION);
 
 /*-----------------------------------------+
 |  PROTOTYPES                              |
@@ -700,7 +700,7 @@ static int32 SMB2_Info(
  */
 static char* Ident( void )
 {
-    return( "SMB2 - SMB2 low-level driver: $Id: smb2_drv.c,v 1.9 2009/06/22 11:59:07 dpfeuffer Exp $" );
+    return( (char*) IdentString );
 }
 
 /********************************* Cleanup *********************************/

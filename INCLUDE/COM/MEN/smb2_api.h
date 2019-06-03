@@ -3,8 +3,6 @@
  *        \file  smb2_api.h
  *
  *      \author  dieter.pfeuffer@men.de
- *        $Date: 2007/07/24 13:32:23 $
- *    $Revision: 3.3 $
  *
  *     \project  SMB2 API
  *       \brief  system managment bus routines interface

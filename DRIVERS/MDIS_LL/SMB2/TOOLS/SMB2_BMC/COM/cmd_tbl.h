@@ -2,8 +2,6 @@
 /*!
  *         \file  cmd_tbl.h
  *       \author  dieter.pfeuffer@men.de
- *        $Date: 2014/01/07 17:38:03 $
- *    $Revision: 1.1 $
  *
  *      \project  SMB2_BMC tool
  *        \brief  Command table for dispatching

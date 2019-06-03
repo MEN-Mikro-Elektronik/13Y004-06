@@ -6,8 +6,6 @@
 /*!
  *         \file smb2_simp.c
  *       \author dieter.pfeuffer@men.de
- *        $Date: 2009/06/22 11:59:09 $
- *    $Revision: 1.5 $
  *
  *       \brief  Simple example program for SMB2_API usage
  *

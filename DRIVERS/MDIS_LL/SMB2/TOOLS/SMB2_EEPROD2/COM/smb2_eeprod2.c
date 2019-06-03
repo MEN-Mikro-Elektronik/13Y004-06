@@ -6,8 +6,6 @@
 /*!
  *        \file  smb2_eeprod2.c
  *      \author  michael.roth@men.de
- *        $Date: 2014/10/15 13:00:52 $
- *    $Revision: 1.12 $
  *
  *       \brief  Tool to program the board information EEPROM and SMBus devices
   *             (e.g. SPD EEPROMs) from binary files via the SMB2_API
@@ -33,7 +31,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-static const char RCSid[]="$Id: smb2_eeprod2.c,v 1.12 2014/10/15 13:00:52 awerner Exp $";
 
 /*--------------------------------------+
 |   INCLUDES                            |
@@ -49,6 +46,8 @@ static const char RCSid[]="$Id: smb2_eeprod2.c,v 1.12 2014/10/15 13:00:52 awerne
 #include <MEN/usr_utl.h>
 #include <MEN/smb2_api.h>
 #include <MEN/eeprod.h>		/* for EEPROD2 struct/constants */
+
+static const char IdentString[]=MENT_XSTR(MAK_REVISION);
 
 /* still using deprecated sscanf, sprintf,.. */
 #ifdef WINNT
@@ -151,8 +150,8 @@ static void usage( void )
 		"    smb2_eeprod2 smb2_1 -f=08SC25-00IC200_300.bin -a=0xa0 \n"
 		"\n- write-protect SPD EEPROM: \n"
 		"    smb2_eeprod2 smb2_1 -a=0x60 -s \n"
-		"\n(c)Copyright 2009 by MEN Mikro Elektronik GmbH\n%s\n\n", RCSid
 	);
+    printf("\nCopyright (c) 2009-2019, MEN Mikro Elektronik GmbH\n%s\n\n", IdentString)
 }
 
 

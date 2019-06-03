@@ -3,8 +3,6 @@
  *        \file  smb2_shc.c
  *
  *      \author  quoc.bui@men.de
- *        $Date: 2015/02/24 17:26:48 $
- *    $Revision: 1.3 $
  *
  *       \brief  API functions to access the SMB2 Shelf Controller
  *
@@ -37,6 +35,8 @@
 #include <MEN/smb2_shc.h>
 #include <MEN/smb2_api.h>
 #include <MEN/mdis_err.h>
+
+static const char IdentString[]=MENT_XSTR(MAK_REVISION);
 
 /*-----------------------------------------+
 |  DEFINES                                 |
@@ -102,7 +102,7 @@ void *SMB2SHC_smbHdl;
  */
 char* __MAPILIB SMB2SHC_Ident(void)
 {
-	return ("SMB2_SHC: $Id: smb2_shc.c,v 1.3 2015/02/24 17:26:48 MRoth Exp $");
+	return( (char*) IdentString );
 }
 
 

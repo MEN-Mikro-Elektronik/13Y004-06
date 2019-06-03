@@ -3,8 +3,6 @@
  *        \file  smb2_ctrl.h
  *
  *      \author  dieter.pfeuffer@men.de
- *        $Date: 2009/06/22 11:59:22 $
- *    $Revision: 1.5 $
  * 
  *  	 \brief SMB2_CTRL master include file
  *                      

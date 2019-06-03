@@ -3,8 +3,6 @@
  *        \file  smb2_drv.h
  *
  *      \author  dieter.pfeuffer@men.de
- *        $Date: 2009/06/22 11:59:39 $
- *    $Revision: 3.4 $
  *
  *       \brief  Header file for SMB2 driver containing
  *               SMB2 specific status codes and

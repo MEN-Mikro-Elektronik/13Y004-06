@@ -1,8 +1,6 @@
 #***************************  M a k e f i l e  *******************************
 #
 #         Author: dieter.pfeuffer@men.de
-#          $Date: 2016/04/11 11:16:00 $
-#      $Revision: 1.1 $
 #
 #    Description: Makefile definitions for the SMB2_TEST tool
 #
@@ -23,6 +21,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 MAK_NAME=smb2_test
+# the next line is updated during the MDIS installation
+STAMPED_REVISION="13Y004-06_01_42-24-ge5f4d78-dirty_2019-05-30"
+
+DEF_REVISION=MAK_REVISION=$(STAMPED_REVISION)
+MAK_SWITCH=$(SW_PREFIX)$(DEF_REVISION)
 
 MAK_LIBS=$(LIB_PREFIX)$(MEN_LIB_DIR)/smb2_api$(LIB_SUFFIX)	\
 		 $(LIB_PREFIX)$(MEN_LIB_DIR)/usr_oss$(LIB_SUFFIX)	\

@@ -6,8 +6,6 @@
 /*!
  *		   \file smb2_boardident.c
  *		 \author michael.roth@men.de
- *		  $Date: 2014/07/17 17:00:15 $
- *    $Revision: 1.6 $
  *
  *        \brief Tool to dump board informations from SMBus devices via the SMB2_API
  *
@@ -38,7 +36,6 @@
 * You should have received a copy of the GNU General Public License
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-static const char RCSid[]="$Id: smb2_boardident.c,v 1.6 2014/07/17 17:00:15 ts Exp $";
 
 /*-------------------------------------+
 |   INCLUDES                           |
@@ -52,6 +49,8 @@ static const char RCSid[]="$Id: smb2_boardident.c,v 1.6 2014/07/17 17:00:15 ts E
 #include <MEN/usr_utl.h>
 #include <MEN/smb2_api.h>
 #include <MEN/eeprod.h>		/* for EEPROD2 struct/constants  */
+
+static const char IdentString[]=MENT_XSTR(MAK_REVISION);
 
 /* still using deprecated sscanf, sprintf,.. */
 #ifdef WINNT
@@ -105,8 +104,8 @@ static void header(void)
 {
 	printf("\n==========================="
 		   "\n===   SMB2_BOARDIDENT   ==="
-		   "\n==========================="
-		   "\n(c)Copyright 2009 by MEN Mikro Elektronik GmbH\n%s\n\n", RCSid);
+		   "\n===========================");
+    printf("\nCopyright (c) 2009-2019, MEN Mikro Elektronik GmbH\n%s\n\n", IdentString)
 }
 
 /********************************* usage ***********************************/
@@ -125,9 +124,8 @@ static void usage(void)
 		"\n- dump board information EEPROM (with raw data): \n"
 		"    smb2_boardident smb2_1 -r \n"
 		"\n- dump data from specified SMB address: \n"
-		"    smb2_boardident smb2_1 0xac  \n"
-		"\n(c)Copyright 2009 by MEN Mikro Elektronik GmbH\n%s\n\n", RCSid
-		);
+		"    smb2_boardident smb2_1 0xac  \n");
+    printf("\nCopyright (c) 2009-2019, MEN Mikro Elektronik GmbH\n%s\n\n", IdentString)
 }
 
 /***************************************************************************/

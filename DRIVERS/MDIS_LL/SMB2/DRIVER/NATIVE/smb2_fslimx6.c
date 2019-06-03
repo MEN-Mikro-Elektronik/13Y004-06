@@ -4,8 +4,6 @@
  *      Project: CC10
  *
  *       Author: wz
- *        $Date: 2016/01/07 13:29:36 $
- *    $Revision: 1.0 $
  *
  *  Description: system managment bus driver for the fslimx6 I2C controller
  *

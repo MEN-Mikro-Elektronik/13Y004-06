@@ -6,8 +6,6 @@
 /*!
  *         \file  smb2_bmc.c
  *       \author  roman.schneider@men.de
- *        $Date: 2014/07/04 14:35:27 $
- *    $Revision: 1.2 $
  *
  *        \brief  Tool to control BMC features e.g. on F75P CPU boards
  *
@@ -31,7 +29,6 @@
 * You should have received a copy of the GNU General Public License
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-static const char RCSid[]="$Id: smb2_bmc.c,v 1.2 2014/07/04 14:35:27 MRoth Exp $";
 
 /*--------------------------------------+
 |    INCLUDES                           |
@@ -44,6 +41,8 @@ static const char RCSid[]="$Id: smb2_bmc.c,v 1.2 2014/07/04 14:35:27 MRoth Exp $
 #include <MEN/usr_oss.h>
 #include <MEN/smb2_api.h>
 #include <MEN/bmc_api.h>
+
+static const char IdentString[]=MENT_XSTR(MAK_REVISION);
 #include "cmd_tbl.h"
 
 /*--------------------------------------+
@@ -152,8 +151,8 @@ static void Usage( void )
 		"\n - software reset: \n"
 		"     smb2_bmc smb2_1 0x9c swr \n"
 		"\n"
-		"\n(c)Copyright 2013 by MEN Mikro Elektronik GmbH\n%s\n\n", RCSid
 	);
+    printf("\nCopyright (c) 2013-2019, MEN Mikro Elektronik GmbH\n%s\n\n", IdentString)
 }
 
 

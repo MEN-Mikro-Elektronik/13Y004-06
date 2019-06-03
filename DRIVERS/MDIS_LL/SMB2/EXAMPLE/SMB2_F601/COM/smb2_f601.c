@@ -6,8 +6,6 @@
 /*!
  *         \file smb2_f601.c
  *       \author dieter.pfeuffer@men.de
- *        $Date: 2007/01/24 11:38:14 $
- *    $Revision: 1.4 $
  *
  *       \brief  Example program for F601 I2C Expander (Philips PCF8574)
  *
@@ -47,6 +45,8 @@
 #include <MEN/smb2_api.h>
 #include <MEN/f601io.h>
 
+static const char IdentString[]=MENT_XSTR(MAK_REVISION);
+
 /*--------------------------------------+
 |   PROTOTYPES                          |
 +--------------------------------------*/
@@ -71,7 +71,7 @@ static void usage(void)
 	printf("    -l           loop until keypress:                 \n");
 	printf("                   toggle outputs get inputs          \n");
 	printf("\n");
-	printf("(c) 2006 by MEN mikro elektronik GmbH\n\n");
+    printf("\nCopyright (c) 2006-2019, MEN Mikro Elektronik GmbH\n%s\n\n", IdentString)
 }
 
 /***************************************************************************/

@@ -3,8 +3,6 @@
  *        \file  smb2_ctrl.c
  *
  *      \author  dieter.pfeuffer@men.de
- *        $Date: 2014/10/15 13:00:46 $
- *    $Revision: 1.6 $
  *
  *        \brief Tool to access SMBus devices via the SMB2_API
  *
@@ -28,7 +26,6 @@
 * You should have received a copy of the GNU General Public License
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-static const char RCSid[]="$Id: smb2_ctrl.c,v 1.6 2014/10/15 13:00:46 awerner Exp $";
 
 #include "smb2_ctrl.h"
 #include "cmd_tbl.h"
@@ -43,6 +40,7 @@ static const char RCSid[]="$Id: smb2_ctrl.c,v 1.6 2014/10/15 13:00:46 awerner Ex
 /*--------------------------------------+
 |   GLOBALS                             |
 +--------------------------------------*/
+static const char IdentString[]=MENT_XSTR(MAK_REVISION);
 static char *G_dev;
 static char *G_cmd;
 u_int32     SMB2CTRL_errCount;
@@ -108,8 +106,8 @@ static void usage(void)
 		"!! Please be careful when you write to SMBus devices. !!\n"
 		"!! Otherwise you may destroy important data (e.g. on  !!\n"
 		"!! EEPROMs) or you may cause damage to the HW.        !!\n"
-		"+------------------------------------------------------+\n"
-		"(c)Copyright 2018 by MEN Mikro Elektronik GmbH\n%s\n", RCSid);
+		"+------------------------------------------------------+\n");
+    printf("\nCopyright (c) 2019, MEN Mikro Elektronik GmbH\n%s\n\n", IdentString)
 }
 
 /**********************************************************************/

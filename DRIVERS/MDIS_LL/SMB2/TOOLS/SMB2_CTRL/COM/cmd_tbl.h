@@ -3,8 +3,6 @@
  *        \file  cmd_tbl.h
  *
  *      \author  dieter.pfeuffer@men.de
- *        $Date: 2009/06/22 11:59:20 $
- *    $Revision: 1.4 $
  *
  *        \brief Command table for dispatching
  *

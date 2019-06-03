@@ -6,8 +6,6 @@
 /*!
  *         \file smb2_touch.c
  *       \author dieter.pfeuffer@men.de
- *        $Date: 2013/09/18 09:28:15 $
- *    $Revision: 1.1 $
  *
  *       \brief  Tool that performs a single read byte access to a SMB device
  *

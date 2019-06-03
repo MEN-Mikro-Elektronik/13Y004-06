@@ -7,8 +7,6 @@
  *         \file smb2_bmc_ctrl.c
  *
  *       \author  quoc.bui@men.de
- *         $Date: 2018/12/19 12:54:14 $
- *     $Revision: 1.3 $
  *
  *        \brief  Tool to control the Board Management Controller via the SMB2_BMC API
  *
@@ -49,6 +47,8 @@
 #include <MEN/usr_oss.h>
 #include <MEN/usr_utl.h>
 #include <MEN/smb2_api.h>
+
+static const char IdentString[]=MENT_XSTR(MAK_REVISION);
 
 /*-------------------------------------+
 |   DEFINES                            |
@@ -272,8 +272,8 @@ static void usage(void)
 		"    -z=[cmd]   Send CB30C Specific command\n"
 		"Calling examples:\n"
 		"    Get usage for -b=[cmd]: smb2_bmc_ctrl smb2_1 -b=\n"
-		"    Get SMB2_BMC API rev  : smb2_bmc_ctrl smb2_1 -i\n\n"
-		"(c)Copyright 2018 by MEN Mikro Elektronik GmbH\n%s\n", RCSid);
+		"    Get SMB2_BMC API rev  : smb2_bmc_ctrl smb2_1 -i\n\n");
+    printf("\nCopyright (c) 2014-2019, MEN Mikro Elektronik GmbH\n%s\n\n", IdentString)
 }
 
 /********************************* usage ************************************/

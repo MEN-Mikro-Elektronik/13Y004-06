@@ -3,8 +3,6 @@
  *        \file  smb2_shc_doc.c
  *
  *      \author  andreas.werner@men.de
- *        $Date: 2015/02/24 17:26:50 $
- *    $Revision: 1.2 $
  *
  *      \brief   User documentation for SMB2_SHC (Shelf Controller API)
  *

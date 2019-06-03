@@ -3,8 +3,6 @@
  *        \file  f601io.h
  *
  *      \author  dieter.pfeuffer@men.de
- *        $Date: 2007/01/24 11:38:49 $
- *    $Revision: 3.2 $
  * 
  *  	 \brief  Header file for I2C Expander (Philips PCF8574) on F601
  *                      

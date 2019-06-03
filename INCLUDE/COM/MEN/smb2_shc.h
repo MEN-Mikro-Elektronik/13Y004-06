@@ -3,8 +3,6 @@
  *        \file  smb2_shc.h
  *
  *      \author  andreas.werner@men.de
- *        $Date: 2015/02/24 17:26:56 $
- *    $Revision: 3.2 $
  *
  *     \project  SMB2 SHC
  *       \brief  Shelf controller interface routines

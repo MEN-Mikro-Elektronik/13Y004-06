@@ -6,8 +6,6 @@
 /*!
  *         \file smb2_eetemp.c
  *       \author michael.roth@men.de
- *        $Date: 2014/12/08 10:47:15 $
- *    $Revision: 1.3 $
  *
  *        \brief Tool to read the temperature from EEPROMS via the SMB2_API
  *
@@ -35,7 +33,6 @@
 * You should have received a copy of the GNU General Public License
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-static const char RCSid[]="$Id: smb2_eetemp.c,v 1.3 2014/12/08 10:47:15 MRoth Exp $";
 
 /*-------------------------------------+
 |    INCLUDES                          |
@@ -47,6 +44,8 @@ static const char RCSid[]="$Id: smb2_eetemp.c,v 1.3 2014/12/08 10:47:15 MRoth Ex
 #include <MEN/usr_oss.h>
 #include <MEN/usr_utl.h>
 #include <MEN/smb2_api.h>
+
+static const char IdentString[]=MENT_XSTR(MAK_REVISION);
 
 /* still using deprecated sscanf, sprintf,.. */
 #ifdef WINNT
@@ -114,9 +113,9 @@ static void usage(void)
 		"\n - show current board temperature:         \n"
 		"     smb2_eetemp smb2_1                      \n"
 		"\n - set max. temperature for tests and show temperature in a loop:   \n"
-		"     smb2_eetemp smb2_1 -t=80 -l             \n"
-		"\n(c)Copyright 2011 by MEN Mikro Elektronik GmbH\n%s\n\n", 248, RCSid
+		"     smb2_eetemp smb2_1 -t=80 -l             \n", 248
 	);
+    printf("\nCopyright (c) 2011-2019, MEN Mikro Elektronik GmbH\n%s\n\n", IdentString)
 }
 
 /***************************************************************************/

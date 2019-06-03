@@ -7,8 +7,6 @@
 *         \file  smb2_stm32_flash.c
 *
 *       \author  quoc.bui@men.de
-*         $Date: 2015/02/24 17:26:45 $
-*     $Revision: 1.1 $
 *
 *        \brief  Tool to flash the STM32 Microcontroller via the SMB2_API.
 *
@@ -33,7 +31,6 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-static const char RCSid[] = "$Id: smb2_stm32_flash.c,v 1.1 2015/02/24 17:26:45 MRoth Exp $";
 
 /* still using deprecated sscanf, sprintf,.. */
 #ifdef WINNT
@@ -52,6 +49,8 @@ static const char RCSid[] = "$Id: smb2_stm32_flash.c,v 1.1 2015/02/24 17:26:45 M
 #include <MEN/usr_oss.h>
 #include <MEN/usr_utl.h>
 #include <MEN/smb2_api.h>
+
+static const char IdentString[]=MENT_XSTR(MAK_REVISION);
 
 /*-------------------------------------+
 |   DEFINES                            |
@@ -176,8 +175,8 @@ static void header(void)
 		"\n=================================================="
 		"\n===  MEN STM32F042XX I2C firmware update tool  ==="
 		"\n=================================================="
-		"\n(c)Copyright 2015 by MEN Mikro Elektronik GmbH\n%s\n\n", RCSid
 	);
+    printf("\nCopyright (c) 2014-2019, MEN Mikro Elektronik GmbH\n%s\n\n", IdentString)
 }
 
 /********************************** usage ***********************************/
@@ -197,8 +196,8 @@ static void usage(void)
 		"\nAttention: Firmware must be a .dfu file! \n"
 		"\nCalling examples: \n"
 		"Download a firmware file: smb2_stm32_flash smb2_2 -f 14AF02-00.dfu \n"
-		"\n(c)Copyright 2015 by MEN Mikro Elektronik GmbH\n%s\n\n", RCSid
 	);
+    printf("\nCopyright (c) 2014-2019, MEN Mikro Elektronik GmbH\n%s\n\n", IdentString)
 }
 
 /****************************************************************************/

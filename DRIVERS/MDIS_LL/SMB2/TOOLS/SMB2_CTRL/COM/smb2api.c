@@ -3,8 +3,6 @@
  *        \file  smb2api.c
  *
  *      \author  dieter.pfeuffer@men.de
- *        $Date: 2014/02/20 18:21:46 $
- *    $Revision: 1.6 $
  *
  *        \brief SMB2_API functions
  *

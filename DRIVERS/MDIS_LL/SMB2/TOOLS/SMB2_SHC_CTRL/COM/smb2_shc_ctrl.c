@@ -7,8 +7,6 @@
  *         \file smb2_shc_ctrl.c
  *
  *       \author  quoc.bui@men.de
- *         $Date: 2015/02/24 17:26:39 $
- *     $Revision: 1.2 $
  *
  *        \brief  Tool to access the Shelf Controller via the SMB2_SHC API
  *
@@ -32,7 +30,6 @@
 * You should have received a copy of the GNU General Public License
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-static const char RCSid[]="$Id: smb2_shc_ctrl.c,v 1.2 2015/02/24 17:26:39 MRoth Exp $";
 
 /* still using deprecated sscanf, sprintf,.. */
 #ifdef WINNT
@@ -50,6 +47,8 @@ static const char RCSid[]="$Id: smb2_shc_ctrl.c,v 1.2 2015/02/24 17:26:39 MRoth 
 #include <MEN/usr_oss.h>
 #include <MEN/usr_utl.h>
 #include <MEN/smb2_api.h>
+
+static const char IdentString[]=MENT_XSTR(MAK_REVISION);
 
 /*-------------------------------------+
 |   DEFINES                            |
@@ -89,8 +88,8 @@ static void header(void)
 {
 	printf( "\n====================="
 			"\n=== SMB2_SHC_CTRL ==="
-			"\n====================="
-			"\n(c)Copyright 2014 by MEN Mikro Elektronik GmbH\n%s\n\n", RCSid);
+			"\n=====================");
+    printf("\nCopyright (c) 2014-2019, MEN Mikro Elektronik GmbH\n%s\n\n", IdentString)
 }
 
 /********************************* usage ************************************/
