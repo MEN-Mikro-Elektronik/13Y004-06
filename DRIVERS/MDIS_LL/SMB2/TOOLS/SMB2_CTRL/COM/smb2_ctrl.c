@@ -107,7 +107,7 @@ static void usage(void)
 		"!! Otherwise you may destroy important data (e.g. on  !!\n"
 		"!! EEPROMs) or you may cause damage to the HW.        !!\n"
 		"+------------------------------------------------------+\n");
-    printf("\nCopyright (c) 2019, MEN Mikro Elektronik GmbH\n%s\n\n", IdentString)
+    printf("\nCopyright (c) 2019, MEN Mikro Elektronik GmbH\n%s\n\n", IdentString);
 }
 
 /**********************************************************************/
