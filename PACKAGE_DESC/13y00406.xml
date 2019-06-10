@@ -2,8 +2,8 @@
 <package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="packagedesc.xsd">
 	<name>13y00406</name>
 	<description>MDIS5 SMB2 driver package</description>
-	<date>2018-12-19</date>
-	<revision>1.41</revision>
+	<date>2019-06-10</date>
+	<revision>13Y004-06_01_42-29-g4f8909a</revision>
 	<docroot>LIBSRC/SMB2_API/DOC/html/index.html</docroot>
 	<!-- Models -->
 	<modellist>
