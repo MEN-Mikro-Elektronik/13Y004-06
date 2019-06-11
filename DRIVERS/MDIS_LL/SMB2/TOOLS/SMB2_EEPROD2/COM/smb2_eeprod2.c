@@ -151,7 +151,7 @@ static void usage( void )
 		"\n- write-protect SPD EEPROM: \n"
 		"    smb2_eeprod2 smb2_1 -a=0x60 -s \n"
 	);
-    printf("\nCopyright (c) 2009-2019, MEN Mikro Elektronik GmbH\n%s\n\n", IdentString)
+    printf("\nCopyright (c) 2009-2019, MEN Mikro Elektronik GmbH\n%s\n\n", IdentString);
 }
 
 

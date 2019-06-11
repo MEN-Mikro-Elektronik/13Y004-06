@@ -89,7 +89,7 @@ static void header(void)
 	printf( "\n====================="
 			"\n=== SMB2_SHC_CTRL ==="
 			"\n=====================");
-    printf("\nCopyright (c) 2014-2019, MEN Mikro Elektronik GmbH\n%s\n\n", IdentString)
+    printf("\nCopyright (c) 2014-2019, MEN Mikro Elektronik GmbH\n%s\n\n", IdentString);
 }
 
 /********************************* usage ************************************/
