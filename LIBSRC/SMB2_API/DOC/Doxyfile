@@ -4,7 +4,6 @@
 #MDIS_COMMIT=95dae6e57615c11a0514381cd1b737b777b13eee
 
 PROJECT_NAME           = "SMB2_API"
-PROJECT_NUMBER         = 
 INPUT                  = ../COM/smb2_apidoc.c \
                          ../COM/smb2_api.c    \
                          $(MEN_COM_INC)/MEN/smb2_api.h \

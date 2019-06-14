@@ -4,7 +4,6 @@
 #MDIS_COMMIT=95dae6e57615c11a0514381cd1b737b777b13eee
 
 PROJECT_NAME           = "SMB2SHC"
-PROJECT_NUMBER         = "(Shelf Controller API)"
 INPUT                  = ../COM/smb2_shc_doc.c \
                          ../COM/smb2_shc.c \
                          ../../../INCLUDE/COM/MEN/smb2_shc.h
