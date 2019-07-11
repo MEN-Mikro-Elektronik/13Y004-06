@@ -273,7 +273,7 @@ static void usage(void)
 		"Calling examples:\n"
 		"    Get usage for -b=[cmd]: smb2_bmc_ctrl smb2_1 -b=\n"
 		"    Get SMB2_BMC API rev  : smb2_bmc_ctrl smb2_1 -i\n\n");
-    printf("\nCopyright (c) 2014-2019, MEN Mikro Elektronik GmbH\n%s\n\n", IdentString)
+    printf("\nCopyright (c) 2014-2019, MEN Mikro Elektronik GmbH\n%s\n\n", IdentString);
 }
 
 /********************************* usage ************************************/
