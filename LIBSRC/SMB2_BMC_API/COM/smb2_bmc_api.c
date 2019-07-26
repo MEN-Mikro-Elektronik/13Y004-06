@@ -1572,7 +1572,6 @@ int32 __MAPILIB SMB2BMC_GPO_Caps(enum GPO gpo, u_int8 *gpo_support)
 int32 __MAPILIB SMB2BMC_GPO_Set(enum GPO gpo, u_int8 on_off)
 {
 	int err;
-	u_int8 gpo_levels;
 	u_int16 gpo_data;
 	
 	gpo_data = (1 << (gpo + 8)) | ((on_off ? 1 : 0) << gpo);
