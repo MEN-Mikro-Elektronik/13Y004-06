@@ -373,7 +373,7 @@ static void print_ups(int32 ups_id)
 static void get_temperature()
 {
 	int err;
-	int16 tempK, tempC;
+	u_int16 tempK = 0, tempC = 0;
 
 	err = SMB2SHC_GetTemperature((u_int16*)&tempK);
 	if (err) {

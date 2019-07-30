@@ -233,14 +233,39 @@ int32 __MAPILIB SMB2SHC_GetTemperature(u_int16 *tempK)
 		return SMB2_SHC_ERR_LENGTH;
 
 	if (blkData[0] != SET_TEMP_ENABLE){
-	return SMB2API_ReadWordData(SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
+                return SMB2API_ReadWordData(SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
 									SHC_TEMP_OPCODE, tempK);
 	}
 	else{
 		*tempK = *tempK | ((u_int16)blkData[2]<<8); /* MSB */
 		*tempK = *tempK |  (u_int16)blkData[1];     /* LSB */
+        }
+
+	return SMB2_SHC_ERR_NO;
 }
 
+/****************************************************************************/
+/** Get the status of the temperature override
+ *
+ *  Set status to 1 if override enabled, 0 otherwise.
+ *
+ *  \return    error code or SMB2_SHC_ERR_NO if no error
+ *
+ *  \sa SMB2SHC_SMB2SHC_GetTemperatureOverrideStatus
+ */
+int32 __MAPILIB SMB2SHC_GetTemperatureOverrideStatus(u_int16 *status) {
+	u_int8 length;
+	u_int8 blkData[SMB_BLOCK_MAX_BYTES];
+
+	int err = SMB2API_ReadBlockData(SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
+                      SHC_TEMP_SET_OPCODE, &length, blkData);
+	if (err)
+		return err;
+
+	if (length != SHC_TEMP_SET_LENGTH)
+		return SMB2_SHC_ERR_LENGTH;
+
+        *status = blkData[0] == SET_TEMP_ENABLE ? 1 : 0;
 	return SMB2_SHC_ERR_NO;
 }
 
