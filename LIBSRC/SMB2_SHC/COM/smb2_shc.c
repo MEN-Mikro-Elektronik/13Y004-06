@@ -49,17 +49,22 @@ static const char IdentString[]=MENT_XSTR(MAK_REVISION);
 #define SHC_UPS_GET_OPCODE   0x05
 #define SHC_CONF_GET_OPCODE  0x06
 #define SHC_TEMP_SET_OPCODE  0x07
+#define SHC_GET_PERSISTENT_PWRBTN_OPCODE 0x08
+#define SHC_SET_PERSISTENT_PWRBTN_OPCODE 0x09
 #define SHC_SH_DOWN_OPCODE   0x10
 #define SHC_PWR_OFF_OPCODE   0x11
+#define SHC_SET_POWERCYCLE_DURATION_OPCODE 0x12
 #define SHC_FVER_GET_OPCODE  0x80
 
 /* data lengths */
 #define SHC_PSU_GET_LENGTH   0x03
 #define SHC_TEMP_SET_LENGTH  0x03
+#define SHC_DURATION_SET_LENGTH  0x03
 #define SHC_FAN_GET_LENGTH   0x09
 #define SHC_VOLT_GET_LENGTH  0x08
 #define SHC_UPS_GET_LENGTH   0x04
-#define SHC_CONF_GET_LENGTH  0x13
+#define SHC_CONF_GET_LENGTH_v416  0x13
+#define SHC_CONF_GET_LENGTH_v417  0x16
 #define SHC_FVER_GET_LENGTH  0x07
 
 #define BIT_IS_PRESENT       0x01
@@ -370,6 +375,58 @@ int32 __MAPILIB SMB2SHC_GetVoltLevel(enum SHC_PWR_MON_ID pwr_mon_nr, u_int16 *vo
 	return SMB2_SHC_ERR_NO;
 }
 
+/****************************************************************************/
+/** Set duration of the power cycle in milliseconds
+ *
+ *  \param     status           \IN  desired delay in milliseconds
+ *  \return    SMB2_SHC_ERR_NO on success or error code
+ *
+ *  \sa SMB2SHC_SetPowerCycleDuration
+*/
+int32 __MAPILIB SMB2SHC_SetPowerCycleDuration(u_int16 delay) {
+	u_int8 blkData[SMB_BLOCK_MAX_BYTES];
+		
+	blkData[0] = (u_int8)0; // set to 1 to enable immediate shutdown
+	blkData[1] = (u_int8)delay;      /* LSB */
+	blkData[2] = (u_int8)(delay>>8); /* MSB */
+	
+	return SMB2API_WriteBlockData(SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
+                SHC_SET_POWERCYCLE_DURATION_OPCODE, SHC_DURATION_SET_LENGTH, blkData);
+}
+
+/****************************************************************************/
+/** Set the status of the persistent power button
+ *
+ *  \param     status           \IN   1 to set button ON, 0 otherwise
+ *  \return    SMB2_SHC_ERR_NO on success or error code
+ *
+ *  \sa SMB2SHC_SetPersistentPowerbuttonStatus
+*/
+int32 __MAPILIB SMB2SHC_SetPersistentPowerbuttonStatus(u_int32 status) {
+        int err = SMB2API_WriteByteData(SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
+                SHC_SET_PERSISTENT_PWRBTN_OPCODE, status == 1 ? (u_int8)1 : (u_int8)0);
+        if (err) {
+            return err;
+        }
+        return SMB2_SHC_ERR_NO;
+}
+
+/****************************************************************************/
+/** Get the status of the persistent power button
+ *
+ *  \param     status           \OUT  1 if button ON, 0 otherwise
+ *  \return    SMB2_SHC_ERR_NO on success or error code
+ *
+ *  \sa SMB2SHC_SetPersistentPowerbuttonStatus
+*/
+int32 __MAPILIB SMB2SHC_GetPersistentPowerbuttonStatus(u_int8 *status) {
+        int err = SMB2API_ReadByteData(SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
+                SHC_GET_PERSISTENT_PWRBTN_OPCODE, status);
+        if (err) {
+            return err;
+        }
+        return SMB2_SHC_ERR_NO;
+}
 
 /****************************************************************************/
 /** Get the uninterruptible Power Supply Report of the selected UPS
@@ -470,8 +527,17 @@ int32 __MAPILIB SMB2SHC_GetConf_Data(struct shc_configdata *configdata)
 	if (err)
 		return err;
 
-	if (length != SHC_CONF_GET_LENGTH)
+        u_int8 has_v417;
+        switch (length) {
+            case SHC_CONF_GET_LENGTH_v416:
+                has_v417 = 0;
+                break;
+            case SHC_CONF_GET_LENGTH_v417:
+                has_v417 = 1;
+                break;
+            default:
 		return SMB2_SHC_ERR_LENGTH;
+        }
 
 	configdata->pwrSlot2 = blkData[0];
 	configdata->pwrSlot3 = blkData[1];
@@ -495,18 +561,43 @@ int32 __MAPILIB SMB2SHC_GetConf_Data(struct shc_configdata *configdata)
 	config_data16 += blkData[10];
 	configdata->tempRunHigh = config_data16;
 
-	configdata->fanNum = blkData[12];
-	configdata->fanDuCyMin = blkData[13];
+        if (has_v417) {
+            configdata->persistent_pwrbtn_enabled = blkData[12];
+            configdata->use_PBRST = blkData[13];
+            configdata->fanNum = blkData[14];
+            configdata->fanDuCyMin = blkData[15];
 
-	config_data16 = ((u_int16)blkData[15] << 8);
-	config_data16 += blkData[14];
-	configdata->fanTempStart = config_data16;
+            config_data16 = ((u_int16)blkData[17] << 8);
+            config_data16 += blkData[16];
 
-	config_data16 = ((u_int16)blkData[17] << 8);
-	config_data16 += blkData[16];
-	configdata->fanTempMax = config_data16;
-	
-	configdata->StateMachineID = blkData[18];
+            configdata->fanTempStart = config_data16;
+
+            config_data16 = ((u_int16)blkData[19] << 8);
+            config_data16 += blkData[18];
+            configdata->fanTempMax = config_data16;
+
+            configdata->volt_mon_mask = blkData[20];
+
+            configdata->StateMachineID = blkData[21];
+        } else {
+            configdata->persistent_pwrbtn_enabled = 0xff;
+            configdata->use_PBRST = 0xff;
+
+            configdata->fanNum = blkData[12];
+            configdata->fanDuCyMin = blkData[13];
+
+            config_data16 = ((u_int16)blkData[15] << 8);
+            config_data16 += blkData[14];
+            configdata->fanTempStart = config_data16;
+
+            config_data16 = ((u_int16)blkData[17] << 8);
+            config_data16 += blkData[16];
+            configdata->fanTempMax = config_data16;
+
+            configdata->volt_mon_mask = 15;
+
+            configdata->StateMachineID = blkData[18];
+        }
 
 	return SMB2_SHC_ERR_NO;
 }
