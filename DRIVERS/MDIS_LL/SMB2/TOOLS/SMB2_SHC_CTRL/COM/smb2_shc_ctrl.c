@@ -380,6 +380,14 @@ static void get_temperature()
 		PrintError("***ERROR: SMB2SHC_GET_TEMP", err);
 	}
 	else{
+                u_int16 status = 0;
+                int err = SMB2SHC_GetTemperatureOverrideStatus(&status);
+                if (err) {
+                        PrintError("***ERROR: SMB2SHC_GET_TEMPERATURE_OVERRIDE", err);
+                }
+                if (status) {
+                    printf("Temperature is overridden by host.\n");
+                }
 		/* get Celsius */
 		tempC = tempK - ABS_ZERO;
 		printf("Temperature: %dK (%dC)\n", tempK, tempC);
