@@ -104,7 +104,7 @@ static void usage(void)
 		"    devName      device name e.g. smb2_1                   \n"
 		"    -?           Usage                                     \n"
 		"    -t           Get system/ambient temperature                    \n"
-		"    -T=[dec]     Set ambient temperature (Celsius) for FAN control \n"		
+		"    -T=[dec]     Set ambient temperature (Celsius) for FAN control \n"
 		"    -i           Get shelf controller API identifier       \n"
 		"    -p=[psu_id]  Get status of one or all PSU              \n"
 		"                 (psu_id: 0 to 3, 0: to get all psu status)\n"
@@ -349,7 +349,8 @@ static void print_ups(int32 ups_id)
 static void get_temperature()
 {
 	int err;
-	int16 tempK, tempC;
+        u_int16 tempK = 0;
+        int16 tempC = 0;
 
 	err = SMB2SHC_GetTemperature((u_int16*)&tempK);
 	if (err) {
@@ -381,7 +382,7 @@ static void set_temperature(int32 tempC)
 	if (err) {
 		PrintError("***ERROR: SMB2SHC_SET_TEMP", err);
 	}
-	else{	
+	else{
 		/* read back temperature */
 		err = SMB2SHC_GetTemperature((u_int16*)&tempK);
 		if (err) {
