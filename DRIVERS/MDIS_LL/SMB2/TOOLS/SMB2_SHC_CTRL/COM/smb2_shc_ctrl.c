@@ -544,8 +544,8 @@ static void print_configdata()
                 printf("Low Temperature Run Limit in K: \t%d\n", cdata.tempRunLow);
                 printf("High Temperature Run Limit in K: \t%d\n", cdata.tempRunHigh);
                 printf("-----------------------------------------\n");
-                printf("Persistent power button enabled: \t%s\n", cdata.persistent_pwrbtn_enabled == 1 ? "TRUE" : "FALSE");
-                printf("PBRST during DEL_START enabled: \t%s\n", cdata.use_PBRST == 1 ? "TRUE" : "FALSE");
+                printf("Persistent power button enabled: \t%s\n", cdata.persistent_pwrbtn_enabled ? "TRUE" : "FALSE");
+                printf("PBRST during DEL_START enabled: \t%s\n", cdata.use_PBRST ? "TRUE" : "FALSE");
                 printf("-----------------------------------------\n");
                 printf("Number of Fans: %d\n", cdata.fanNum);
                 printf("Fan Min Duty Cycle in %%: \t\t%d\n", cdata.fanDuCyMin);
@@ -553,6 +553,8 @@ static void print_configdata()
                 printf("Fan Max Speed Temperature in K: \t%d\n", cdata.fanTempMax);
                 printf("-----------------------------------------\n");
                 printf("Voltage channel mask in decimal: \t%d\n", cdata.volt_mon_mask);
+                printf("-----------------------------------------\n");
+                printf("SMBus address: \t0x%x\n", cdata.i2c_address == 0xff ? 0x75 : cdata.i2c_address);
                 printf("-----------------------------------------\n");
                 printf("SHC State Machine ID: \t%d\n", cdata.StateMachineID);
 	}

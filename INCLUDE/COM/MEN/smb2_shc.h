@@ -227,6 +227,10 @@ struct shc_configdata {
 	 */
 	u_int8 volt_mon_mask;
 	/**
+	 *  Custom I2C address (default: 0x75)
+	 */
+	u_int8 i2c_address;
+	/**
 	 *  State Machine Id can be 1, 2 or 3
 	 */
 	u_int8 StateMachineID;

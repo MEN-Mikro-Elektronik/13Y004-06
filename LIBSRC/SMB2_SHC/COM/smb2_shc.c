@@ -64,7 +64,7 @@ static const char IdentString[]=MENT_XSTR(MAK_REVISION);
 #define SHC_VOLT_GET_LENGTH  0x08
 #define SHC_UPS_GET_LENGTH   0x04
 #define SHC_CONF_GET_LENGTH_v416  0x13
-#define SHC_CONF_GET_LENGTH_v417  0x16
+#define SHC_CONF_GET_LENGTH_v417  0x18
 #define SHC_FVER_GET_LENGTH  0x07
 
 #define BIT_IS_PRESENT       0x01
@@ -552,13 +552,13 @@ int32 __MAPILIB SMB2SHC_GetConf_Data(struct shc_configdata *configdata)
 	if (err)
 		return err;
 
-        u_int8 has_v417;
+        u_int8 is_v417;
         switch (length) {
             case SHC_CONF_GET_LENGTH_v416:
-                has_v417 = 0;
+                is_v417 = 0;
                 break;
             case SHC_CONF_GET_LENGTH_v417:
-                has_v417 = 1;
+                is_v417 = 1;
                 break;
             default:
 		return SMB2_SHC_ERR_LENGTH;
@@ -586,7 +586,7 @@ int32 __MAPILIB SMB2SHC_GetConf_Data(struct shc_configdata *configdata)
 	config_data16 += blkData[10];
 	configdata->tempRunHigh = config_data16;
 
-        if (has_v417) {
+        if (is_v417) {
             configdata->persistent_pwrbtn_enabled = blkData[12];
             configdata->use_PBRST = blkData[13];
             configdata->fanNum = blkData[14];
@@ -603,7 +603,11 @@ int32 __MAPILIB SMB2SHC_GetConf_Data(struct shc_configdata *configdata)
 
             configdata->volt_mon_mask = blkData[20];
 
-            configdata->StateMachineID = blkData[21];
+            config_data16 = (u_int16)blkData[22] << 8;
+            config_data16 += blkData[21];
+            configdata->i2c_address = config_data16;
+
+            configdata->StateMachineID = blkData[23];
         } else {
             configdata->persistent_pwrbtn_enabled = 0xff;
             configdata->use_PBRST = 0xff;
@@ -620,6 +624,7 @@ int32 __MAPILIB SMB2SHC_GetConf_Data(struct shc_configdata *configdata)
             configdata->fanTempMax = config_data16;
 
             configdata->volt_mon_mask = 15;
+            configdata->i2c_address = 0x75;
 
             configdata->StateMachineID = blkData[18];
         }
