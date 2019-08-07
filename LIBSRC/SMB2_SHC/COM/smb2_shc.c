@@ -601,7 +601,7 @@ int32 __MAPILIB SMB2SHC_GetConf_Data(struct shc_configdata *configdata)
             config_data16 += blkData[18];
             configdata->fanTempMax = config_data16;
 
-            configdata->volt_mon_mask = blkData[20];
+            configdata->volt_mon_mask = blkData[20] & 0x0f;
 
             config_data16 = (u_int16)blkData[22] << 8;
             config_data16 += blkData[21];
@@ -609,8 +609,8 @@ int32 __MAPILIB SMB2SHC_GetConf_Data(struct shc_configdata *configdata)
 
             configdata->StateMachineID = blkData[23];
         } else {
-            configdata->persistent_pwrbtn_enabled = 0xff;
-            configdata->use_PBRST = 0xff;
+            configdata->persistent_pwrbtn_enabled = 0;
+            configdata->use_PBRST = 1;
 
             configdata->fanNum = blkData[12];
             configdata->fanDuCyMin = blkData[13];
