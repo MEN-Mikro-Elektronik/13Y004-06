@@ -64,7 +64,7 @@ static const char IdentString[]=MENT_XSTR(MAK_REVISION);
 #define SHC_VOLT_GET_LENGTH  0x08
 #define SHC_UPS_GET_LENGTH   0x04
 #define SHC_CONF_GET_LENGTH_v416  0x13
-#define SHC_CONF_GET_LENGTH_v417  0x18
+#define SHC_CONF_GET_LENGTH_v417  0x17
 #define SHC_FVER_GET_LENGTH  0x07
 
 #define BIT_IS_PRESENT       0x01
@@ -401,7 +401,7 @@ int32 __MAPILIB SMB2SHC_GetVoltLevel(enum SHC_PWR_MON_ID pwr_mon_nr, u_int16 *vo
 }
 
 /****************************************************************************/
-/** Set duration of the power cycle in milliseconds
+/** Set power cycle duration in milliseconds
  *
  *  \param     status           \IN  desired delay in milliseconds
  *  \return    SMB2_SHC_ERR_NO on success or error code
@@ -411,9 +411,10 @@ int32 __MAPILIB SMB2SHC_GetVoltLevel(enum SHC_PWR_MON_ID pwr_mon_nr, u_int16 *vo
 int32 __MAPILIB SMB2SHC_SetPowerCycleDuration(u_int16 delay) {
 	u_int8 blkData[SMB_BLOCK_MAX_BYTES];
 		
-	blkData[0] = (u_int8)0; // set to 1 to enable immediate shutdown
-	blkData[1] = (u_int8)delay;      /* LSB */
-	blkData[2] = (u_int8)(delay>>8); /* MSB */
+        /* set to 1 to enable immediate shutdown */
+	blkData[0] = (u_int8) 0;
+	blkData[1] = (u_int8) delay;      /* LSB */
+	blkData[2] = (u_int8) (delay>>8); /* MSB */
 	
 	return SMB2API_WriteBlockData(SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
                 SHC_SET_POWERCYCLE_DURATION_OPCODE, SHC_DURATION_SET_LENGTH, blkData);
@@ -547,21 +548,21 @@ int32 __MAPILIB SMB2SHC_GetConf_Data(struct shc_configdata *configdata)
 	u_int16 config_data16;
 	u_int8 blkData[SMB_BLOCK_MAX_BYTES];
 
+	struct shc_fwversion firm_version;
+	err = SMB2SHC_GetFirm_Ver(&firm_version);
+	if (err) {
+                return err;
+	}
+
 	err = SMB2API_ReadBlockData(SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
 								SHC_CONF_GET_OPCODE, &length, blkData);
-	if (err)
+	if (err) {
 		return err;
+        }
 
-        u_int8 is_v417;
-        switch (length) {
-            case SHC_CONF_GET_LENGTH_v416:
-                is_v417 = 0;
-                break;
-            case SHC_CONF_GET_LENGTH_v417:
-                is_v417 = 1;
-                break;
-            default:
-		return SMB2_SHC_ERR_LENGTH;
+        if (!((length == SHC_CONF_GET_LENGTH_v416 && firm_version.min_revision <= 16) ||
+              (length == SHC_CONF_GET_LENGTH_v417 && firm_version.min_revision  > 16))) {
+                return SMB2_SHC_ERR_LENGTH;
         }
 
 	configdata->pwrSlot2 = blkData[0];
@@ -586,29 +587,7 @@ int32 __MAPILIB SMB2SHC_GetConf_Data(struct shc_configdata *configdata)
 	config_data16 += blkData[10];
 	configdata->tempRunHigh = config_data16;
 
-        if (is_v417) {
-            configdata->persistent_pwrbtn_enabled = blkData[12];
-            configdata->use_PBRST = blkData[13];
-            configdata->fanNum = blkData[14];
-            configdata->fanDuCyMin = blkData[15];
-
-            config_data16 = ((u_int16)blkData[17] << 8);
-            config_data16 += blkData[16];
-
-            configdata->fanTempStart = config_data16;
-
-            config_data16 = ((u_int16)blkData[19] << 8);
-            config_data16 += blkData[18];
-            configdata->fanTempMax = config_data16;
-
-            configdata->volt_mon_mask = blkData[20] & 0x0f;
-
-            config_data16 = (u_int16)blkData[22] << 8;
-            config_data16 += blkData[21];
-            configdata->i2c_address = config_data16;
-
-            configdata->StateMachineID = blkData[23];
-        } else {
+        if (firm_version.min_revision <= 16) {
             configdata->persistent_pwrbtn_enabled = 0;
             configdata->use_PBRST = 1;
 
@@ -627,6 +606,27 @@ int32 __MAPILIB SMB2SHC_GetConf_Data(struct shc_configdata *configdata)
             configdata->i2c_address = 0x75;
 
             configdata->StateMachineID = blkData[18];
+        }
+        else {
+            configdata->persistent_pwrbtn_enabled = blkData[12];
+            configdata->use_PBRST = blkData[13];
+
+            configdata->fanNum = blkData[14];
+            configdata->fanDuCyMin = blkData[15];
+
+            config_data16 = ((u_int16)blkData[17] << 8);
+            config_data16 += blkData[16];
+            configdata->fanTempStart = config_data16;
+
+            config_data16 = ((u_int16)blkData[19] << 8);
+            config_data16 += blkData[18];
+            configdata->fanTempMax = config_data16;
+
+            configdata->volt_mon_mask = blkData[20] & 0x0f;
+
+            configdata->i2c_address = blkData[21];
+
+            configdata->StateMachineID = blkData[22];
         }
 
 	return SMB2_SHC_ERR_NO;

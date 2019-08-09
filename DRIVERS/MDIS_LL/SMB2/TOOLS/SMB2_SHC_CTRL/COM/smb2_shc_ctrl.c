@@ -432,9 +432,19 @@ static void set_temperature(int32 tempC)
 */
 static void print_persistent_pwrbtn_status()
 {
-	u_int8 status;
+	struct shc_fwversion firm_version;
+        int err = SMB2SHC_GetFirm_Ver(&firm_version);
+	if (err) {
+		PrintError("***ERROR: SMB2SHC_GetFirm_Ver:", err);
+                return err;
+	}
+        if (firm_version.min_revision <= 16) {
+                printf("***ERROR: Persistent power button is not supported in shelf controller revisions below 4.17.");
+                return;
+        }
 
-	int err = SMB2SHC_GetPersistentPowerbuttonStatus((u_int8*)&status);
+	u_int8 status;
+	err = SMB2SHC_GetPersistentPowerbuttonStatus((u_int8*)&status);
 	if (err) {
 		PrintError("***ERROR: SMB2SHC_GetPersistentPowerbuttonStatus", err);
 	}
@@ -448,8 +458,18 @@ static void print_persistent_pwrbtn_status()
 */
 static void set_persistent_pwrbtn_status(u_int32 status)
 {
+	struct shc_fwversion firm_version;
+        int err = SMB2SHC_GetFirm_Ver(&firm_version);
+	if (err) {
+		PrintError("***ERROR: SMB2SHC_GetFirm_Ver:", err);
+                return;
+	}
+        if (firm_version.min_revision <= 16) {
+                printf("***ERROR: Cannot set persistent power button status in shelf controller revisions below 4.17.");
+                return;
+        }
         printf("Setting persistent power button to: %s\n", status == 1 ? "ON" : "OFF");
-	int err = SMB2SHC_SetPersistentPowerbuttonStatus(status);
+	err = SMB2SHC_SetPersistentPowerbuttonStatus(status);
 	if (err) {
 		PrintError("***ERROR: SMB2SHC_SetPersistentPowerbuttonStatus", err);
 	}
@@ -460,10 +480,20 @@ static void set_persistent_pwrbtn_status(u_int32 status)
 */
 static void set_power_cycle_duration(u_int32 delay)
 {
+	struct shc_fwversion firm_version;
+        int err = SMB2SHC_GetFirm_Ver(&firm_version);
+	if (err) {
+		PrintError("***ERROR: SMB2SHC_GetFirm_Ver:", err);
+                return;
+	}
+        if (firm_version.min_revision <= 16) {
+                printf("***ERROR: Cannot set power cycle duration in shelf controller revisions below 4.17.");
+                return;
+        }
 	printf("Setting power cycle duration to %d milliseconds.\n", delay);
 	printf("The shelf controller may clamp this value to min/max interval.");
 
-	int err = SMB2SHC_SetPowerCycleDuration((u_int16)delay);
+	err = SMB2SHC_SetPowerCycleDuration((u_int16)delay);
 	if (err) {
 		PrintError("***ERROR: SMB2SHC_SetPowerCycleDuration:", err);
 	}
