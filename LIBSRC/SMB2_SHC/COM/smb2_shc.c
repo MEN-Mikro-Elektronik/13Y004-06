@@ -49,17 +49,17 @@ static const char IdentString[]=MENT_XSTR(MAK_REVISION);
 #define SHC_UPS_GET_OPCODE   0x05
 #define SHC_CONF_GET_OPCODE  0x06
 #define SHC_TEMP_SET_OPCODE  0x07
-#define SHC_GET_PERSISTENT_PWRBTN_OPCODE 0x08
-#define SHC_SET_PERSISTENT_PWRBTN_OPCODE 0x09
+#define SHC_PERS_PWRBTN_GET_OPCODE 0x08
+#define SHC_PERS_PWRBTN_SET_OPCODE 0x09
 #define SHC_SH_DOWN_OPCODE   0x10
 #define SHC_PWR_OFF_OPCODE   0x11
-#define SHC_SET_POWERCYCLE_DURATION_OPCODE 0x12
+#define SHC_PWRCYCLE_DUR_SET_OPCODE 0x12
 #define SHC_FVER_GET_OPCODE  0x80
 
 /* data lengths */
 #define SHC_PSU_GET_LENGTH   0x03
 #define SHC_TEMP_SET_LENGTH  0x03
-#define SHC_DURATION_SET_LENGTH  0x03
+#define SHC_DUR_SET_LENGTH  0x03
 #define SHC_FAN_GET_LENGTH   0x09
 #define SHC_VOLT_GET_LENGTH  0x08
 #define SHC_UPS_GET_LENGTH   0x04
@@ -417,7 +417,7 @@ int32 __MAPILIB SMB2SHC_SetPowerCycleDuration(u_int16 delay) {
 	blkData[2] = (u_int8) (delay>>8); /* MSB */
 	
 	return SMB2API_WriteBlockData(SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
-		SHC_SET_POWERCYCLE_DURATION_OPCODE, SHC_DURATION_SET_LENGTH, blkData);
+		SHC_PWRCYCLE_DUR_SET_OPCODE, SHC_DUR_SET_LENGTH, blkData);
 }
 
 /****************************************************************************/
@@ -430,7 +430,7 @@ int32 __MAPILIB SMB2SHC_SetPowerCycleDuration(u_int16 delay) {
 */
 int32 __MAPILIB SMB2SHC_SetPersistentPowerbuttonStatus(u_int32 status) {
 	int err = SMB2API_WriteByteData(SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
-		SHC_SET_PERSISTENT_PWRBTN_OPCODE, status == 1 ? (u_int8)1 : (u_int8)0);
+		SHC_PERS_PWRBTN_SET_OPCODE, status == 1 ? (u_int8)1 : (u_int8)0);
 	if (err) {
 	    return err;
 	}
@@ -447,7 +447,7 @@ int32 __MAPILIB SMB2SHC_SetPersistentPowerbuttonStatus(u_int32 status) {
 */
 int32 __MAPILIB SMB2SHC_GetPersistentPowerbuttonStatus(u_int8 *status) {
 	int err = SMB2API_ReadByteData(SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
-		SHC_GET_PERSISTENT_PWRBTN_OPCODE, status);
+		SHC_PERS_PWRBTN_GET_OPCODE, status);
 	if (err) {
 	    return err;
 	}
