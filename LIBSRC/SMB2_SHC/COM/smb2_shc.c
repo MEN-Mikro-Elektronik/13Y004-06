@@ -430,7 +430,7 @@ int32 __MAPILIB SMB2SHC_SetPowerCycleDuration(u_int16 delay) {
 */
 int32 __MAPILIB SMB2SHC_SetPersistentPowerbuttonStatus(u_int32 status) {
 	int err = SMB2API_WriteByteData(SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
-		SHC_PERS_PWRBTN_SET_OPCODE, status == 1 ? (u_int8)1 : (u_int8)0);
+		SHC_PERS_PWRBTN_SET_OPCODE, status == 1 ? 1 : 0);
 	if (err) {
 	    return err;
 	}
@@ -443,7 +443,7 @@ int32 __MAPILIB SMB2SHC_SetPersistentPowerbuttonStatus(u_int32 status) {
  *  \param     status           \OUT  1 if button ON, 0 otherwise
  *  \return    SMB2_SHC_ERR_NO on success or error code
  *
- *  \sa SMB2SHC_SetPersistentPowerbuttonStatus
+ *  \sa SMB2SHC_GetPersistentPowerbuttonStatus
 */
 int32 __MAPILIB SMB2SHC_GetPersistentPowerbuttonStatus(u_int8 *status) {
 	int err = SMB2API_ReadByteData(SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
@@ -560,8 +560,10 @@ int32 __MAPILIB SMB2SHC_GetConf_Data(struct shc_configdata *configdata)
 		return err;
 	}
 
-	if (!((length == SHC_CONF_GET_LENGTH_v416 && firm_version.min_revision <= 16) ||
-	      (length == SHC_CONF_GET_LENGTH_v417 && firm_version.min_revision  > 16))) {
+	if (!((length == SHC_CONF_GET_LENGTH_v416 &&
+			(firm_version.maj_revision <= 4 && firm_version.min_revision <= 16)) ||
+	      (length == SHC_CONF_GET_LENGTH_v417 &&
+			(firm_version.maj_revision >= 5 || firm_version.min_revision > 16)))) {
 		return SMB2_SHC_ERR_LENGTH;
 	}
 
