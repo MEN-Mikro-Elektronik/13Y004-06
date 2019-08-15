@@ -92,7 +92,7 @@ static void header(void)
 	printf( "\n====================="
 			"\n=== SMB2_SHC_CTRL ==="
 			"\n=====================");
-    printf("\nCopyright (c) 2014-2019, MEN Mikro Elektronik GmbH\n%s\n\n", IdentString);
+	printf("\nCopyright (c) 2014-2019, MEN Mikro Elektronik GmbH\n%s\n\n", IdentString);
 }
 
 /********************************* usage ************************************/
@@ -224,15 +224,15 @@ int main(int argc, char** argv)
 	if ((optP = UTL_TSTOPT("s")))
 		shut_down();
 
-        /* indicates that the CPU wants to shut off the power supply */
-        if ((optP = UTL_TSTOPT("o")))
-                power_off();
+	/* indicates that the CPU wants to shut off the power supply */
+	if ((optP = UTL_TSTOPT("o")))
+		power_off();
 
-        /* Sets the duration of the power cycle (in ms) for a power off request */
+	/* Sets the duration of the power cycle (in ms) for a power off request */
 	if ((optP = UTL_TSTOPT("d="))) {
 		sscanf(optP, "%d", &id_nbr);
 		set_power_cycle_duration(id_nbr);
-        }
+	}
 
 	/* get configuration data */
 	if ((optP = UTL_TSTOPT("c")))
@@ -247,13 +247,13 @@ int main(int argc, char** argv)
 	/* set persistent power button status */
 	if ((optP = UTL_TSTOPT("B="))) {
 		sscanf(optP, "%x", &id_nbr);
-                set_persistent_pwrbtn_status(id_nbr);
+		set_persistent_pwrbtn_status(id_nbr);
 	}
 
 	/* get persistent power button status */
 	if ((optP = UTL_TSTOPT("P"))) {
-                print_persistent_pwrbtn_status();
-        }
+		print_persistent_pwrbtn_status();
+	}
 
 	/* get firmware version */
 	if ((optP = UTL_TSTOPT("r")))
@@ -373,22 +373,22 @@ static void print_ups(int32 ups_id)
 static void get_temperature()
 {
 	int err;
-        u_int16 tempK = 0;
-        int16 tempC = 0;
+	u_int16 tempK = 0;
+	int16 tempC = 0;
 
 	err = SMB2SHC_GetTemperature((u_int16*)&tempK);
 	if (err) {
 		PrintError("***ERROR: SMB2SHC_GET_TEMP", err);
 	}
 	else{
-                u_int16 status = 0;
-                int err = SMB2SHC_GetTemperatureOverrideStatus(&status);
-                if (err) {
-                        PrintError("***ERROR: SMB2SHC_GET_TEMPERATURE_OVERRIDE", err);
-                }
-                if (status) {
-                    printf("Temperature is overridden by host.\n");
-                }
+		u_int16 status = 0;
+		int err = SMB2SHC_GetTemperatureOverrideStatus(&status);
+		if (err) {
+			PrintError("***ERROR: SMB2SHC_GET_TEMPERATURE_OVERRIDE", err);
+		}
+		if (status) {
+			printf("Temperature is overridden by host.\n");
+		}
 		/* get Celsius */
 		tempC = tempK - ABS_ZERO;
 		printf("Temperature: %dK (%dC)\n", tempK, tempC);
@@ -433,15 +433,15 @@ static void set_temperature(int32 tempC)
 static void print_persistent_pwrbtn_status()
 {
 	struct shc_fwversion firm_version;
-        int err = SMB2SHC_GetFirm_Ver(&firm_version);
+	int err = SMB2SHC_GetFirm_Ver(&firm_version);
 	if (err) {
 		PrintError("***ERROR: SMB2SHC_GetFirm_Ver:", err);
-                return err;
+		return;
 	}
-        if (firm_version.min_revision <= 16) {
-                printf("***ERROR: Persistent power button is not supported in shelf controller revisions below 4.17.");
-                return;
-        }
+	if (firm_version.min_revision <= 16) {
+		printf("***ERROR: Persistent power button is not supported in shelf controller revisions below 4.17.");
+		return;
+	}
 
 	u_int8 status;
 	err = SMB2SHC_GetPersistentPowerbuttonStatus((u_int8*)&status);
@@ -459,16 +459,16 @@ static void print_persistent_pwrbtn_status()
 static void set_persistent_pwrbtn_status(u_int32 status)
 {
 	struct shc_fwversion firm_version;
-        int err = SMB2SHC_GetFirm_Ver(&firm_version);
+	int err = SMB2SHC_GetFirm_Ver(&firm_version);
 	if (err) {
 		PrintError("***ERROR: SMB2SHC_GetFirm_Ver:", err);
-                return;
+		return;
 	}
-        if (firm_version.min_revision <= 16) {
-                printf("***ERROR: Cannot set persistent power button status in shelf controller revisions below 4.17.");
-                return;
-        }
-        printf("Setting persistent power button to: %s\n", status == 1 ? "ON" : "OFF");
+	if (firm_version.min_revision <= 16) {
+		printf("***ERROR: Cannot set persistent power button status in shelf controller revisions below 4.17.");
+		return;
+	}
+	printf("Setting persistent power button to: %s\n", status == 1 ? "ON" : "OFF");
 	err = SMB2SHC_SetPersistentPowerbuttonStatus(status);
 	if (err) {
 		PrintError("***ERROR: SMB2SHC_SetPersistentPowerbuttonStatus", err);
@@ -481,15 +481,15 @@ static void set_persistent_pwrbtn_status(u_int32 status)
 static void set_power_cycle_duration(u_int32 delay)
 {
 	struct shc_fwversion firm_version;
-        int err = SMB2SHC_GetFirm_Ver(&firm_version);
+	int err = SMB2SHC_GetFirm_Ver(&firm_version);
 	if (err) {
 		PrintError("***ERROR: SMB2SHC_GetFirm_Ver:", err);
-                return;
+		return;
 	}
-        if (firm_version.min_revision <= 16) {
-                printf("***ERROR: Cannot set power cycle duration in shelf controller revisions below 4.17.");
-                return;
-        }
+	if (firm_version.min_revision <= 16) {
+		printf("***ERROR: Cannot set power cycle duration in shelf controller revisions below 4.17.");
+		return;
+	}
 	printf("Setting power cycle duration to %d milliseconds.\n", delay);
 	printf("The shelf controller may clamp this value to min/max interval.");
 
@@ -563,30 +563,30 @@ static void print_configdata()
 		PrintError("***ERROR: SMB2SHC_GetConf_Data:", err);
 	}
 	else {
-                print_slot_status(cdata.pwrSlot2, 2);
-                print_slot_status(cdata.pwrSlot3, 3);
-                printf("-----------------------------------------\n");
-                printf("UPS Minimum Start Charge in %%: \t\t%d\n", cdata.upsMinStartCharge);
-                printf("UPS Minimum Run Charge in %%: \t\t%d\n", cdata.upsMinRunCharge);
-                printf("-----------------------------------------\n");
-                printf("Low Temperature Warning Limit in K: \t%d\n", cdata.tempWarnLow);
-                printf("Upper Temperature Warning Limit in K: \t%d\n", cdata.tempWarnHigh);
-                printf("Low Temperature Run Limit in K: \t%d\n", cdata.tempRunLow);
-                printf("High Temperature Run Limit in K: \t%d\n", cdata.tempRunHigh);
-                printf("-----------------------------------------\n");
-                printf("Persistent power button enabled: \t%s\n", cdata.persistent_pwrbtn_enabled ? "TRUE" : "FALSE");
-                printf("PBRST during DEL_START enabled: \t%s\n", cdata.use_PBRST ? "TRUE" : "FALSE");
-                printf("-----------------------------------------\n");
-                printf("Number of Fans: %d\n", cdata.fanNum);
-                printf("Fan Min Duty Cycle in %%: \t\t%d\n", cdata.fanDuCyMin);
-                printf("Fan Start Temperature in K: \t\t%d\n", cdata.fanTempStart);
-                printf("Fan Max Speed Temperature in K: \t%d\n", cdata.fanTempMax);
-                printf("-----------------------------------------\n");
-                printf("Voltage channel mask in decimal: \t%d\n", cdata.volt_mon_mask);
-                printf("-----------------------------------------\n");
-                printf("SMBus address: \t0x%x\n", cdata.i2c_address == 0xff ? 0x75 : cdata.i2c_address);
-                printf("-----------------------------------------\n");
-                printf("SHC State Machine ID: \t%d\n", cdata.StateMachineID);
+		print_slot_status(cdata.pwrSlot2, 2);
+		print_slot_status(cdata.pwrSlot3, 3);
+		printf("-----------------------------------------\n");
+		printf("UPS Minimum Start Charge in %%: \t\t%d\n", cdata.upsMinStartCharge);
+		printf("UPS Minimum Run Charge in %%: \t\t%d\n", cdata.upsMinRunCharge);
+		printf("-----------------------------------------\n");
+		printf("Low Temperature Warning Limit in K: \t%d\n", cdata.tempWarnLow);
+		printf("Upper Temperature Warning Limit in K: \t%d\n", cdata.tempWarnHigh);
+		printf("Low Temperature Run Limit in K: \t%d\n", cdata.tempRunLow);
+		printf("High Temperature Run Limit in K: \t%d\n", cdata.tempRunHigh);
+		printf("-----------------------------------------\n");
+		printf("Persistent power button enabled: \t%s\n", cdata.persistent_pwrbtn_enabled ? "TRUE" : "FALSE");
+		printf("PBRST during DEL_START enabled: \t%s\n", cdata.use_PBRST ? "TRUE" : "FALSE");
+		printf("-----------------------------------------\n");
+		printf("Number of Fans: %d\n", cdata.fanNum);
+		printf("Fan Min Duty Cycle in %%: \t\t%d\n", cdata.fanDuCyMin);
+		printf("Fan Start Temperature in K: \t\t%d\n", cdata.fanTempStart);
+		printf("Fan Max Speed Temperature in K: \t%d\n", cdata.fanTempMax);
+		printf("-----------------------------------------\n");
+		printf("Voltage channel mask in decimal: \t%d\n", cdata.volt_mon_mask);
+		printf("-----------------------------------------\n");
+		printf("SMBus address: \t0x%x\n", cdata.i2c_address == 0xff ? 0x75 : cdata.i2c_address);
+		printf("-----------------------------------------\n");
+		printf("SHC State Machine ID: \t%d\n", cdata.StateMachineID);
 	}
 }
 
