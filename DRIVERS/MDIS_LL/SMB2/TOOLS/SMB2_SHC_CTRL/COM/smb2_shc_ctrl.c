@@ -49,6 +49,7 @@
 #include <MEN/smb2_api.h>
 
 static const char IdentString[]=MENT_XSTR(MAK_REVISION);
+static struct shc_fwversion g_firm_version;
 
 /*-------------------------------------+
 |   DEFINES                            |
@@ -187,6 +188,12 @@ int main(int argc, char** argv)
 	if (err) {
 		PrintError("***ERROR: SMB2_SHC_Init", err);
 		ret=1;
+		goto EXIT;
+	}
+
+	err = SMB2SHC_GetFirm_Ver(&g_firm_version);
+	if (err) {
+		PrintError("***ERROR: SMB2SHC_GetFirm_Ver:", err);
 		goto EXIT;
 	}
 
@@ -432,19 +439,13 @@ static void set_temperature(int32 tempC)
 */
 static void print_persistent_pwrbtn_status()
 {
-	struct shc_fwversion firm_version;
-	int err = SMB2SHC_GetFirm_Ver(&firm_version);
-	if (err) {
-		PrintError("***ERROR: SMB2SHC_GetFirm_Ver:", err);
-		return;
-	}
-	if (firm_version.min_revision <= 16) {
+	if (g_firm_version.maj_revision <= 4 && g_firm_version.min_revision <= 16) {
 		printf("***ERROR: Persistent power button is not supported in shelf controller revisions below 4.17.");
 		return;
 	}
 
 	u_int8 status;
-	err = SMB2SHC_GetPersistentPowerbuttonStatus((u_int8*)&status);
+	int err = SMB2SHC_GetPersistentPowerbuttonStatus((u_int8*)&status);
 	if (err) {
 		PrintError("***ERROR: SMB2SHC_GetPersistentPowerbuttonStatus", err);
 	}
@@ -458,18 +459,12 @@ static void print_persistent_pwrbtn_status()
 */
 static void set_persistent_pwrbtn_status(u_int32 status)
 {
-	struct shc_fwversion firm_version;
-	int err = SMB2SHC_GetFirm_Ver(&firm_version);
-	if (err) {
-		PrintError("***ERROR: SMB2SHC_GetFirm_Ver:", err);
-		return;
-	}
-	if (firm_version.min_revision <= 16) {
+	if (g_firm_version.maj_revision <= 4 && g_firm_version.min_revision <= 16) {
 		printf("***ERROR: Cannot set persistent power button status in shelf controller revisions below 4.17.");
 		return;
 	}
 	printf("Setting persistent power button to: %s\n", status == 1 ? "ON" : "OFF");
-	err = SMB2SHC_SetPersistentPowerbuttonStatus(status);
+	int err = SMB2SHC_SetPersistentPowerbuttonStatus(status);
 	if (err) {
 		PrintError("***ERROR: SMB2SHC_SetPersistentPowerbuttonStatus", err);
 	}
@@ -480,20 +475,14 @@ static void set_persistent_pwrbtn_status(u_int32 status)
 */
 static void set_power_cycle_duration(u_int32 delay)
 {
-	struct shc_fwversion firm_version;
-	int err = SMB2SHC_GetFirm_Ver(&firm_version);
-	if (err) {
-		PrintError("***ERROR: SMB2SHC_GetFirm_Ver:", err);
-		return;
-	}
-	if (firm_version.min_revision <= 16) {
+	if (g_firm_version.maj_revision <= 4 && g_firm_version.min_revision <= 16) {
 		printf("***ERROR: Cannot set power cycle duration in shelf controller revisions below 4.17.");
 		return;
 	}
 	printf("Setting power cycle duration to %d milliseconds.\n", delay);
 	printf("The shelf controller may clamp this value to min/max interval.");
 
-	err = SMB2SHC_SetPowerCycleDuration((u_int16)delay);
+	int err = SMB2SHC_SetPowerCycleDuration((u_int16)delay);
 	if (err) {
 		PrintError("***ERROR: SMB2SHC_SetPowerCycleDuration:", err);
 	}
