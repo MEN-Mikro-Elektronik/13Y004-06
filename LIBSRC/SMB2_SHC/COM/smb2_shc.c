@@ -233,13 +233,13 @@ int32 __MAPILIB SMB2SHC_GetTemperature(u_int16 *tempK)
 		return SMB2_SHC_ERR_LENGTH;
 
 	if (blkData[0] != SET_TEMP_ENABLE){
-                return SMB2API_ReadWordData(SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
+		return SMB2API_ReadWordData(SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
 									SHC_TEMP_OPCODE, tempK);
 	}
 	else{
 		*tempK = ((u_int16)blkData[2]<<8); /* MSB */
 		*tempK = *tempK |  (u_int16)blkData[1];     /* LSB */
-        }
+	}
 
 	return SMB2_SHC_ERR_NO;
 }
@@ -258,14 +258,14 @@ int32 __MAPILIB SMB2SHC_GetTemperatureOverrideStatus(u_int16 *status) {
 	u_int8 blkData[SMB_BLOCK_MAX_BYTES];
 
 	int err = SMB2API_ReadBlockData(SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
-                      SHC_TEMP_SET_OPCODE, &length, blkData);
+		      SHC_TEMP_SET_OPCODE, &length, blkData);
 	if (err)
 		return err;
 
 	if (length != SHC_TEMP_SET_LENGTH)
 		return SMB2_SHC_ERR_LENGTH;
 
-        *status = blkData[0] == SET_TEMP_ENABLE ? 1 : 0;
+	*status = blkData[0] == SET_TEMP_ENABLE ? 1 : 0;
 	return SMB2_SHC_ERR_NO;
 }
 
@@ -411,13 +411,13 @@ int32 __MAPILIB SMB2SHC_GetVoltLevel(enum SHC_PWR_MON_ID pwr_mon_nr, u_int16 *vo
 int32 __MAPILIB SMB2SHC_SetPowerCycleDuration(u_int16 delay) {
 	u_int8 blkData[SMB_BLOCK_MAX_BYTES];
 		
-        /* set to 1 to enable immediate shutdown */
+	/* set to 1 to enable immediate shutdown */
 	blkData[0] = (u_int8) 0;
 	blkData[1] = (u_int8) delay;      /* LSB */
 	blkData[2] = (u_int8) (delay>>8); /* MSB */
 	
 	return SMB2API_WriteBlockData(SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
-                SHC_SET_POWERCYCLE_DURATION_OPCODE, SHC_DURATION_SET_LENGTH, blkData);
+		SHC_SET_POWERCYCLE_DURATION_OPCODE, SHC_DURATION_SET_LENGTH, blkData);
 }
 
 /****************************************************************************/
@@ -429,12 +429,12 @@ int32 __MAPILIB SMB2SHC_SetPowerCycleDuration(u_int16 delay) {
  *  \sa SMB2SHC_SetPersistentPowerbuttonStatus
 */
 int32 __MAPILIB SMB2SHC_SetPersistentPowerbuttonStatus(u_int32 status) {
-        int err = SMB2API_WriteByteData(SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
-                SHC_SET_PERSISTENT_PWRBTN_OPCODE, status == 1 ? (u_int8)1 : (u_int8)0);
-        if (err) {
-            return err;
-        }
-        return SMB2_SHC_ERR_NO;
+	int err = SMB2API_WriteByteData(SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
+		SHC_SET_PERSISTENT_PWRBTN_OPCODE, status == 1 ? (u_int8)1 : (u_int8)0);
+	if (err) {
+	    return err;
+	}
+	return SMB2_SHC_ERR_NO;
 }
 
 /****************************************************************************/
@@ -446,12 +446,12 @@ int32 __MAPILIB SMB2SHC_SetPersistentPowerbuttonStatus(u_int32 status) {
  *  \sa SMB2SHC_SetPersistentPowerbuttonStatus
 */
 int32 __MAPILIB SMB2SHC_GetPersistentPowerbuttonStatus(u_int8 *status) {
-        int err = SMB2API_ReadByteData(SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
-                SHC_GET_PERSISTENT_PWRBTN_OPCODE, status);
-        if (err) {
-            return err;
-        }
-        return SMB2_SHC_ERR_NO;
+	int err = SMB2API_ReadByteData(SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
+		SHC_GET_PERSISTENT_PWRBTN_OPCODE, status);
+	if (err) {
+	    return err;
+	}
+	return SMB2_SHC_ERR_NO;
 }
 
 /****************************************************************************/
@@ -551,19 +551,19 @@ int32 __MAPILIB SMB2SHC_GetConf_Data(struct shc_configdata *configdata)
 	struct shc_fwversion firm_version;
 	err = SMB2SHC_GetFirm_Ver(&firm_version);
 	if (err) {
-                return err;
+		return err;
 	}
 
 	err = SMB2API_ReadBlockData(SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
 								SHC_CONF_GET_OPCODE, &length, blkData);
 	if (err) {
 		return err;
-        }
+	}
 
-        if (!((length == SHC_CONF_GET_LENGTH_v416 && firm_version.min_revision <= 16) ||
-              (length == SHC_CONF_GET_LENGTH_v417 && firm_version.min_revision  > 16))) {
-                return SMB2_SHC_ERR_LENGTH;
-        }
+	if (!((length == SHC_CONF_GET_LENGTH_v416 && firm_version.min_revision <= 16) ||
+	      (length == SHC_CONF_GET_LENGTH_v417 && firm_version.min_revision  > 16))) {
+		return SMB2_SHC_ERR_LENGTH;
+	}
 
 	configdata->pwrSlot2 = blkData[0];
 	configdata->pwrSlot3 = blkData[1];
