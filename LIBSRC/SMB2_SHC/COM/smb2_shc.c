@@ -237,8 +237,8 @@ int32 __MAPILIB SMB2SHC_GetTemperature(u_int16 *tempK)
 									SHC_TEMP_OPCODE, tempK);
 	}
 	else{
-		*tempK = ((u_int16)blkData[2]<<8); /* MSB */
-		*tempK = *tempK |  (u_int16)blkData[1];     /* LSB */
+		*tempK = ((u_int16)blkData[2]<<8);      /* MSB */
+		*tempK = *tempK |  (u_int16)blkData[1]; /* LSB */
 	}
 
 	return SMB2_SHC_ERR_NO;
