@@ -587,47 +587,47 @@ int32 __MAPILIB SMB2SHC_GetConf_Data(struct shc_configdata *configdata)
 	config_data16 += blkData[10];
 	configdata->tempRunHigh = config_data16;
 
-        if (firm_version.min_revision <= 16) {
-            configdata->persistent_pwrbtn_enabled = 0;
-            configdata->use_PBRST = 1;
+	if (firm_version.min_revision <= 16) {
+	    configdata->persistentPwrbtnEnabled = 0;
+	    configdata->usePBRST = 1;
 
-            configdata->fanNum = blkData[12];
-            configdata->fanDuCyMin = blkData[13];
+	    configdata->fanNum = blkData[12];
+	    configdata->fanDuCyMin = blkData[13];
 
-            config_data16 = ((u_int16)blkData[15] << 8);
-            config_data16 += blkData[14];
-            configdata->fanTempStart = config_data16;
+	    config_data16 = ((u_int16)blkData[15] << 8);
+	    config_data16 += blkData[14];
+	    configdata->fanTempStart = config_data16;
 
-            config_data16 = ((u_int16)blkData[17] << 8);
-            config_data16 += blkData[16];
-            configdata->fanTempMax = config_data16;
+	    config_data16 = ((u_int16)blkData[17] << 8);
+	    config_data16 += blkData[16];
+	    configdata->fanTempMax = config_data16;
 
-            configdata->volt_mon_mask = 15;
-            configdata->i2c_address = 0x75;
+	    configdata->voltMonMask = 15;
+	    configdata->i2cAddress = 0x75;
 
-            configdata->StateMachineID = blkData[18];
-        }
-        else {
-            configdata->persistent_pwrbtn_enabled = blkData[12];
-            configdata->use_PBRST = blkData[13];
+	    configdata->StateMachineID = blkData[18];
+	}
+	else {
+	    configdata->persistentPwrbtnEnabled = blkData[12];
+	    configdata->usePBRST = blkData[13];
 
-            configdata->fanNum = blkData[14];
-            configdata->fanDuCyMin = blkData[15];
+	    configdata->fanNum = blkData[14];
+	    configdata->fanDuCyMin = blkData[15];
 
-            config_data16 = ((u_int16)blkData[17] << 8);
-            config_data16 += blkData[16];
-            configdata->fanTempStart = config_data16;
+	    config_data16 = ((u_int16)blkData[17] << 8);
+	    config_data16 += blkData[16];
+	    configdata->fanTempStart = config_data16;
 
-            config_data16 = ((u_int16)blkData[19] << 8);
-            config_data16 += blkData[18];
-            configdata->fanTempMax = config_data16;
+	    config_data16 = ((u_int16)blkData[19] << 8);
+	    config_data16 += blkData[18];
+	    configdata->fanTempMax = config_data16;
 
-            configdata->volt_mon_mask = blkData[20] & 0x0f;
+	    configdata->voltMonMask = blkData[20] & 0x0f;
 
-            configdata->i2c_address = blkData[21];
+	    configdata->i2cAddress = blkData[21];
 
-            configdata->StateMachineID = blkData[22];
-        }
+	    configdata->StateMachineID = blkData[22];
+	}
 
 	return SMB2_SHC_ERR_NO;
 }

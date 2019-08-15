@@ -185,11 +185,11 @@ struct shc_configdata {
 	/**
 	 * Enable power button persistence
 	 */
-	u_int8 persistent_pwrbtn_enabled;
+	u_int8 persistentPwrbtnEnabled;
 	/**
 	 * Enable PBRST signal during DEL_START state
 	 */
-	u_int8 use_PBRST;
+	u_int8 usePBRST;
 	/**
 	 *  Low Temperature Warning Limit in K
 	 */
@@ -225,11 +225,11 @@ struct shc_configdata {
 	/**
 	 *  Voltage monitor channel enable mask
 	 */
-	u_int8 volt_mon_mask;
+	u_int8 voltMonMask;
 	/**
 	 *  Custom I2C address (default: 0x75)
 	 */
-	u_int8 i2c_address;
+	u_int8 i2cAddress;
 	/**
 	 *  State Machine Id can be 1, 2 or 3
 	 */
