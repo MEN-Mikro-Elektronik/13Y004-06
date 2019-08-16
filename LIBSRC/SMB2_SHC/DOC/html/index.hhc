@@ -24,7 +24,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_Init"><param name="Local" value="group____SMB2__SHC.html#ga7bb2863d236ef8bb3c0e1980cc4a99d3"><param name="ImageNumber" value="11"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_PowerOff"><param name="Local" value="group____SMB2__SHC.html#ga0c007e8b5f2d76802358b7f6650cc198"><param name="ImageNumber" value="11"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_SetPersistentPowerbuttonStatus"><param name="Local" value="group____SMB2__SHC.html#ga3a0f42c1ce9d25258304db3faf19625f"><param name="ImageNumber" value="11"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_SetPowerCycleDuration"><param name="Local" value="group____SMB2__SHC.html#ga4e929f76fac0433ad979b8e6256f31c4"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_SetPowerCycleDuration"><param name="Local" value="group____SMB2__SHC.html#gaebe034327db61ebd1fef2f180352a3e1"><param name="ImageNumber" value="11"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_SetTemperature"><param name="Local" value="group____SMB2__SHC.html#ga1255f5bca428503395435ebc91a3485e"><param name="ImageNumber" value="11"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_ShutDown"><param name="Local" value="group____SMB2__SHC.html#ga121f84e7d1b6391e880869f750bdde29"><param name="ImageNumber" value="11"></OBJECT>
     </UL>
@@ -39,8 +39,8 @@
       <LI><OBJECT type="text/sitemap"><param name="Name" value="fanNum"><param name="Local" value="structshc__configdata.html#a93a1a4a3617d3f22a6fdd43f2dd935e1"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="fanTempMax"><param name="Local" value="structshc__configdata.html#aa1a4516a6ec2e2bfd9db577af6faac0b"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="fanTempStart"><param name="Local" value="structshc__configdata.html#a4f0b44a68067e77899ccce996e7643ea"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="i2c_address"><param name="Local" value="structshc__configdata.html#a0c5119b1888263afba343483ccb2fef0"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="persistent_pwrbtn_enabled"><param name="Local" value="structshc__configdata.html#a3afdd90f3cb1fa0fa11d46353c5006f5"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="i2cAddress"><param name="Local" value="structshc__configdata.html#ae4c620c2b25e1fce256886ae9fe2fb3b"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="persistentPwrbtnEnabled"><param name="Local" value="structshc__configdata.html#aa779f9eec6a54a16b5cb6e8d449401b2"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="pwrSlot2"><param name="Local" value="structshc__configdata.html#ab35fb4c516aff07f1e8738d68b360732"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="pwrSlot3"><param name="Local" value="structshc__configdata.html#a4e398b422ff933588cafe2b635b7ff3e"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="StateMachineID"><param name="Local" value="structshc__configdata.html#ab8f5d905c9cd25b25057d29628ce2ba4"><param name="ImageNumber" value="11"></OBJECT>
@@ -50,8 +50,8 @@
       <LI><OBJECT type="text/sitemap"><param name="Name" value="tempWarnLow"><param name="Local" value="structshc__configdata.html#a1a1e5abaf0694bb576d59eeb05aa06fb"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="upsMinRunCharge"><param name="Local" value="structshc__configdata.html#a40b462dd8a3eabc4c4f1b3210a48c89e"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="upsMinStartCharge"><param name="Local" value="structshc__configdata.html#acbec69f7f3a0da5ac0be803f5492b66c"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="use_PBRST"><param name="Local" value="structshc__configdata.html#ac18f4ffd1d7be85e6f4d7e7741dc7fdf"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="volt_mon_mask"><param name="Local" value="structshc__configdata.html#a647c74faa23826bd62f3efd4e86cbd94"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="usePBRST"><param name="Local" value="structshc__configdata.html#a61c6c30af2b8ad1a030b6b72e31d5740"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="voltMonMask"><param name="Local" value="structshc__configdata.html#aefd22c439b7387c0ce5f7f51370173c4"><param name="ImageNumber" value="11"></OBJECT>
       </UL>
     <LI><OBJECT type="text/sitemap"><param name="Name" value="shc_fan"><param name="Local" value="structshc__fan.html"><param name="ImageNumber" value="1"></OBJECT>
       <UL>
@@ -109,7 +109,7 @@
       <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_Init"><param name="Local" value="group____SMB2__SHC.html#ga7bb2863d236ef8bb3c0e1980cc4a99d3"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_PowerOff"><param name="Local" value="group____SMB2__SHC.html#ga0c007e8b5f2d76802358b7f6650cc198"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_SetPersistentPowerbuttonStatus"><param name="Local" value="group____SMB2__SHC.html#ga3a0f42c1ce9d25258304db3faf19625f"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_SetPowerCycleDuration"><param name="Local" value="group____SMB2__SHC.html#ga4e929f76fac0433ad979b8e6256f31c4"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_SetPowerCycleDuration"><param name="Local" value="group____SMB2__SHC.html#gaebe034327db61ebd1fef2f180352a3e1"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_SetTemperature"><param name="Local" value="group____SMB2__SHC.html#ga1255f5bca428503395435ebc91a3485e"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_ShutDown"><param name="Local" value="group____SMB2__SHC.html#ga121f84e7d1b6391e880869f750bdde29"><param name="ImageNumber" value="11"></OBJECT>
       </UL>
@@ -140,8 +140,8 @@
         <LI><OBJECT type="text/sitemap"><param name="Name" value="fanNum"><param name="Local" value="structshc__configdata.html#a93a1a4a3617d3f22a6fdd43f2dd935e1"><param name="ImageNumber" value="11"></OBJECT>
         <LI><OBJECT type="text/sitemap"><param name="Name" value="fanTempMax"><param name="Local" value="structshc__configdata.html#aa1a4516a6ec2e2bfd9db577af6faac0b"><param name="ImageNumber" value="11"></OBJECT>
         <LI><OBJECT type="text/sitemap"><param name="Name" value="fanTempStart"><param name="Local" value="structshc__configdata.html#a4f0b44a68067e77899ccce996e7643ea"><param name="ImageNumber" value="11"></OBJECT>
-        <LI><OBJECT type="text/sitemap"><param name="Name" value="i2c_address"><param name="Local" value="structshc__configdata.html#a0c5119b1888263afba343483ccb2fef0"><param name="ImageNumber" value="11"></OBJECT>
-        <LI><OBJECT type="text/sitemap"><param name="Name" value="persistent_pwrbtn_enabled"><param name="Local" value="structshc__configdata.html#a3afdd90f3cb1fa0fa11d46353c5006f5"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="i2cAddress"><param name="Local" value="structshc__configdata.html#ae4c620c2b25e1fce256886ae9fe2fb3b"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="persistentPwrbtnEnabled"><param name="Local" value="structshc__configdata.html#aa779f9eec6a54a16b5cb6e8d449401b2"><param name="ImageNumber" value="11"></OBJECT>
         <LI><OBJECT type="text/sitemap"><param name="Name" value="pwrSlot2"><param name="Local" value="structshc__configdata.html#ab35fb4c516aff07f1e8738d68b360732"><param name="ImageNumber" value="11"></OBJECT>
         <LI><OBJECT type="text/sitemap"><param name="Name" value="pwrSlot3"><param name="Local" value="structshc__configdata.html#a4e398b422ff933588cafe2b635b7ff3e"><param name="ImageNumber" value="11"></OBJECT>
         <LI><OBJECT type="text/sitemap"><param name="Name" value="StateMachineID"><param name="Local" value="structshc__configdata.html#ab8f5d905c9cd25b25057d29628ce2ba4"><param name="ImageNumber" value="11"></OBJECT>
@@ -151,8 +151,8 @@
         <LI><OBJECT type="text/sitemap"><param name="Name" value="tempWarnLow"><param name="Local" value="structshc__configdata.html#a1a1e5abaf0694bb576d59eeb05aa06fb"><param name="ImageNumber" value="11"></OBJECT>
         <LI><OBJECT type="text/sitemap"><param name="Name" value="upsMinRunCharge"><param name="Local" value="structshc__configdata.html#a40b462dd8a3eabc4c4f1b3210a48c89e"><param name="ImageNumber" value="11"></OBJECT>
         <LI><OBJECT type="text/sitemap"><param name="Name" value="upsMinStartCharge"><param name="Local" value="structshc__configdata.html#acbec69f7f3a0da5ac0be803f5492b66c"><param name="ImageNumber" value="11"></OBJECT>
-        <LI><OBJECT type="text/sitemap"><param name="Name" value="use_PBRST"><param name="Local" value="structshc__configdata.html#ac18f4ffd1d7be85e6f4d7e7741dc7fdf"><param name="ImageNumber" value="11"></OBJECT>
-        <LI><OBJECT type="text/sitemap"><param name="Name" value="volt_mon_mask"><param name="Local" value="structshc__configdata.html#a647c74faa23826bd62f3efd4e86cbd94"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="usePBRST"><param name="Local" value="structshc__configdata.html#a61c6c30af2b8ad1a030b6b72e31d5740"><param name="ImageNumber" value="11"></OBJECT>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="voltMonMask"><param name="Local" value="structshc__configdata.html#aefd22c439b7387c0ce5f7f51370173c4"><param name="ImageNumber" value="11"></OBJECT>
         </UL>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="shc_fwversion"><param name="Local" value="structshc__fwversion.html"><param name="ImageNumber" value="1"></OBJECT>
         <UL>
@@ -196,7 +196,7 @@
       <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_Init"><param name="Local" value="group____SMB2__SHC.html#ga7bb2863d236ef8bb3c0e1980cc4a99d3"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_PowerOff"><param name="Local" value="group____SMB2__SHC.html#ga0c007e8b5f2d76802358b7f6650cc198"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_SetPersistentPowerbuttonStatus"><param name="Local" value="group____SMB2__SHC.html#ga3a0f42c1ce9d25258304db3faf19625f"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_SetPowerCycleDuration"><param name="Local" value="group____SMB2__SHC.html#ga4e929f76fac0433ad979b8e6256f31c4"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_SetPowerCycleDuration"><param name="Local" value="group____SMB2__SHC.html#gaebe034327db61ebd1fef2f180352a3e1"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_SetTemperature"><param name="Local" value="group____SMB2__SHC.html#ga1255f5bca428503395435ebc91a3485e"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_ShutDown"><param name="Local" value="group____SMB2__SHC.html#ga121f84e7d1b6391e880869f750bdde29"><param name="ImageNumber" value="11"></OBJECT>
       </UL>

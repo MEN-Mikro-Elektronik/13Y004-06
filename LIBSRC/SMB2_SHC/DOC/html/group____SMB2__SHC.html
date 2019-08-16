@@ -70,9 +70,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ga42a30de2d759814929b6ca11c13718ed"><td class="memItemLeft" align="right" valign="top">int32 __MAPILIB&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group____SMB2__SHC.html#ga42a30de2d759814929b6ca11c13718ed">SMB2SHC_GetVoltLevel</a> (enum <a class="el" href="smb2__shc_8h.html#a1b174c9d351bcfd4676196bb290d6469">SHC_PWR_MON_ID</a> pwr_mon_nr, u_int16 *volt_value)</td></tr>
 <tr class="memdesc:ga42a30de2d759814929b6ca11c13718ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the voltage levels on power monitor inputs.  <a href="#ga42a30de2d759814929b6ca11c13718ed">More...</a><br /></td></tr>
 <tr class="separator:ga42a30de2d759814929b6ca11c13718ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga4e929f76fac0433ad979b8e6256f31c4"><td class="memItemLeft" align="right" valign="top">int32 __MAPILIB&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group____SMB2__SHC.html#ga4e929f76fac0433ad979b8e6256f31c4">SMB2SHC_SetPowerCycleDuration</a> (u_int16 delay)</td></tr>
-<tr class="memdesc:ga4e929f76fac0433ad979b8e6256f31c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set power cycle duration in milliseconds.  <a href="#ga4e929f76fac0433ad979b8e6256f31c4">More...</a><br /></td></tr>
-<tr class="separator:ga4e929f76fac0433ad979b8e6256f31c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaebe034327db61ebd1fef2f180352a3e1"><td class="memItemLeft" align="right" valign="top">int32 __MAPILIB&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group____SMB2__SHC.html#gaebe034327db61ebd1fef2f180352a3e1">SMB2SHC_SetPowerCycleDuration</a> (u_int16 duration)</td></tr>
+<tr class="memdesc:gaebe034327db61ebd1fef2f180352a3e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set power cycle duration in milliseconds.  <a href="#gaebe034327db61ebd1fef2f180352a3e1">More...</a><br /></td></tr>
+<tr class="separator:gaebe034327db61ebd1fef2f180352a3e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga3a0f42c1ce9d25258304db3faf19625f"><td class="memItemLeft" align="right" valign="top">int32 __MAPILIB&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group____SMB2__SHC.html#ga3a0f42c1ce9d25258304db3faf19625f">SMB2SHC_SetPersistentPowerbuttonStatus</a> (u_int32 status)</td></tr>
 <tr class="memdesc:ga3a0f42c1ce9d25258304db3faf19625f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the status of the persistent power button.  <a href="#ga3a0f42c1ce9d25258304db3faf19625f">More...</a><br /></td></tr>
 <tr class="separator:ga3a0f42c1ce9d25258304db3faf19625f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -156,7 +156,7 @@ Functions</h2></td></tr>
 
 <p>Deinitialization of the shelf controller library. </p>
 <dl class="section return"><dt>Returns</dt><dd>0 on success or error code</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="group____SMB2__SHC.html#ga7120493daaaf3a469192c700326331f3" title="Deinitialization of the shelf controller library. ">SMB2SHC_Exit</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group____SMB2__SHC.html#ga7bb2863d236ef8bb3c0e1980cc4a99d3" title="Initialization of the shelf controller library. ">SMB2SHC_Init</a> </dd></dl>
 
 </div>
 </div>
@@ -183,8 +183,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>0 on success or error code</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="group____SMB2__SHC.html#ga69d1f15629d5e9d0b6ff5abdacedff01" title="Get the Configuration Data. ">SMB2SHC_GetConf_Data</a> </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>0 on success or error code </dd></dl>
 
 <p class="reference">References <a class="el" href="group____SMB2__SHC.html#ga912de5d009a7b29df625b27f519512d1">SMB2SHC_GetFirm_Ver()</a>.</p>
 
@@ -224,8 +223,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>0 on success or error code</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="group____SMB2__SHC.html#ga7680a062ebf765f9005e02d4b2a9c02d" title="Get the FAN status of the selected FAN. ">SMB2SHC_GetFAN_State</a> </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>0 on success or error code </dd></dl>
 
 </div>
 </div>
@@ -252,8 +250,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>0 on success or error code</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="group____SMB2__SHC.html#ga912de5d009a7b29df625b27f519512d1" title="Get the firmware version. ">SMB2SHC_GetFirm_Ver</a> </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>0 on success or error code </dd></dl>
 
 <p class="reference">Referenced by <a class="el" href="group____SMB2__SHC.html#ga69d1f15629d5e9d0b6ff5abdacedff01">SMB2SHC_GetConf_Data()</a>.</p>
 
@@ -321,8 +318,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>0 on success or error code</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="group____SMB2__SHC.html#gafe67ee3de8283fafe8fe148867daa8bc" title="Get the Power Supply Report of the selected PSU. ">SMB2SHC_GetPSU_State</a> </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>0 on success or error code </dd></dl>
 
 </div>
 </div>
@@ -351,7 +347,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>0 on success or error code</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="group____SMB2__SHC.html#gaf2af4b987be28056db00eb425b9cbe74" title="Read the inner temperature of the shelf controller. ">SMB2SHC_GetTemperature</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group____SMB2__SHC.html#ga1255f5bca428503395435ebc91a3485e" title="Write the ambient temperature to the shelf controller (for one minute) ">SMB2SHC_SetTemperature</a>, <a class="el" href="group____SMB2__SHC.html#gaf64485b7a1338e7f62a4fcb6cd5a4ea1" title="Get the status of the temperature override. ">SMB2SHC_GetTemperatureOverrideStatus</a> </dd></dl>
 
 </div>
 </div>
@@ -374,7 +370,7 @@ Functions</h2></td></tr>
 <p>Get the status of the temperature override. </p>
 <p>Set status to 1 if override enabled, 0 otherwise.</p>
 <dl class="section return"><dt>Returns</dt><dd>error code or SMB2_SHC_ERR_NO if no error</dd></dl>
-<dl class="section see"><dt>See also</dt><dd>SMB2SHC_SMB2SHC_GetTemperatureOverrideStatus </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group____SMB2__SHC.html#gaf2af4b987be28056db00eb425b9cbe74" title="Read the inner temperature of the shelf controller. ">SMB2SHC_GetTemperature</a>, <a class="el" href="group____SMB2__SHC.html#ga1255f5bca428503395435ebc91a3485e" title="Write the ambient temperature to the shelf controller (for one minute) ">SMB2SHC_SetTemperature</a> </dd></dl>
 
 </div>
 </div>
@@ -412,8 +408,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>0 on success or error code</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="group____SMB2__SHC.html#gaee10f64b75a7a8196da2d4d3a9fa0d1d" title="Get the uninterruptible Power Supply Report of the selected UPS. ">SMB2SHC_GetUPS_State</a> </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>0 on success or error code </dd></dl>
 
 </div>
 </div>
@@ -451,8 +446,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>0 on success or error code</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="group____SMB2__SHC.html#ga42a30de2d759814929b6ca11c13718ed" title="Get the voltage levels on power monitor inputs. ">SMB2SHC_GetVoltLevel</a> </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>0 on success or error code </dd></dl>
 
 </div>
 </div>
@@ -473,8 +467,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Return ident string of the SMB2SHC API. </p>
-<dl class="section return"><dt>Returns</dt><dd>ident string</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="group____SMB2__SHC.html#ga842c8bd4b5379049e01e1867f055df21" title="Return ident string of the SMB2SHC API. ">SMB2SHC_Ident</a> </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>ident string </dd></dl>
 
 </div>
 </div>
@@ -502,7 +495,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>0 on success or error code</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="group____SMB2__SHC.html#ga7bb2863d236ef8bb3c0e1980cc4a99d3" title="Initialization of the shelf controller library. ">SMB2SHC_Init</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group____SMB2__SHC.html#ga7120493daaaf3a469192c700326331f3" title="Deinitialization of the shelf controller library. ">SMB2SHC_Exit</a> </dd></dl>
 
 </div>
 </div>
@@ -523,7 +516,7 @@ Functions</h2></td></tr>
 
 <p>CPU indicates that it wants to shut off the power supply. </p>
 <dl class="section return"><dt>Returns</dt><dd>0 on success or error code</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="group____SMB2__SHC.html#ga0c007e8b5f2d76802358b7f6650cc198" title="CPU indicates that it wants to shut off the power supply. ">SMB2SHC_PowerOff</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group____SMB2__SHC.html#ga121f84e7d1b6391e880869f750bdde29" title="CPU indicates shutdown. ">SMB2SHC_ShutDown</a> </dd></dl>
 
 </div>
 </div>
@@ -551,12 +544,12 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>SMB2_SHC_ERR_NO on success or error code</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="group____SMB2__SHC.html#ga3a0f42c1ce9d25258304db3faf19625f" title="Set the status of the persistent power button. ">SMB2SHC_SetPersistentPowerbuttonStatus</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group____SMB2__SHC.html#gafe451dd8d660650823e9b64ef4a13c0a" title="Get the status of the persistent power button. ">SMB2SHC_GetPersistentPowerbuttonStatus</a> </dd></dl>
 
 </div>
 </div>
-<a id="ga4e929f76fac0433ad979b8e6256f31c4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga4e929f76fac0433ad979b8e6256f31c4">&#9670;&nbsp;</a></span>SMB2SHC_SetPowerCycleDuration()</h2>
+<a id="gaebe034327db61ebd1fef2f180352a3e1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaebe034327db61ebd1fef2f180352a3e1">&#9670;&nbsp;</a></span>SMB2SHC_SetPowerCycleDuration()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -565,7 +558,7 @@ Functions</h2></td></tr>
           <td class="memname">int32 __MAPILIB SMB2SHC_SetPowerCycleDuration </td>
           <td>(</td>
           <td class="paramtype">u_int16&#160;</td>
-          <td class="paramname"><em>delay</em></td><td>)</td>
+          <td class="paramname"><em>duration</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -578,8 +571,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>SMB2_SHC_ERR_NO on success or error code</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="group____SMB2__SHC.html#ga4e929f76fac0433ad979b8e6256f31c4" title="Set power cycle duration in milliseconds. ">SMB2SHC_SetPowerCycleDuration</a> </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>SMB2_SHC_ERR_NO on success or error code </dd></dl>
 
 </div>
 </div>
@@ -608,7 +600,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>0 on success or error code</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="group____SMB2__SHC.html#ga1255f5bca428503395435ebc91a3485e" title="Write the ambient temperature to the shelf controller (for one minute) ">SMB2SHC_SetTemperature</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group____SMB2__SHC.html#gaf64485b7a1338e7f62a4fcb6cd5a4ea1" title="Get the status of the temperature override. ">SMB2SHC_GetTemperatureOverrideStatus</a>, <a class="el" href="group____SMB2__SHC.html#gaf2af4b987be28056db00eb425b9cbe74" title="Read the inner temperature of the shelf controller. ">SMB2SHC_GetTemperature</a> </dd></dl>
 
 </div>
 </div>
@@ -629,7 +621,7 @@ Functions</h2></td></tr>
 
 <p>CPU indicates shutdown. </p>
 <dl class="section return"><dt>Returns</dt><dd>0 on success or error code</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="group____SMB2__SHC.html#ga121f84e7d1b6391e880869f750bdde29" title="CPU indicates shutdown. ">SMB2SHC_ShutDown</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group____SMB2__SHC.html#ga0c007e8b5f2d76802358b7f6650cc198" title="CPU indicates that it wants to shut off the power supply. ">SMB2SHC_PowerOff</a> </dd></dl>
 
 </div>
 </div>
