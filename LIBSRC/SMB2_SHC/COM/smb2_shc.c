@@ -103,7 +103,6 @@ void *SMB2SHC_smbHdl;
  *
  *  \return    ident string
  *
- *  \sa SMB2SHC_Ident
  */
 char* __MAPILIB SMB2SHC_Ident(void)
 {
@@ -183,7 +182,7 @@ char* __MAPILIB SMB2SHC_Errstring(u_int32 errCode, char *strBuf)
  *  \param     deviceP    \IN  MDIS device name
  *  \return    0 on success or error code
  *
- *  \sa SMB2SHC_Init
+ *  \sa SMB2SHC_Exit
  */
 int32 __MAPILIB SMB2SHC_Init(char *deviceP)
 {
@@ -196,7 +195,7 @@ int32 __MAPILIB SMB2SHC_Init(char *deviceP)
  *
  *  \return     0 on success or error code
  *
- *  \sa SMB2SHC_Exit
+ *  \sa SMB2SHC_Init
  */
 int32 __MAPILIB SMB2SHC_Exit()
 {
@@ -216,7 +215,7 @@ int32 __MAPILIB SMB2SHC_Exit()
  *  \param     tempK    \OUT  Temperature (Kelvin) read from the device
  *  \return    0 on success or error code
  *
- *  \sa SMB2SHC_GetTemperature
+ *  \sa SMB2SHC_SetTemperature, SMB2SHC_GetTemperatureOverrideStatus
  */
 int32 __MAPILIB SMB2SHC_GetTemperature(u_int16 *tempK)
 {
@@ -251,7 +250,7 @@ int32 __MAPILIB SMB2SHC_GetTemperature(u_int16 *tempK)
  *
  *  \return    error code or SMB2_SHC_ERR_NO if no error
  *
- *  \sa SMB2SHC_SMB2SHC_GetTemperatureOverrideStatus
+ *  \sa SMB2SHC_GetTemperature, SMB2SHC_SetTemperature
  */
 int32 __MAPILIB SMB2SHC_GetTemperatureOverrideStatus(u_int16 *status) {
 	u_int8 length;
@@ -277,7 +276,7 @@ int32 __MAPILIB SMB2SHC_GetTemperatureOverrideStatus(u_int16 *status) {
  *  \param     tempK    \IN  Temperature (Kelvin) set to the device
  *  \return    0 on success or error code
  *
- *  \sa SMB2SHC_SetTemperature
+ *  \sa SMB2SHC_GetTemperatureOverrideStatus, SMB2SHC_GetTemperature
  */
 int32 __MAPILIB SMB2SHC_SetTemperature(u_int16 tempK)
 {
@@ -298,7 +297,6 @@ int32 __MAPILIB SMB2SHC_SetTemperature(u_int16 tempK)
  *  \param     shc_psu    \OUT  status of the selected PSU
  *  \return    0 on success or error code
  *
- *  \sa SMB2SHC_GetPSU_State
  */
 int32 __MAPILIB SMB2SHC_GetPSU_State(enum SHC_PSU_NR psu_nr, struct shc_psu *shc_psu)
 {
@@ -334,7 +332,6 @@ int32 __MAPILIB SMB2SHC_GetPSU_State(enum SHC_PSU_NR psu_nr, struct shc_psu *shc
  *  \param     shc_fan    \OUT  status of the selected FAN
  *  \return    0 on success or error code
  *
- *  \sa SMB2SHC_GetFAN_State
  */
 int32 __MAPILIB SMB2SHC_GetFAN_State(enum SHC_FAN_NR fan_nr, struct shc_fan *shc_fan)
 {
@@ -373,7 +370,6 @@ int32 __MAPILIB SMB2SHC_GetFAN_State(enum SHC_FAN_NR fan_nr, struct shc_fan *shc
 *  \param     volt_value    \OUT  voltage level
 *  \return    0 on success or error code
 *
-*  \sa SMB2SHC_GetVoltLevel
 */
 int32 __MAPILIB SMB2SHC_GetVoltLevel(enum SHC_PWR_MON_ID pwr_mon_nr, u_int16 *volt_value)
 {
@@ -423,10 +419,10 @@ int32 __MAPILIB SMB2SHC_SetPowerCycleDuration(u_int16 duration) {
 /****************************************************************************/
 /** Set the status of the persistent power button
  *
- *  \param     status           \IN   1 to set button ON, 0 otherwise
+ *  \param     status	   \IN   1 to set button ON, 0 otherwise
  *  \return    SMB2_SHC_ERR_NO on success or error code
  *
- *  \sa SMB2SHC_SetPersistentPowerbuttonStatus
+ *  \sa SMB2SHC_GetPersistentPowerbuttonStatus
 */
 int32 __MAPILIB SMB2SHC_SetPersistentPowerbuttonStatus(u_int32 status) {
 	int err = SMB2API_WriteByteData(SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
@@ -443,7 +439,7 @@ int32 __MAPILIB SMB2SHC_SetPersistentPowerbuttonStatus(u_int32 status) {
  *  \param     status           \OUT  1 if button ON, 0 otherwise
  *  \return    SMB2_SHC_ERR_NO on success or error code
  *
- *  \sa SMB2SHC_GetPersistentPowerbuttonStatus
+ *  \sa SMB2SHC_SetPersistentPowerbuttonStatus
 */
 int32 __MAPILIB SMB2SHC_GetPersistentPowerbuttonStatus(u_int8 *status) {
 	int err = SMB2API_ReadByteData(SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
@@ -461,7 +457,6 @@ int32 __MAPILIB SMB2SHC_GetPersistentPowerbuttonStatus(u_int8 *status) {
 *  \param     shc_ups_state    \OUT  status of the selected UPS
 *  \return    0 on success or error code
 *
-*  \sa SMB2SHC_GetUPS_State
 */
 int32 __MAPILIB SMB2SHC_GetUPS_State(enum SHC_UPS_NR ups_nr, struct shc_ups *shc_ups_state)
 {
@@ -498,7 +493,7 @@ int32 __MAPILIB SMB2SHC_GetUPS_State(enum SHC_UPS_NR ups_nr, struct shc_ups *shc
 *
 *  \return    0 on success or error code
 *
-*  \sa SMB2SHC_ShutDown
+*  \sa SMB2SHC_PowerOff
 */
 int32 __MAPILIB SMB2SHC_ShutDown()
 {
@@ -518,7 +513,7 @@ int32 __MAPILIB SMB2SHC_ShutDown()
 *
 *  \return    0 on success or error code
 *
-*  \sa SMB2SHC_PowerOff
+*  \sa SMB2SHC_ShutDown
 */
 int32 __MAPILIB SMB2SHC_PowerOff()
 {
@@ -539,7 +534,6 @@ int32 __MAPILIB SMB2SHC_PowerOff()
 *  \param     configdata    \OUT  contains all the confiuration data
 *  \return    0 on success or error code
 *
-*  \sa SMB2SHC_GetConf_Data
 */
 int32 __MAPILIB SMB2SHC_GetConf_Data(struct shc_configdata *configdata)
 {
@@ -641,7 +635,6 @@ int32 __MAPILIB SMB2SHC_GetConf_Data(struct shc_configdata *configdata)
 *  \param     fw_version    \OUT  contains firmware version informations
 *  \return    0 on success or error code
 *
-*  \sa SMB2SHC_GetFirm_Ver
 */
 int32 __MAPILIB SMB2SHC_GetFirm_Ver(struct shc_fwversion *fw_version)
 {
