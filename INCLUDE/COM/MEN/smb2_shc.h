@@ -47,9 +47,10 @@
 # define SHC_OFFS 0
 #endif /*ERR_DEV*/
 
-#define SMB2_SHC_ERR_NO        (0x00)            /** No Error */
-#define SMB2_SHC_ID_NA         (SHC_OFFS + 0x1)  /** ID not available */
-#define SMB2_SHC_ERR_LENGTH    (SHC_OFFS + 0x2)  /** Wrong length */
+#define SMB2_SHC_ERR_NO                   (0x00)            /** No Error */
+#define SMB2_SHC_ID_NA                    (SHC_OFFS + 0x1)  /** ID not available */
+#define SMB2_SHC_ERR_LENGTH               (SHC_OFFS + 0x2)  /** Wrong length */
+#define SMB2_SHC_ERR_FEATURE_UNAVAILABLE  (SHC_OFFS + 0x3)  /** Feature unavailable */
 
 /*--------------------+
 |   SHC Power Supply  |
@@ -183,6 +184,14 @@ struct shc_configdata {
 	 */
 	u_int8 upsMinRunCharge;
 	/**
+	 * Enable power button persistence
+	 */
+	u_int8 persistentPwrbtnEnabled;
+	/**
+	 * Enable PBRST signal during DEL_START state
+	 */
+	u_int8 usePBRST;
+	/**
 	 *  Low Temperature Warning Limit in K
 	 */
 	u_int16 tempWarnLow;
@@ -214,6 +223,14 @@ struct shc_configdata {
 	 *  Fan Max Speed Temperature in K
 	 */
 	u_int16 fanTempMax;
+	/**
+	 *  Voltage monitor channel enable mask
+	 */
+	u_int8 voltMonMask;
+	/**
+	 *  Custom I2C address (default: 0x75)
+	 */
+	u_int8 i2cAddress;
 	/**
 	 *  State Machine Id can be 1, 2 or 3
 	 */
@@ -259,6 +276,10 @@ extern char* __MAPILIB SMB2SHC_Ident(void);
 extern int32 __MAPILIB SMB2SHC_Init(char *deviceP);
 extern int32 __MAPILIB SMB2SHC_GetTemperature(u_int16 *tempK);
 extern int32 __MAPILIB SMB2SHC_SetTemperature(u_int16 tempK);
+extern int32 __MAPILIB SMB2SHC_GetTemperatureOverrideStatus(u_int16 *status);
+extern int32 __MAPILIB SMB2SHC_GetPersistentPowerbuttonStatus(u_int8* status);
+extern int32 __MAPILIB SMB2SHC_SetPersistentPowerbuttonStatus(u_int32 status);
+extern int32 __MAPILIB SMB2SHC_SetPowerCycleDuration(u_int16 delay);
 extern char* __MAPILIB SMB2SHC_Errstring(u_int32 errCode, char *strBuf);
 extern int32 __MAPILIB SMB2SHC_GetFirm_Ver(struct shc_fwversion *fw_version);
 extern int32 __MAPILIB SMB2SHC_GetConf_Data(struct shc_configdata *configdata);

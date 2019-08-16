@@ -49,17 +49,22 @@ static const char IdentString[]=MENT_XSTR(MAK_REVISION);
 #define SHC_UPS_GET_OPCODE   0x05
 #define SHC_CONF_GET_OPCODE  0x06
 #define SHC_TEMP_SET_OPCODE  0x07
+#define SHC_PERS_PWRBTN_GET_OPCODE 0x08
+#define SHC_PERS_PWRBTN_SET_OPCODE 0x09
 #define SHC_SH_DOWN_OPCODE   0x10
 #define SHC_PWR_OFF_OPCODE   0x11
+#define SHC_PWRCYCLE_DUR_SET_OPCODE 0x12
 #define SHC_FVER_GET_OPCODE  0x80
 
 /* data lengths */
 #define SHC_PSU_GET_LENGTH   0x03
 #define SHC_TEMP_SET_LENGTH  0x03
+#define SHC_DUR_SET_LENGTH  0x03
 #define SHC_FAN_GET_LENGTH   0x09
 #define SHC_VOLT_GET_LENGTH  0x08
 #define SHC_UPS_GET_LENGTH   0x04
-#define SHC_CONF_GET_LENGTH  0x13
+#define SHC_CONF_GET_LENGTH_v416  0x13
+#define SHC_CONF_GET_LENGTH_v417  0x17
 #define SHC_FVER_GET_LENGTH  0x07
 
 #define BIT_IS_PRESENT       0x01
@@ -82,7 +87,11 @@ static const char IdentString[]=MENT_XSTR(MAK_REVISION);
 /*-----------------------------------------+
 |  GLOBALS                                 |
 +-----------------------------------------*/
-void *SMB2SHC_smbHdl;
+static void *g_SMB2SHC_smbHdl;
+static struct shc_fwversion g_firm_version;
+
+#define SHC_V416_OR_BELOW (g_firm_version.maj_revision <= 4 && g_firm_version.min_revision <= 16)
+#define SHC_AT_LEAST_V417 (!SHC_V416_OR_BELOW)
 
 /**
  * \defgroup _SMB2_SHC SMB2_SHC
@@ -98,7 +107,6 @@ void *SMB2SHC_smbHdl;
  *
  *  \return    ident string
  *
- *  \sa SMB2SHC_Ident
  */
 char* __MAPILIB SMB2SHC_Ident(void)
 {
@@ -134,7 +142,8 @@ char* __MAPILIB SMB2SHC_Errstring(u_int32 errCode, char *strBuf)
 		/* no error */
 		{ SMB2_SHC_ERR_NO			,		"(no error)" },
 		{ SMB2_SHC_ID_NA			,		"ID number is not available" },
-		{ SMB2_SHC_ERR_LENGTH		,		"Data has wrong length" },
+		{ SMB2_SHC_ERR_LENGTH			,		"Data has wrong length" },
+		{ SMB2_SHC_ERR_FEATURE_UNAVAILABLE	,		"Feature is unavailable in this SHC revision" },
 		/* max string size indicator  |1---------------------------------------------50| */
 	};
 
@@ -178,11 +187,19 @@ char* __MAPILIB SMB2SHC_Errstring(u_int32 errCode, char *strBuf)
  *  \param     deviceP    \IN  MDIS device name
  *  \return    0 on success or error code
  *
- *  \sa SMB2SHC_Init
+ *  \sa SMB2SHC_Exit
  */
 int32 __MAPILIB SMB2SHC_Init(char *deviceP)
 {
-	return (SMB2API_Init(deviceP, &SMB2SHC_smbHdl));
+	int err = SMB2API_Init(deviceP, &g_SMB2SHC_smbHdl);
+	if (err) {
+		return err;
+	}
+	err = SMB2SHC_GetFirm_Ver(&g_firm_version);
+	if (err) {
+		return err;
+	}
+        return SMB2_SHC_ERR_NO;
 }
 
 
@@ -191,12 +208,12 @@ int32 __MAPILIB SMB2SHC_Init(char *deviceP)
  *
  *  \return     0 on success or error code
  *
- *  \sa SMB2SHC_Exit
+ *  \sa SMB2SHC_Init
  */
 int32 __MAPILIB SMB2SHC_Exit()
 {
-	if (SMB2SHC_smbHdl) {
-		return (SMB2API_Exit(&SMB2SHC_smbHdl));
+	if (g_SMB2SHC_smbHdl) {
+		return (SMB2API_Exit(&g_SMB2SHC_smbHdl));
 	}
 
 	return (0);
@@ -211,7 +228,7 @@ int32 __MAPILIB SMB2SHC_Exit()
  *  \param     tempK    \OUT  Temperature (Kelvin) read from the device
  *  \return    0 on success or error code
  *
- *  \sa SMB2SHC_GetTemperature
+ *  \sa SMB2SHC_SetTemperature, SMB2SHC_GetTemperatureOverrideStatus
  */
 int32 __MAPILIB SMB2SHC_GetTemperature(u_int16 *tempK)
 {
@@ -219,7 +236,7 @@ int32 __MAPILIB SMB2SHC_GetTemperature(u_int16 *tempK)
 	u_int8 length;
 	u_int8 blkData[SMB_BLOCK_MAX_BYTES];
 
-	err = SMB2API_ReadBlockData(SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
+	err = SMB2API_ReadBlockData(g_SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
 								SHC_TEMP_SET_OPCODE, &length, blkData);
 	if (err)
 		return err;
@@ -228,14 +245,38 @@ int32 __MAPILIB SMB2SHC_GetTemperature(u_int16 *tempK)
 		return SMB2_SHC_ERR_LENGTH;
 
 	if (blkData[0] != SET_TEMP_ENABLE){
-	return SMB2API_ReadWordData(SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
+		return SMB2API_ReadWordData(g_SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
 									SHC_TEMP_OPCODE, tempK);
 	}
 	else{
-		*tempK = ((u_int16)blkData[2]<<8); /* MSB */
-		*tempK = *tempK |  (u_int16)blkData[1];     /* LSB */
+		*tempK = ((u_int16)blkData[2] << 8);    /* MSB */
+		*tempK = *tempK | (u_int16)blkData[1];  /* LSB */
+	}
+	return SMB2_SHC_ERR_NO;
 }
 
+/****************************************************************************/
+/** Get the status of the temperature override
+ *
+ *  Set status to 1 if override enabled, 0 otherwise.
+ *
+ *  \return    error code or SMB2_SHC_ERR_NO if no error
+ *
+ *  \sa SMB2SHC_GetTemperature, SMB2SHC_SetTemperature
+ */
+int32 __MAPILIB SMB2SHC_GetTemperatureOverrideStatus(u_int16 *status) {
+	u_int8 length;
+	u_int8 blkData[SMB_BLOCK_MAX_BYTES];
+
+	int err = SMB2API_ReadBlockData(g_SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
+		      SHC_TEMP_SET_OPCODE, &length, blkData);
+	if (err)
+		return err;
+
+	if (length != SHC_TEMP_SET_LENGTH)
+		return SMB2_SHC_ERR_LENGTH;
+
+	*status = blkData[0] == SET_TEMP_ENABLE ? 1 : 0;
 	return SMB2_SHC_ERR_NO;
 }
 
@@ -247,7 +288,7 @@ int32 __MAPILIB SMB2SHC_GetTemperature(u_int16 *tempK)
  *  \param     tempK    \IN  Temperature (Kelvin) set to the device
  *  \return    0 on success or error code
  *
- *  \sa SMB2SHC_SetTemperature
+ *  \sa SMB2SHC_GetTemperatureOverrideStatus, SMB2SHC_GetTemperature
  */
 int32 __MAPILIB SMB2SHC_SetTemperature(u_int16 tempK)
 {
@@ -257,7 +298,7 @@ int32 __MAPILIB SMB2SHC_SetTemperature(u_int16 tempK)
 	blkData[1] = (u_int8)tempK;      /* LSB */
 	blkData[2] = (u_int8)(tempK>>8); /* MSB */
 	
-	return SMB2API_WriteBlockData( SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
+	return SMB2API_WriteBlockData( g_SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
 									SHC_TEMP_SET_OPCODE, SHC_TEMP_SET_LENGTH, blkData);
 }
 
@@ -268,7 +309,6 @@ int32 __MAPILIB SMB2SHC_SetTemperature(u_int16 tempK)
  *  \param     shc_psu    \OUT  status of the selected PSU
  *  \return    0 on success or error code
  *
- *  \sa SMB2SHC_GetPSU_State
  */
 int32 __MAPILIB SMB2SHC_GetPSU_State(enum SHC_PSU_NR psu_nr, struct shc_psu *shc_psu)
 {
@@ -277,7 +317,7 @@ int32 __MAPILIB SMB2SHC_GetPSU_State(enum SHC_PSU_NR psu_nr, struct shc_psu *shc
 	u_int8 psu_data;
 	u_int8 blkData[SMB_BLOCK_MAX_BYTES];
 
-	err = SMB2API_ReadBlockData(SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
+	err = SMB2API_ReadBlockData(g_SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
 								SHC_PSU_GET_OPCODE, &length, blkData);
 	if (err)
 		return err;
@@ -304,7 +344,6 @@ int32 __MAPILIB SMB2SHC_GetPSU_State(enum SHC_PSU_NR psu_nr, struct shc_psu *shc
  *  \param     shc_fan    \OUT  status of the selected FAN
  *  \return    0 on success or error code
  *
- *  \sa SMB2SHC_GetFAN_State
  */
 int32 __MAPILIB SMB2SHC_GetFAN_State(enum SHC_FAN_NR fan_nr, struct shc_fan *shc_fan)
 {
@@ -313,7 +352,7 @@ int32 __MAPILIB SMB2SHC_GetFAN_State(enum SHC_FAN_NR fan_nr, struct shc_fan *shc
 	u_int8 statByte, rpmLSB, rpmMSB;
 	u_int8 blkData[SMB_BLOCK_MAX_BYTES];
 
-	err = SMB2API_ReadBlockData(SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
+	err = SMB2API_ReadBlockData(g_SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
 								SHC_FAN_GET_OPCODE, &length, blkData);
 	if (err)
 		return err;
@@ -343,7 +382,6 @@ int32 __MAPILIB SMB2SHC_GetFAN_State(enum SHC_FAN_NR fan_nr, struct shc_fan *shc
 *  \param     volt_value    \OUT  voltage level
 *  \return    0 on success or error code
 *
-*  \sa SMB2SHC_GetVoltLevel
 */
 int32 __MAPILIB SMB2SHC_GetVoltLevel(enum SHC_PWR_MON_ID pwr_mon_nr, u_int16 *volt_value)
 {
@@ -352,7 +390,7 @@ int32 __MAPILIB SMB2SHC_GetVoltLevel(enum SHC_PWR_MON_ID pwr_mon_nr, u_int16 *vo
 	u_int16 volt_data;
 	u_int8 blkData[SMB_BLOCK_MAX_BYTES];
 
-	err = SMB2API_ReadBlockData(SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
+	err = SMB2API_ReadBlockData(g_SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
 								SHC_VOLT_GET_OPCODE, &length, blkData);
 	if (err)
 		return err;
@@ -370,15 +408,75 @@ int32 __MAPILIB SMB2SHC_GetVoltLevel(enum SHC_PWR_MON_ID pwr_mon_nr, u_int16 *vo
 	return SMB2_SHC_ERR_NO;
 }
 
+/****************************************************************************/
+/** Set power cycle duration in milliseconds
+ *
+ *  \param     status           \IN  desired delay in milliseconds
+ *  \return    SMB2_SHC_ERR_NO on success or error code
+ *
+*/
+int32 __MAPILIB SMB2SHC_SetPowerCycleDuration(u_int16 duration) {
+	if (SHC_V416_OR_BELOW) {
+		return SMB2_SHC_ERR_FEATURE_UNAVAILABLE;
+	}
+	u_int8 blkData[SMB_BLOCK_MAX_BYTES];
+	/* Set blkData[0] to 0 to only set powercycle duration.
+	 * Set blkData[0] to 1 to enable immediate shutdown. */
+	blkData[0] = 0;
+	blkData[1] = (u_int8) duration;         /* LSB */
+	blkData[2] = (u_int8) (duration >> 8);  /* MSB */
+
+	return SMB2API_WriteBlockData(g_SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
+			SHC_PWRCYCLE_DUR_SET_OPCODE, SHC_DUR_SET_LENGTH, blkData);
+}
 
 /****************************************************************************/
-/** Get the uninterruptible Power Supply Report of the selected UPS
+/** Set the status of the persistent power button
+ *
+ *  \param     status	   \IN   1 to set button ON, 0 otherwise
+ *  \return    SMB2_SHC_ERR_NO on success or error code
+ *
+ *  \sa SMB2SHC_GetPersistentPowerbuttonStatus
+*/
+int32 __MAPILIB SMB2SHC_SetPersistentPowerbuttonStatus(u_int32 status) {
+	if (SHC_V416_OR_BELOW) {
+		return SMB2_SHC_ERR_FEATURE_UNAVAILABLE;
+	}
+	int err = SMB2API_WriteByteData(g_SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
+		SHC_PERS_PWRBTN_SET_OPCODE, status == 1 ? 1 : 0);
+	if (err) {
+		return err;
+	}
+	return SMB2_SHC_ERR_NO;
+}
+
+/****************************************************************************/
+/** Get the status of the persistent power button
+ *
+ *  \param     status           \OUT  1 if button ON, 0 otherwise
+ *  \return    SMB2_SHC_ERR_NO on success or error code
+ *
+ *  \sa SMB2SHC_SetPersistentPowerbuttonStatus
+*/
+int32 __MAPILIB SMB2SHC_GetPersistentPowerbuttonStatus(u_int8 *status) {
+	if (SHC_V416_OR_BELOW) {
+		return SMB2_SHC_ERR_FEATURE_UNAVAILABLE;
+	}
+	int err = SMB2API_ReadByteData(g_SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
+		SHC_PERS_PWRBTN_GET_OPCODE, status);
+	if (err) {
+		return err;
+	}
+	return SMB2_SHC_ERR_NO;
+}
+
+/****************************************************************************/
+/** Get the Uninterruptible Power Supply report of the selected UPS
 *
 *  \param     ups_nr           \IN   UPS ID number
 *  \param     shc_ups_state    \OUT  status of the selected UPS
 *  \return    0 on success or error code
 *
-*  \sa SMB2SHC_GetUPS_State
 */
 int32 __MAPILIB SMB2SHC_GetUPS_State(enum SHC_UPS_NR ups_nr, struct shc_ups *shc_ups_state)
 {
@@ -387,7 +485,7 @@ int32 __MAPILIB SMB2SHC_GetUPS_State(enum SHC_UPS_NR ups_nr, struct shc_ups *shc
 	u_int8 ups_status, ups_charging_lvl;
 	u_int8 blkData[SMB_BLOCK_MAX_BYTES];
 
-	err = SMB2API_ReadBlockData(SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
+	err = SMB2API_ReadBlockData(g_SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
 								SHC_UPS_GET_OPCODE, &length, blkData);
 	if (err)
 		return err;
@@ -415,13 +513,13 @@ int32 __MAPILIB SMB2SHC_GetUPS_State(enum SHC_UPS_NR ups_nr, struct shc_ups *shc
 *
 *  \return    0 on success or error code
 *
-*  \sa SMB2SHC_ShutDown
+*  \sa SMB2SHC_PowerOff
 */
 int32 __MAPILIB SMB2SHC_ShutDown()
 {
 	int err;
 
-	err = SMB2API_WriteByte(SMB2SHC_smbHdl, SHC_SMBFLAGS,
+	err = SMB2API_WriteByte(g_SMB2SHC_smbHdl, SHC_SMBFLAGS,
 							SHC_SMBADDR, SHC_SH_DOWN_OPCODE);
 	if (err)
 		return err;
@@ -435,13 +533,13 @@ int32 __MAPILIB SMB2SHC_ShutDown()
 *
 *  \return    0 on success or error code
 *
-*  \sa SMB2SHC_PowerOff
+*  \sa SMB2SHC_ShutDown
 */
 int32 __MAPILIB SMB2SHC_PowerOff()
 {
 	int err;
 
-	err = SMB2API_WriteByte(SMB2SHC_smbHdl, SHC_SMBFLAGS,
+	err = SMB2API_WriteByte(g_SMB2SHC_smbHdl, SHC_SMBFLAGS,
 							SHC_SMBADDR, SHC_PWR_OFF_OPCODE);
 	if (err)
 		return err;
@@ -456,7 +554,6 @@ int32 __MAPILIB SMB2SHC_PowerOff()
 *  \param     configdata    \OUT  contains all the confiuration data
 *  \return    0 on success or error code
 *
-*  \sa SMB2SHC_GetConf_Data
 */
 int32 __MAPILIB SMB2SHC_GetConf_Data(struct shc_configdata *configdata)
 {
@@ -465,13 +562,22 @@ int32 __MAPILIB SMB2SHC_GetConf_Data(struct shc_configdata *configdata)
 	u_int16 config_data16;
 	u_int8 blkData[SMB_BLOCK_MAX_BYTES];
 
-	err = SMB2API_ReadBlockData(SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
-								SHC_CONF_GET_OPCODE, &length, blkData);
-	if (err)
+	struct shc_fwversion firm_version;
+	err = SMB2SHC_GetFirm_Ver(&firm_version);
+	if (err) {
 		return err;
+	}
 
-	if (length != SHC_CONF_GET_LENGTH)
+	err = SMB2API_ReadBlockData(g_SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
+								SHC_CONF_GET_OPCODE, &length, blkData);
+	if (err) {
+		return err;
+	}
+
+	if (!((length == SHC_CONF_GET_LENGTH_v416 && SHC_V416_OR_BELOW) ||
+	      (length == SHC_CONF_GET_LENGTH_v417 && SHC_AT_LEAST_V417))) {
 		return SMB2_SHC_ERR_LENGTH;
+	}
 
 	configdata->pwrSlot2 = blkData[0];
 	configdata->pwrSlot3 = blkData[1];
@@ -495,18 +601,47 @@ int32 __MAPILIB SMB2SHC_GetConf_Data(struct shc_configdata *configdata)
 	config_data16 += blkData[10];
 	configdata->tempRunHigh = config_data16;
 
-	configdata->fanNum = blkData[12];
-	configdata->fanDuCyMin = blkData[13];
+	if (SHC_V416_OR_BELOW) {
+	    configdata->persistentPwrbtnEnabled = 0;
+	    configdata->usePBRST = 1;
 
-	config_data16 = ((u_int16)blkData[15] << 8);
-	config_data16 += blkData[14];
-	configdata->fanTempStart = config_data16;
+	    configdata->fanNum = blkData[12];
+	    configdata->fanDuCyMin = blkData[13];
 
-	config_data16 = ((u_int16)blkData[17] << 8);
-	config_data16 += blkData[16];
-	configdata->fanTempMax = config_data16;
-	
-	configdata->StateMachineID = blkData[18];
+	    config_data16 = ((u_int16)blkData[15] << 8);
+	    config_data16 += blkData[14];
+	    configdata->fanTempStart = config_data16;
+
+	    config_data16 = ((u_int16)blkData[17] << 8);
+	    config_data16 += blkData[16];
+	    configdata->fanTempMax = config_data16;
+
+	    configdata->voltMonMask = 15;
+	    configdata->i2cAddress = 0x75;
+
+	    configdata->StateMachineID = blkData[18];
+	}
+	else {
+	    configdata->persistentPwrbtnEnabled = blkData[12];
+	    configdata->usePBRST = blkData[13];
+
+	    configdata->fanNum = blkData[14];
+	    configdata->fanDuCyMin = blkData[15];
+
+	    config_data16 = ((u_int16)blkData[17] << 8);
+	    config_data16 += blkData[16];
+	    configdata->fanTempStart = config_data16;
+
+	    config_data16 = ((u_int16)blkData[19] << 8);
+	    config_data16 += blkData[18];
+	    configdata->fanTempMax = config_data16;
+
+	    configdata->voltMonMask = blkData[20] & 0x0f;
+
+	    configdata->i2cAddress = blkData[21];
+
+	    configdata->StateMachineID = blkData[22];
+	}
 
 	return SMB2_SHC_ERR_NO;
 }
@@ -518,7 +653,6 @@ int32 __MAPILIB SMB2SHC_GetConf_Data(struct shc_configdata *configdata)
 *  \param     fw_version    \OUT  contains firmware version informations
 *  \return    0 on success or error code
 *
-*  \sa SMB2SHC_GetFirm_Ver
 */
 int32 __MAPILIB SMB2SHC_GetFirm_Ver(struct shc_fwversion *fw_version)
 {
@@ -526,7 +660,7 @@ int32 __MAPILIB SMB2SHC_GetFirm_Ver(struct shc_fwversion *fw_version)
 	u_int8 length;
 	u_int8 blkData[SMB_BLOCK_MAX_BYTES];
 
-	err = SMB2API_ReadBlockData(SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
+	err = SMB2API_ReadBlockData(g_SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
 								SHC_FVER_GET_OPCODE, &length, blkData);
 
 	if (err)

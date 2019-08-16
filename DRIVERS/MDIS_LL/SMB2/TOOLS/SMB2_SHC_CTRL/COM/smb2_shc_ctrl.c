@@ -70,6 +70,9 @@ static void print_psu(int32 psu_id);
 static void print_fan(int32 fan_id);
 static void print_voltlevel(void);
 static void print_ups(int32 ups_id);
+static void set_persistent_pwrbtn_status(u_int32 status);
+static void set_power_cycle_duration(u_int32 duration);
+static void print_persistent_pwrbtn_status();
 static void shut_down(void);
 static void power_off(void);
 static void print_configdata(void);
@@ -89,7 +92,7 @@ static void header(void)
 	printf( "\n====================="
 			"\n=== SMB2_SHC_CTRL ==="
 			"\n=====================");
-    printf("\nCopyright (c) 2014-2019, MEN Mikro Elektronik GmbH\n%s\n\n", IdentString);
+	printf("\nCopyright (c) 2014-2019, MEN Mikro Elektronik GmbH\n%s\n\n", IdentString);
 }
 
 /********************************* usage ************************************/
@@ -101,25 +104,29 @@ static void usage(void)
 		"\nUsage:     smb2_shc_ctrl devName <opts>\n"
 		"Function:  Tool to access the Shelf Controller via the SMB2_SHC API\n"
 		"Options:\n"
-		"    devName      device name e.g. smb2_1                   \n"
-		"    -?           Usage                                     \n"
-		"    -t           Get system/ambient temperature                    \n"
-		"    -T=[dec]     Set ambient temperature (Celsius) for FAN control \n"
-		"    -i           Get shelf controller API identifier       \n"
-		"    -p=[psu_id]  Get status of one or all PSU              \n"
-		"                 (psu_id: 0 to 3, 0: to get all psu status)\n"
-		"    -f=[fan_id]  Get status of one or all FAN              \n"
-		"                 (fan_id: 0 to 3, 0: to get all fan status)\n"
-		"    -u=[ups_id]  Get status of one or all UPS              \n"
-		"                 (ups_id: 0 to 2, 0: to get all ups status)\n"
-		"    -v           Get input voltage level                   \n"
-		"    -s           Indicates that CPU is shutting down       \n"
-		"    -o           Indicates that CPU wants to shut          \n"
-		"                 off the power supply                      \n"
-		"    -c           Get Configuration Data                    \n"
-		"    -r           Get Firmware Version                      \n"
-		"Calling examples:                                          \n"
-		"    Get FAN status:  smb2_shc_ctrl smb2_1 -f=0             \n"
+		"    devName       Device name e.g. smb2_1                   \n"
+		"    -?            Usage                                     \n"
+		"    -t            Get system/ambient temperature                    \n"
+		"    -T=[dec]      Set ambient temperature (Celsius) for FAN control \n"
+		"    -i            Get shelf controller API identifier       \n"
+		"    -p=[psu_id]   Get status of one or all PSU              \n"
+		"                  (psu_id: 0 to 3, 0: to get all psu status)\n"
+		"    -f=[fan_id]   Get status of one or all FAN              \n"
+		"                  (fan_id: 0 to 3, 0: to get all fan status)\n"
+		"    -u=[ups_id]   Get status of one or all UPS              \n"
+		"                  (ups_id: 0 to 2, 0: to get all ups status)\n"
+		"    -v            Get input voltage level                   \n"
+		"    -s            Indicates that CPU is shutting down       \n"
+		"    -o            Indicates that CPU wants to shut          \n"
+		"                  off the power supply                      \n"
+		"    -d=[duration] Duration of a power cycle (-o flag) in ms \n"
+		"    -P            Print persistent power button status      \n"
+		"    -B=[status]   Set persistent power button status        \n"
+		"                  status can be 0 (off) or 1 (on)           \n"
+		"    -c            Get Configuration Data                    \n"
+		"    -r            Get Firmware Version                      \n"
+		"Calling examples:                                           \n"
+		"    Get FAN status:  smb2_shc_ctrl smb2_1 -f=0              \n"
 		);
 }
 
@@ -146,7 +153,7 @@ int main(int argc, char** argv)
 	/*--------------------+
 	|  check arguments    |
 	+--------------------*/
-	errstr = UTL_ILLIOPT("?cf=op=irstT=u=v", argbuf);
+	errstr = UTL_ILLIOPT("?cf=op=PB=d=irstT=u=v", argbuf);
 	if (errstr) {
 		printf("*** %s\n", errstr);
 		usage();
@@ -221,6 +228,12 @@ int main(int argc, char** argv)
 	if ((optP = UTL_TSTOPT("o")))
 		power_off();
 
+	/* Sets the duration of the power cycle (in ms) for a power off request */
+	if ((optP = UTL_TSTOPT("d="))) {
+		sscanf(optP, "%d", &id_nbr);
+		set_power_cycle_duration(id_nbr);
+	}
+
 	/* get configuration data */
 	if ((optP = UTL_TSTOPT("c")))
 		print_configdata();
@@ -229,6 +242,17 @@ int main(int argc, char** argv)
 	if ((optP = UTL_TSTOPT("p="))) {
 		sscanf(optP, "%x", &id_nbr);
 		get_psu_state(id_nbr);
+	}
+
+	/* set persistent power button status */
+	if ((optP = UTL_TSTOPT("B="))) {
+		sscanf(optP, "%x", &id_nbr);
+		set_persistent_pwrbtn_status(id_nbr);
+	}
+
+	/* get persistent power button status */
+	if ((optP = UTL_TSTOPT("P"))) {
+		print_persistent_pwrbtn_status();
 	}
 
 	/* get firmware version */
@@ -349,14 +373,22 @@ static void print_ups(int32 ups_id)
 static void get_temperature()
 {
 	int err;
-        u_int16 tempK = 0;
-        int16 tempC = 0;
+	u_int16 tempK = 0;
+	int16 tempC = 0;
 
 	err = SMB2SHC_GetTemperature((u_int16*)&tempK);
 	if (err) {
 		PrintError("***ERROR: SMB2SHC_GET_TEMP", err);
 	}
 	else{
+		u_int16 status = 0;
+		int err = SMB2SHC_GetTemperatureOverrideStatus(&status);
+		if (err) {
+			PrintError("***ERROR: SMB2SHC_GET_TEMPERATURE_OVERRIDE", err);
+		}
+		if (status) {
+			printf("Temperature is overridden by host.\n");
+		}
 		/* get Celsius */
 		tempC = tempK - ABS_ZERO;
 		printf("Temperature: %dK (%dC)\n", tempK, tempC);
@@ -392,6 +424,48 @@ static void set_temperature(int32 tempC)
 			tempC = (int32)(tempK - ABS_ZERO);
 			printf("New Temperature: %dK (%dC)\n", tempK, tempC);
 		}
+	}
+}
+
+/****************************************************************************/
+/** Print status of persistent power button
+*/
+static void print_persistent_pwrbtn_status()
+{
+	u_int8 status;
+	int err = SMB2SHC_GetPersistentPowerbuttonStatus((u_int8*)&status);
+	if (err) {
+		PrintError("***ERROR: SMB2SHC_GetPersistentPowerbuttonStatus", err);
+	}
+	else{
+		printf("Persistent Power Button Status: %s\n", status == 1 ? "ON" : "OFF");
+	}
+}
+
+/****************************************************************************/
+/** Set status of persistent power button
+*/
+static void set_persistent_pwrbtn_status(u_int32 status)
+{
+	int err = SMB2SHC_SetPersistentPowerbuttonStatus(status);
+	if (err) {
+		PrintError("***ERROR: SMB2SHC_SetPersistentPowerbuttonStatus", err);
+	} else {
+		printf("Setting persistent power button to: %s\n", status == 1 ? "ON" : "OFF");
+	}
+}
+
+/****************************************************************************/
+/** Set power cycle duration in milliseconds
+*/
+static void set_power_cycle_duration(u_int32 duration)
+{
+	int err = SMB2SHC_SetPowerCycleDuration((u_int16)duration);
+	if (err) {
+		PrintError("***ERROR: SMB2SHC_SetPowerCycleDuration:", err);
+	} else {
+		printf("Setting power cycle duration to %d milliseconds.\n", duration);
+		printf("The shelf controller may clamp this value to a min/max interval.");
 	}
 }
 
@@ -470,10 +544,17 @@ static void print_configdata()
 		printf("Low Temperature Run Limit in K: \t%d\n", cdata.tempRunLow);
 		printf("High Temperature Run Limit in K: \t%d\n", cdata.tempRunHigh);
 		printf("-----------------------------------------\n");
+		printf("Persistent power button enabled: \t%s\n", cdata.persistentPwrbtnEnabled ? "TRUE" : "FALSE");
+		printf("PBRST during DEL_START enabled: \t%s\n", cdata.usePBRST ? "TRUE" : "FALSE");
+		printf("-----------------------------------------\n");
 		printf("Number of Fans: %d\n", cdata.fanNum);
 		printf("Fan Min Duty Cycle in %%: \t\t%d\n", cdata.fanDuCyMin);
 		printf("Fan Start Temperature in K: \t\t%d\n", cdata.fanTempStart);
 		printf("Fan Max Speed Temperature in K: \t%d\n", cdata.fanTempMax);
+		printf("-----------------------------------------\n");
+		printf("Voltage channel mask in decimal: \t%d\n", cdata.voltMonMask);
+		printf("-----------------------------------------\n");
+		printf("SMBus address: \t0x%x\n", cdata.i2cAddress == 0xff ? 0x75 : cdata.i2cAddress);
 		printf("-----------------------------------------\n");
 		printf("SHC State Machine ID: \t%d\n", cdata.StateMachineID);
 	}
