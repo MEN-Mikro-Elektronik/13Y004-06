@@ -87,7 +87,7 @@ static const char IdentString[]=MENT_XSTR(MAK_REVISION);
 /*-----------------------------------------+
 |  GLOBALS                                 |
 +-----------------------------------------*/
-void *SMB2SHC_smbHdl;
+static void *g_SMB2SHC_smbHdl;
 
 /**
  * \defgroup _SMB2_SHC SMB2_SHC
@@ -186,7 +186,7 @@ char* __MAPILIB SMB2SHC_Errstring(u_int32 errCode, char *strBuf)
  */
 int32 __MAPILIB SMB2SHC_Init(char *deviceP)
 {
-	return (SMB2API_Init(deviceP, &SMB2SHC_smbHdl));
+	return (SMB2API_Init(deviceP, &g_SMB2SHC_smbHdl));
 }
 
 
@@ -199,8 +199,8 @@ int32 __MAPILIB SMB2SHC_Init(char *deviceP)
  */
 int32 __MAPILIB SMB2SHC_Exit()
 {
-	if (SMB2SHC_smbHdl) {
-		return (SMB2API_Exit(&SMB2SHC_smbHdl));
+	if (g_SMB2SHC_smbHdl) {
+		return (SMB2API_Exit(&g_SMB2SHC_smbHdl));
 	}
 
 	return (0);
@@ -223,7 +223,7 @@ int32 __MAPILIB SMB2SHC_GetTemperature(u_int16 *tempK)
 	u_int8 length;
 	u_int8 blkData[SMB_BLOCK_MAX_BYTES];
 
-	err = SMB2API_ReadBlockData(SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
+	err = SMB2API_ReadBlockData(g_SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
 								SHC_TEMP_SET_OPCODE, &length, blkData);
 	if (err)
 		return err;
@@ -232,7 +232,7 @@ int32 __MAPILIB SMB2SHC_GetTemperature(u_int16 *tempK)
 		return SMB2_SHC_ERR_LENGTH;
 
 	if (blkData[0] != SET_TEMP_ENABLE){
-		return SMB2API_ReadWordData(SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
+		return SMB2API_ReadWordData(g_SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
 									SHC_TEMP_OPCODE, tempK);
 	}
 	else{
@@ -256,7 +256,7 @@ int32 __MAPILIB SMB2SHC_GetTemperatureOverrideStatus(u_int16 *status) {
 	u_int8 length;
 	u_int8 blkData[SMB_BLOCK_MAX_BYTES];
 
-	int err = SMB2API_ReadBlockData(SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
+	int err = SMB2API_ReadBlockData(g_SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
 		      SHC_TEMP_SET_OPCODE, &length, blkData);
 	if (err)
 		return err;
@@ -286,7 +286,7 @@ int32 __MAPILIB SMB2SHC_SetTemperature(u_int16 tempK)
 	blkData[1] = (u_int8)tempK;      /* LSB */
 	blkData[2] = (u_int8)(tempK>>8); /* MSB */
 	
-	return SMB2API_WriteBlockData( SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
+	return SMB2API_WriteBlockData( g_SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
 									SHC_TEMP_SET_OPCODE, SHC_TEMP_SET_LENGTH, blkData);
 }
 
@@ -305,7 +305,7 @@ int32 __MAPILIB SMB2SHC_GetPSU_State(enum SHC_PSU_NR psu_nr, struct shc_psu *shc
 	u_int8 psu_data;
 	u_int8 blkData[SMB_BLOCK_MAX_BYTES];
 
-	err = SMB2API_ReadBlockData(SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
+	err = SMB2API_ReadBlockData(g_SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
 								SHC_PSU_GET_OPCODE, &length, blkData);
 	if (err)
 		return err;
@@ -340,7 +340,7 @@ int32 __MAPILIB SMB2SHC_GetFAN_State(enum SHC_FAN_NR fan_nr, struct shc_fan *shc
 	u_int8 statByte, rpmLSB, rpmMSB;
 	u_int8 blkData[SMB_BLOCK_MAX_BYTES];
 
-	err = SMB2API_ReadBlockData(SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
+	err = SMB2API_ReadBlockData(g_SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
 								SHC_FAN_GET_OPCODE, &length, blkData);
 	if (err)
 		return err;
@@ -378,7 +378,7 @@ int32 __MAPILIB SMB2SHC_GetVoltLevel(enum SHC_PWR_MON_ID pwr_mon_nr, u_int16 *vo
 	u_int16 volt_data;
 	u_int8 blkData[SMB_BLOCK_MAX_BYTES];
 
-	err = SMB2API_ReadBlockData(SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
+	err = SMB2API_ReadBlockData(g_SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
 								SHC_VOLT_GET_OPCODE, &length, blkData);
 	if (err)
 		return err;
@@ -412,7 +412,7 @@ int32 __MAPILIB SMB2SHC_SetPowerCycleDuration(u_int16 duration) {
 	blkData[1] = (u_int8) duration;         /* LSB */
 	blkData[2] = (u_int8) (duration >> 8);  /* MSB */
 
-	return SMB2API_WriteBlockData(SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
+	return SMB2API_WriteBlockData(g_SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
 		SHC_PWRCYCLE_DUR_SET_OPCODE, SHC_DUR_SET_LENGTH, blkData);
 }
 
@@ -425,7 +425,7 @@ int32 __MAPILIB SMB2SHC_SetPowerCycleDuration(u_int16 duration) {
  *  \sa SMB2SHC_GetPersistentPowerbuttonStatus
 */
 int32 __MAPILIB SMB2SHC_SetPersistentPowerbuttonStatus(u_int32 status) {
-	int err = SMB2API_WriteByteData(SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
+	int err = SMB2API_WriteByteData(g_SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
 		SHC_PERS_PWRBTN_SET_OPCODE, status == 1 ? 1 : 0);
 	if (err) {
 	    return err;
@@ -442,7 +442,7 @@ int32 __MAPILIB SMB2SHC_SetPersistentPowerbuttonStatus(u_int32 status) {
  *  \sa SMB2SHC_SetPersistentPowerbuttonStatus
 */
 int32 __MAPILIB SMB2SHC_GetPersistentPowerbuttonStatus(u_int8 *status) {
-	int err = SMB2API_ReadByteData(SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
+	int err = SMB2API_ReadByteData(g_SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
 		SHC_PERS_PWRBTN_GET_OPCODE, status);
 	if (err) {
 	    return err;
@@ -465,7 +465,7 @@ int32 __MAPILIB SMB2SHC_GetUPS_State(enum SHC_UPS_NR ups_nr, struct shc_ups *shc
 	u_int8 ups_status, ups_charging_lvl;
 	u_int8 blkData[SMB_BLOCK_MAX_BYTES];
 
-	err = SMB2API_ReadBlockData(SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
+	err = SMB2API_ReadBlockData(g_SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
 								SHC_UPS_GET_OPCODE, &length, blkData);
 	if (err)
 		return err;
@@ -499,7 +499,7 @@ int32 __MAPILIB SMB2SHC_ShutDown()
 {
 	int err;
 
-	err = SMB2API_WriteByte(SMB2SHC_smbHdl, SHC_SMBFLAGS,
+	err = SMB2API_WriteByte(g_SMB2SHC_smbHdl, SHC_SMBFLAGS,
 							SHC_SMBADDR, SHC_SH_DOWN_OPCODE);
 	if (err)
 		return err;
@@ -519,7 +519,7 @@ int32 __MAPILIB SMB2SHC_PowerOff()
 {
 	int err;
 
-	err = SMB2API_WriteByte(SMB2SHC_smbHdl, SHC_SMBFLAGS,
+	err = SMB2API_WriteByte(g_SMB2SHC_smbHdl, SHC_SMBFLAGS,
 							SHC_SMBADDR, SHC_PWR_OFF_OPCODE);
 	if (err)
 		return err;
@@ -548,7 +548,7 @@ int32 __MAPILIB SMB2SHC_GetConf_Data(struct shc_configdata *configdata)
 		return err;
 	}
 
-	err = SMB2API_ReadBlockData(SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
+	err = SMB2API_ReadBlockData(g_SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
 								SHC_CONF_GET_OPCODE, &length, blkData);
 	if (err) {
 		return err;
@@ -642,7 +642,7 @@ int32 __MAPILIB SMB2SHC_GetFirm_Ver(struct shc_fwversion *fw_version)
 	u_int8 length;
 	u_int8 blkData[SMB_BLOCK_MAX_BYTES];
 
-	err = SMB2API_ReadBlockData(SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
+	err = SMB2API_ReadBlockData(g_SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
 								SHC_FVER_GET_OPCODE, &length, blkData);
 
 	if (err)
