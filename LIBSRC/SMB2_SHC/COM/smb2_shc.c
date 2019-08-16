@@ -88,6 +88,10 @@ static const char IdentString[]=MENT_XSTR(MAK_REVISION);
 |  GLOBALS                                 |
 +-----------------------------------------*/
 static void *g_SMB2SHC_smbHdl;
+static struct shc_fwversion g_firm_version;
+
+#define SHC_V416_OR_BELOW (g_firm_version.maj_revision <= 4 && g_firm_version.min_revision <= 16)
+#define SHC_AT_LEAST_V417 (!SHC_V416_OR_BELOW)
 
 /**
  * \defgroup _SMB2_SHC SMB2_SHC
@@ -138,7 +142,8 @@ char* __MAPILIB SMB2SHC_Errstring(u_int32 errCode, char *strBuf)
 		/* no error */
 		{ SMB2_SHC_ERR_NO			,		"(no error)" },
 		{ SMB2_SHC_ID_NA			,		"ID number is not available" },
-		{ SMB2_SHC_ERR_LENGTH		,		"Data has wrong length" },
+		{ SMB2_SHC_ERR_LENGTH			,		"Data has wrong length" },
+		{ SMB2_SHC_ERR_FEATURE_UNAVAILABLE	,		"Feature is unavailable in this SHC revision" },
 		/* max string size indicator  |1---------------------------------------------50| */
 	};
 
@@ -186,7 +191,15 @@ char* __MAPILIB SMB2SHC_Errstring(u_int32 errCode, char *strBuf)
  */
 int32 __MAPILIB SMB2SHC_Init(char *deviceP)
 {
-	return (SMB2API_Init(deviceP, &g_SMB2SHC_smbHdl));
+	int err = SMB2API_Init(deviceP, &g_SMB2SHC_smbHdl);
+	if (err) {
+		return err;
+	}
+	err = SMB2SHC_GetFirm_Ver(&g_firm_version);
+	if (err) {
+		return err;
+	}
+        return SMB2_SHC_ERR_NO;
 }
 
 
@@ -404,8 +417,10 @@ int32 __MAPILIB SMB2SHC_GetVoltLevel(enum SHC_PWR_MON_ID pwr_mon_nr, u_int16 *vo
  *
 */
 int32 __MAPILIB SMB2SHC_SetPowerCycleDuration(u_int16 duration) {
+	if (SHC_V416_OR_BELOW) {
+		return SMB2_SHC_ERR_FEATURE_UNAVAILABLE;
+	}
 	u_int8 blkData[SMB_BLOCK_MAX_BYTES];
-		
 	/* Set blkData[0] to 0 to only set powercycle duration.
 	 * Set blkData[0] to 1 to enable immediate shutdown. */
 	blkData[0] = 0;
@@ -413,7 +428,7 @@ int32 __MAPILIB SMB2SHC_SetPowerCycleDuration(u_int16 duration) {
 	blkData[2] = (u_int8) (duration >> 8);  /* MSB */
 
 	return SMB2API_WriteBlockData(g_SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
-		SHC_PWRCYCLE_DUR_SET_OPCODE, SHC_DUR_SET_LENGTH, blkData);
+			SHC_PWRCYCLE_DUR_SET_OPCODE, SHC_DUR_SET_LENGTH, blkData);
 }
 
 /****************************************************************************/
@@ -425,10 +440,13 @@ int32 __MAPILIB SMB2SHC_SetPowerCycleDuration(u_int16 duration) {
  *  \sa SMB2SHC_GetPersistentPowerbuttonStatus
 */
 int32 __MAPILIB SMB2SHC_SetPersistentPowerbuttonStatus(u_int32 status) {
+	if (SHC_V416_OR_BELOW) {
+		return SMB2_SHC_ERR_FEATURE_UNAVAILABLE;
+	}
 	int err = SMB2API_WriteByteData(g_SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
 		SHC_PERS_PWRBTN_SET_OPCODE, status == 1 ? 1 : 0);
 	if (err) {
-	    return err;
+		return err;
 	}
 	return SMB2_SHC_ERR_NO;
 }
@@ -442,16 +460,19 @@ int32 __MAPILIB SMB2SHC_SetPersistentPowerbuttonStatus(u_int32 status) {
  *  \sa SMB2SHC_SetPersistentPowerbuttonStatus
 */
 int32 __MAPILIB SMB2SHC_GetPersistentPowerbuttonStatus(u_int8 *status) {
+	if (SHC_V416_OR_BELOW) {
+		return SMB2_SHC_ERR_FEATURE_UNAVAILABLE;
+	}
 	int err = SMB2API_ReadByteData(g_SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
 		SHC_PERS_PWRBTN_GET_OPCODE, status);
 	if (err) {
-	    return err;
+		return err;
 	}
 	return SMB2_SHC_ERR_NO;
 }
 
 /****************************************************************************/
-/** Get the uninterruptible Power Supply Report of the selected UPS
+/** Get the Uninterruptible Power Supply report of the selected UPS
 *
 *  \param     ups_nr           \IN   UPS ID number
 *  \param     shc_ups_state    \OUT  status of the selected UPS
@@ -554,10 +575,8 @@ int32 __MAPILIB SMB2SHC_GetConf_Data(struct shc_configdata *configdata)
 		return err;
 	}
 
-	if (!((length == SHC_CONF_GET_LENGTH_v416 &&
-			(firm_version.maj_revision <= 4 && firm_version.min_revision <= 16)) ||
-	      (length == SHC_CONF_GET_LENGTH_v417 &&
-			(firm_version.maj_revision >= 5 || firm_version.min_revision > 16)))) {
+	if (!((length == SHC_CONF_GET_LENGTH_v416 && SHC_V416_OR_BELOW) ||
+	      (length == SHC_CONF_GET_LENGTH_v417 && SHC_AT_LEAST_V417))) {
 		return SMB2_SHC_ERR_LENGTH;
 	}
 
@@ -583,7 +602,7 @@ int32 __MAPILIB SMB2SHC_GetConf_Data(struct shc_configdata *configdata)
 	config_data16 += blkData[10];
 	configdata->tempRunHigh = config_data16;
 
-	if (firm_version.min_revision <= 16) {
+	if (SHC_V416_OR_BELOW) {
 	    configdata->persistentPwrbtnEnabled = 0;
 	    configdata->usePBRST = 1;
 

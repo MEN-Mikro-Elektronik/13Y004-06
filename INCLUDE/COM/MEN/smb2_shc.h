@@ -47,9 +47,10 @@
 # define SHC_OFFS 0
 #endif /*ERR_DEV*/
 
-#define SMB2_SHC_ERR_NO        (0x00)            /** No Error */
-#define SMB2_SHC_ID_NA         (SHC_OFFS + 0x1)  /** ID not available */
-#define SMB2_SHC_ERR_LENGTH    (SHC_OFFS + 0x2)  /** Wrong length */
+#define SMB2_SHC_ERR_NO                   (0x00)            /** No Error */
+#define SMB2_SHC_ID_NA                    (SHC_OFFS + 0x1)  /** ID not available */
+#define SMB2_SHC_ERR_LENGTH               (SHC_OFFS + 0x2)  /** Wrong length */
+#define SMB2_SHC_ERR_FEATURE_UNAVAILABLE  (SHC_OFFS + 0x3)  /** Feature unavailable */
 
 /*--------------------+
 |   SHC Power Supply  |
