@@ -406,16 +406,16 @@ int32 __MAPILIB SMB2SHC_GetVoltLevel(enum SHC_PWR_MON_ID pwr_mon_nr, u_int16 *vo
  *  \param     status           \IN  desired delay in milliseconds
  *  \return    SMB2_SHC_ERR_NO on success or error code
  *
- *  \sa SMB2SHC_SetPowerCycleDuration
 */
-int32 __MAPILIB SMB2SHC_SetPowerCycleDuration(u_int16 delay) {
+int32 __MAPILIB SMB2SHC_SetPowerCycleDuration(u_int16 duration) {
 	u_int8 blkData[SMB_BLOCK_MAX_BYTES];
 		
-	/* set to 1 to enable immediate shutdown */
-	blkData[0] = (u_int8) 0;
-	blkData[1] = (u_int8) delay;      /* LSB */
-	blkData[2] = (u_int8) (delay>>8); /* MSB */
-	
+	/* Set blkData[0] to 0 to only set powercycle duration.
+	 * Set blkData[0] to 1 to enable immediate shutdown. */
+	blkData[0] = 0;
+	blkData[1] = (u_int8) duration;         /* LSB */
+	blkData[2] = (u_int8) (duration >> 8);  /* MSB */
+
 	return SMB2API_WriteBlockData(SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
 		SHC_PWRCYCLE_DUR_SET_OPCODE, SHC_DUR_SET_LENGTH, blkData);
 }

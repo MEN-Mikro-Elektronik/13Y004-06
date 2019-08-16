@@ -72,7 +72,7 @@ static void print_fan(int32 fan_id);
 static void print_voltlevel(void);
 static void print_ups(int32 ups_id);
 static void set_persistent_pwrbtn_status(u_int32 status);
-static void set_power_cycle_duration(u_int32 delay);
+static void set_power_cycle_duration(u_int32 duration);
 static void print_persistent_pwrbtn_status();
 static void shut_down(void);
 static void power_off(void);
@@ -105,27 +105,27 @@ static void usage(void)
 		"\nUsage:     smb2_shc_ctrl devName <opts>\n"
 		"Function:  Tool to access the Shelf Controller via the SMB2_SHC API\n"
 		"Options:\n"
-		"    devName      device name e.g. smb2_1                   \n"
-		"    -?           Usage                                     \n"
-		"    -t           Get system/ambient temperature                    \n"
-		"    -T=[dec]     Set ambient temperature (Celsius) for FAN control \n"
-		"    -i           Get shelf controller API identifier       \n"
-		"    -p=[psu_id]  Get status of one or all PSU              \n"
-		"                 (psu_id: 0 to 3, 0: to get all psu status)\n"
-		"    -f=[fan_id]  Get status of one or all FAN              \n"
-		"                 (fan_id: 0 to 3, 0: to get all fan status)\n"
-		"    -u=[ups_id]  Get status of one or all UPS              \n"
-		"                 (ups_id: 0 to 2, 0: to get all ups status)\n"
-		"    -v           Get input voltage level                   \n"
-		"    -s           Indicates that CPU is shutting down       \n"
-		"    -o           Indicates that CPU wants to shut          \n"
-		"                 off the power supply                      \n"
-		"    -d=[delay]   Duration of a power cycle (-o flag) in ms \n"
-		"    -P           Print persistent power button status      \n"
-		"    -B=[status]  Set persistent power button status        \n"
-		"                 status can be 0 (off) or 1 (on)           \n"
-		"    -c           Get Configuration Data                    \n"
-		"    -r           Get Firmware Version                      \n"
+		"    devName       Device name e.g. smb2_1                   \n"
+		"    -?            Usage                                     \n"
+		"    -t            Get system/ambient temperature                    \n"
+		"    -T=[dec]      Set ambient temperature (Celsius) for FAN control \n"
+		"    -i            Get shelf controller API identifier       \n"
+		"    -p=[psu_id]   Get status of one or all PSU              \n"
+		"                  (psu_id: 0 to 3, 0: to get all psu status)\n"
+		"    -f=[fan_id]   Get status of one or all FAN              \n"
+		"                  (fan_id: 0 to 3, 0: to get all fan status)\n"
+		"    -u=[ups_id]   Get status of one or all UPS              \n"
+		"                  (ups_id: 0 to 2, 0: to get all ups status)\n"
+		"    -v            Get input voltage level                   \n"
+		"    -s            Indicates that CPU is shutting down       \n"
+		"    -o            Indicates that CPU wants to shut          \n"
+		"                  off the power supply                      \n"
+		"    -d=[duration] Duration of a power cycle (-o flag) in ms \n"
+		"    -P            Print persistent power button status      \n"
+		"    -B=[status]   Set persistent power button status        \n"
+		"                  status can be 0 (off) or 1 (on)           \n"
+		"    -c            Get Configuration Data                    \n"
+		"    -r            Get Firmware Version                      \n"
 		"Calling examples:                                          \n"
 		"    Get FAN status:  smb2_shc_ctrl smb2_1 -f=0             \n"
 		);
@@ -473,16 +473,16 @@ static void set_persistent_pwrbtn_status(u_int32 status)
 /****************************************************************************/
 /** Set power cycle duration in milliseconds
 */
-static void set_power_cycle_duration(u_int32 delay)
+static void set_power_cycle_duration(u_int32 duration)
 {
 	if (g_firm_version.maj_revision <= 4 && g_firm_version.min_revision <= 16) {
 		printf("***ERROR: Cannot set power cycle duration in shelf controller revisions below 4.17.");
 		return;
 	}
-	printf("Setting power cycle duration to %d milliseconds.\n", delay);
+	printf("Setting power cycle duration to %d milliseconds.\n", duration);
 	printf("The shelf controller may clamp this value to min/max interval.");
 
-	int err = SMB2SHC_SetPowerCycleDuration((u_int16)delay);
+	int err = SMB2SHC_SetPowerCycleDuration((u_int16)duration);
 	if (err) {
 		PrintError("***ERROR: SMB2SHC_SetPowerCycleDuration:", err);
 	}
