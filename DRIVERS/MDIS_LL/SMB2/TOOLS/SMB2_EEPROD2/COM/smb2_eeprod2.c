@@ -484,11 +484,9 @@ int main(int argc, char *argv[])
 					boardnameP[i] = (char)toupper( boardnameP[i] );
 				}
 			}
-			strncpy( G_eeprd2.pd_hwName, boardnameP, sizeof(G_eeprd2.pd_hwName) );
+			strncpy( G_eeprd2.pd_hwName, boardnameP, sizeof(G_eeprd2.pd_hwName)-1 );
 			/* truncate string */
-			if( G_eeprd2.pd_hwName[sizeof(G_eeprd2.pd_hwName)-1] != '\0' ) {
-				G_eeprd2.pd_hwName[sizeof(G_eeprd2.pd_hwName)-1] = '\0';
-			}
+			G_eeprd2.pd_hwName[sizeof(G_eeprd2.pd_hwName)-1] = '\0';
 		}
 	}
 
