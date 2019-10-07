@@ -411,7 +411,7 @@ int32 __MAPILIB SMB2SHC_GetVoltLevel(enum SHC_PWR_MON_ID pwr_mon_nr, u_int16 *vo
 /****************************************************************************/
 /** Set power cycle duration in milliseconds
  *
- *  \param     status           \IN  desired delay in milliseconds
+ *  \param     duration    \IN  desired delay in milliseconds
  *  \return    SMB2_SHC_ERR_NO on success or error code
  *
 */
