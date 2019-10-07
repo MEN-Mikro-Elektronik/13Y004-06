@@ -416,10 +416,10 @@ int32 __MAPILIB SMB2SHC_GetVoltLevel(enum SHC_PWR_MON_ID pwr_mon_nr, u_int16 *vo
  *
 */
 int32 __MAPILIB SMB2SHC_SetPowerCycleDuration(u_int16 duration) {
+	u_int8 blkData[SMB_BLOCK_MAX_BYTES];
 	if (SHC_V416_OR_BELOW) {
 		return SMB2_SHC_ERR_FEATURE_UNAVAILABLE;
 	}
-	u_int8 blkData[SMB_BLOCK_MAX_BYTES];
 	/* Set blkData[0] to 0 to only set powercycle duration.
 	 * Set blkData[0] to 1 to enable immediate shutdown. */
 	blkData[0] = 0;
@@ -439,10 +439,11 @@ int32 __MAPILIB SMB2SHC_SetPowerCycleDuration(u_int16 duration) {
  *  \sa SMB2SHC_GetPersistentPowerbuttonStatus
 */
 int32 __MAPILIB SMB2SHC_SetPersistentPowerbuttonStatus(u_int32 status) {
+	int err;
 	if (SHC_V416_OR_BELOW) {
 		return SMB2_SHC_ERR_FEATURE_UNAVAILABLE;
 	}
-	int err = SMB2API_WriteByteData(g_SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
+	err = SMB2API_WriteByteData(g_SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
 		SHC_PERS_PWRBTN_SET_OPCODE, status == 1 ? 1 : 0);
 	if (err) {
 		return err;
@@ -459,10 +460,11 @@ int32 __MAPILIB SMB2SHC_SetPersistentPowerbuttonStatus(u_int32 status) {
  *  \sa SMB2SHC_SetPersistentPowerbuttonStatus
 */
 int32 __MAPILIB SMB2SHC_GetPersistentPowerbuttonStatus(u_int8 *status) {
+	int err;
 	if (SHC_V416_OR_BELOW) {
 		return SMB2_SHC_ERR_FEATURE_UNAVAILABLE;
 	}
-	int err = SMB2API_ReadByteData(g_SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
+	err = SMB2API_ReadByteData(g_SMB2SHC_smbHdl, SHC_SMBFLAGS, SHC_SMBADDR,
 		SHC_PERS_PWRBTN_GET_OPCODE, status);
 	if (err) {
 		return err;
