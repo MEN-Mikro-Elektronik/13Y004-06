@@ -41,7 +41,6 @@
 <span class="comment">* You should have received a copy of the GNU General Public License</span>
 <span class="comment">* along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
 <span class="comment">*/</span>
-<span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">char</span> RCSid[]=<span class="stringliteral">"$Id: smb2_boardident.c,v 1.6 2014/07/17 17:00:15 ts Exp $"</span>;
 
 <span class="comment">/*-------------------------------------+</span>
 <span class="comment">|   INCLUDES                           |</span>
@@ -55,6 +54,8 @@
 <span class="preprocessor">#include &lt;MEN/usr_utl.h&gt;</span>
 <span class="preprocessor">#include &lt;<a class="code" href="smb2__api_8h.html">MEN/smb2_api.h</a>&gt;</span>
 <span class="preprocessor">#include &lt;MEN/eeprod.h&gt;</span>     <span class="comment">/* for EEPROD2 struct/constants  */</span>
+
+<span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">char</span> IdentString[]=MENT_XSTR(MAK_REVISION);
 
 <span class="comment">/* still using deprecated sscanf, sprintf,.. */</span>
 <span class="preprocessor">#ifdef WINNT</span>
@@ -106,8 +107,8 @@ EEPROD2 G_eeprd2;
 {
     printf(<span class="stringliteral">"\n==========================="</span>
            <span class="stringliteral">"\n===   SMB2_BOARDIDENT   ==="</span>
-           <span class="stringliteral">"\n==========================="</span>
-           <span class="stringliteral">"\n(c)Copyright 2009 by MEN Mikro Elektronik GmbH\n%s\n\n"</span>, RCSid);
+           <span class="stringliteral">"\n==========================="</span>);
+    printf(<span class="stringliteral">"\nCopyright (c) 2009-2019, MEN Mikro Elektronik GmbH\n%s\n\n"</span>, IdentString);
 }
 
 <span class="comment">/********************************* usage ***********************************/</span>
@@ -124,9 +125,8 @@ EEPROD2 G_eeprd2;
         <span class="stringliteral">"\n- dump board information EEPROM (with raw data): \n"</span>
         <span class="stringliteral">"    smb2_boardident smb2_1 -r \n"</span>
         <span class="stringliteral">"\n- dump data from specified SMB address: \n"</span>
-        <span class="stringliteral">"    smb2_boardident smb2_1 0xac  \n"</span>
-        <span class="stringliteral">"\n(c)Copyright 2009 by MEN Mikro Elektronik GmbH\n%s\n\n"</span>, RCSid
-        );
+        <span class="stringliteral">"    smb2_boardident smb2_1 0xac  \n"</span>);
+    printf(<span class="stringliteral">"\nCopyright (c) 2009-2019, MEN Mikro Elektronik GmbH\n%s\n\n"</span>, IdentString);
 }
 
 <span class="comment">/***************************************************************************/</span>
@@ -411,8 +411,7 @@ EXIT:
 <div class="footer">
 <!-- Footer -->
 	<p class="footer">
-	Generated for SMB2_API using <a href="http://www.doxygen.org">doxygen</a>.<br>
-	Copyright &copy; 2019 <a href="http://www.men.de">MEN Mikro Elektronik GmbH</a>. All Rights Reserved.
+	Generated for SMB2_API using <a href="http://www.doxygen.org">doxygen</a>. All Rights Reserved.
 	</p>
 </div>
 

@@ -56,6 +56,8 @@
 <span class="preprocessor">#include &lt;<a class="code" href="smb2__api_8h.html">MEN/smb2_api.h</a>&gt;</span>
 <span class="preprocessor">#include &lt;MEN/f601io.h&gt;</span>
 
+<span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">char</span> IdentString[]=MENT_XSTR(MAK_REVISION);
+
 <span class="comment">/*--------------------------------------+</span>
 <span class="comment">|   PROTOTYPES                          |</span>
 <span class="comment">+--------------------------------------*/</span>
@@ -78,7 +80,7 @@
     printf(<span class="stringliteral">"    -l           loop until keypress:                 \n"</span>);
     printf(<span class="stringliteral">"                   toggle outputs get inputs          \n"</span>);
     printf(<span class="stringliteral">"\n"</span>);
-    printf(<span class="stringliteral">"(c) 2006 by MEN mikro elektronik GmbH\n\n"</span>);
+    printf(<span class="stringliteral">"\nCopyright (c) 2006-2019, MEN Mikro Elektronik GmbH\n%s\n\n"</span>, IdentString);
 }
 
 <span class="comment">/***************************************************************************/</span>
@@ -268,8 +270,7 @@ ERR_EXIT:
 <div class="footer">
 <!-- Footer -->
 	<p class="footer">
-	Generated for SMB2_API using <a href="http://www.doxygen.org">doxygen</a>.<br>
-	Copyright &copy; 2019 <a href="http://www.men.de">MEN Mikro Elektronik GmbH</a>. All Rights Reserved.
+	Generated for SMB2_API using <a href="http://www.doxygen.org">doxygen</a>. All Rights Reserved.
 	</p>
 </div>
 

@@ -4,215 +4,35 @@
 <param name="FrameName" value="right">
 </OBJECT>
 <UL>
-<LI><OBJECT type="text/sitemap"><param name="Name" value="MEN logo"><param name="Local" value="smb2shcdummy.html"><param name="ImageNumber" value="11"></OBJECT>
-<LI><OBJECT type="text/sitemap"><param name="Name" value="Modules"><param name="Local" value="modules.html"><param name="ImageNumber" value="1"></OBJECT>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="Main Page"><param name="Local" value="index.html"><param name="ImageNumber" value="11"></OBJECT>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="File List"><param name="Local" value="files.html"><param name="ImageNumber" value="1"></OBJECT>
   <UL>
-  <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2_SHC"><param name="Local" value="group____SMB2__SHC.html"><param name="ImageNumber" value="1"></OBJECT>
-    <UL>
-    <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_Errstring"><param name="Local" value="group____SMB2__SHC.html#ga6812e173327faa5e2c9410e28b19afab"><param name="ImageNumber" value="11"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_Exit"><param name="Local" value="group____SMB2__SHC.html#ga7120493daaaf3a469192c700326331f3"><param name="ImageNumber" value="11"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_GetConf_Data"><param name="Local" value="group____SMB2__SHC.html#ga69d1f15629d5e9d0b6ff5abdacedff01"><param name="ImageNumber" value="11"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_GetFAN_State"><param name="Local" value="group____SMB2__SHC.html#ga7680a062ebf765f9005e02d4b2a9c02d"><param name="ImageNumber" value="11"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_GetFirm_Ver"><param name="Local" value="group____SMB2__SHC.html#ga912de5d009a7b29df625b27f519512d1"><param name="ImageNumber" value="11"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_GetPersistentPowerbuttonStatus"><param name="Local" value="group____SMB2__SHC.html#gafe451dd8d660650823e9b64ef4a13c0a"><param name="ImageNumber" value="11"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_GetPSU_State"><param name="Local" value="group____SMB2__SHC.html#gafe67ee3de8283fafe8fe148867daa8bc"><param name="ImageNumber" value="11"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_GetTemperature"><param name="Local" value="group____SMB2__SHC.html#gaf2af4b987be28056db00eb425b9cbe74"><param name="ImageNumber" value="11"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_GetTemperatureOverrideStatus"><param name="Local" value="group____SMB2__SHC.html#gaf64485b7a1338e7f62a4fcb6cd5a4ea1"><param name="ImageNumber" value="11"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_GetUPS_State"><param name="Local" value="group____SMB2__SHC.html#gaee10f64b75a7a8196da2d4d3a9fa0d1d"><param name="ImageNumber" value="11"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_GetVoltLevel"><param name="Local" value="group____SMB2__SHC.html#ga42a30de2d759814929b6ca11c13718ed"><param name="ImageNumber" value="11"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_Ident"><param name="Local" value="group____SMB2__SHC.html#ga842c8bd4b5379049e01e1867f055df21"><param name="ImageNumber" value="11"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_Init"><param name="Local" value="group____SMB2__SHC.html#ga7bb2863d236ef8bb3c0e1980cc4a99d3"><param name="ImageNumber" value="11"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_PowerOff"><param name="Local" value="group____SMB2__SHC.html#ga0c007e8b5f2d76802358b7f6650cc198"><param name="ImageNumber" value="11"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_SetPersistentPowerbuttonStatus"><param name="Local" value="group____SMB2__SHC.html#ga3a0f42c1ce9d25258304db3faf19625f"><param name="ImageNumber" value="11"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_SetPowerCycleDuration"><param name="Local" value="group____SMB2__SHC.html#gaebe034327db61ebd1fef2f180352a3e1"><param name="ImageNumber" value="11"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_SetTemperature"><param name="Local" value="group____SMB2__SHC.html#ga1255f5bca428503395435ebc91a3485e"><param name="ImageNumber" value="11"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_ShutDown"><param name="Local" value="group____SMB2__SHC.html#ga121f84e7d1b6391e880869f750bdde29"><param name="ImageNumber" value="11"></OBJECT>
-    </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="smb2_shc.c"><param name="Local" value="smb2__shc_8c.html"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="smb2_shc.h"><param name="Local" value="smb2__shc_8h.html"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="smb2_shc_doc.c"><param name="Local" value="smb2__shc__doc_8c.html"><param name="ImageNumber" value="11"></OBJECT>
   </UL>
 <LI><OBJECT type="text/sitemap"><param name="Name" value="Data Structures"><param name="Local" value="annotated.html"><param name="ImageNumber" value="1"></OBJECT>
   <UL>
-  <LI><OBJECT type="text/sitemap"><param name="Name" value="Data Structures"><param name="Local" value="annotated.html"><param name="ImageNumber" value="1"></OBJECT>
-    <UL>
-    <LI><OBJECT type="text/sitemap"><param name="Name" value="shc_configdata"><param name="Local" value="structshc__configdata.html"><param name="ImageNumber" value="1"></OBJECT>
-      <UL>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="fanDuCyMin"><param name="Local" value="structshc__configdata.html#a6ff388d59f8eeeacfb904def8127a6b2"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="fanNum"><param name="Local" value="structshc__configdata.html#a93a1a4a3617d3f22a6fdd43f2dd935e1"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="fanTempMax"><param name="Local" value="structshc__configdata.html#aa1a4516a6ec2e2bfd9db577af6faac0b"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="fanTempStart"><param name="Local" value="structshc__configdata.html#a4f0b44a68067e77899ccce996e7643ea"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="i2cAddress"><param name="Local" value="structshc__configdata.html#ae4c620c2b25e1fce256886ae9fe2fb3b"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="persistentPwrbtnEnabled"><param name="Local" value="structshc__configdata.html#aa779f9eec6a54a16b5cb6e8d449401b2"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="pwrSlot2"><param name="Local" value="structshc__configdata.html#ab35fb4c516aff07f1e8738d68b360732"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="pwrSlot3"><param name="Local" value="structshc__configdata.html#a4e398b422ff933588cafe2b635b7ff3e"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="StateMachineID"><param name="Local" value="structshc__configdata.html#ab8f5d905c9cd25b25057d29628ce2ba4"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="tempRunHigh"><param name="Local" value="structshc__configdata.html#afb9a314ad45af084f77ba73829452a8b"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="tempRunLow"><param name="Local" value="structshc__configdata.html#a2c6925019bd44ab8906261cffb5b29ab"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="tempWarnHigh"><param name="Local" value="structshc__configdata.html#a03eed888202905f630af8807856fd534"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="tempWarnLow"><param name="Local" value="structshc__configdata.html#a1a1e5abaf0694bb576d59eeb05aa06fb"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="upsMinRunCharge"><param name="Local" value="structshc__configdata.html#a40b462dd8a3eabc4c4f1b3210a48c89e"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="upsMinStartCharge"><param name="Local" value="structshc__configdata.html#acbec69f7f3a0da5ac0be803f5492b66c"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="usePBRST"><param name="Local" value="structshc__configdata.html#a61c6c30af2b8ad1a030b6b72e31d5740"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="voltMonMask"><param name="Local" value="structshc__configdata.html#aefd22c439b7387c0ce5f7f51370173c4"><param name="ImageNumber" value="11"></OBJECT>
-      </UL>
-    <LI><OBJECT type="text/sitemap"><param name="Name" value="shc_fan"><param name="Local" value="structshc__fan.html"><param name="ImageNumber" value="1"></OBJECT>
-      <UL>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="isPresent"><param name="Local" value="structshc__fan.html#ae1709c0d516a313d52eeed4444aa26dc"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="speedRpm"><param name="Local" value="structshc__fan.html#a2c3fdb16833da93681581eac958d8aa8"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="state"><param name="Local" value="structshc__fan.html#a295700f43aae73aa9fe38798ae1d7c5b"><param name="ImageNumber" value="11"></OBJECT>
-      </UL>
-    <LI><OBJECT type="text/sitemap"><param name="Name" value="shc_fwversion"><param name="Local" value="structshc__fwversion.html"><param name="ImageNumber" value="1"></OBJECT>
-      <UL>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="build_nbr"><param name="Local" value="structshc__fwversion.html#aea6583a2a2a517e45308d8fe25577cbe"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="errcode"><param name="Local" value="structshc__fwversion.html#a2ab270a706c5d2ce9474dfe2afdc2895"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="maj_revision"><param name="Local" value="structshc__fwversion.html#a49c7f38b6cdc821d1940fd623fa23367"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="min_revision"><param name="Local" value="structshc__fwversion.html#a2198dbdb890efef12a6db27c0942a4d3"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="mtnce_revision"><param name="Local" value="structshc__fwversion.html#ab49c1c9ee0ac2c8021022ac7acd51b20"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="veri_flag"><param name="Local" value="structshc__fwversion.html#af61e338eaad1663f74cef9daf6f6dffc"><param name="ImageNumber" value="11"></OBJECT>
-      </UL>
-    <LI><OBJECT type="text/sitemap"><param name="Name" value="shc_psu"><param name="Local" value="structshc__psu.html"><param name="ImageNumber" value="1"></OBJECT>
-      <UL>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="intFailure"><param name="Local" value="structshc__psu.html#a1550f30458729bf7e2e696a5a3ed53da"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="isEPwrPresent"><param name="Local" value="structshc__psu.html#a7452531edc2603151b82f3c9e626dcc9"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="isPresent"><param name="Local" value="structshc__psu.html#a342719b78423a7adbb0ce1635e752ab0"><param name="ImageNumber" value="11"></OBJECT>
-      </UL>
-    <LI><OBJECT type="text/sitemap"><param name="Name" value="shc_ups"><param name="Local" value="structshc__ups.html"><param name="ImageNumber" value="1"></OBJECT>
-      <UL>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="chrg_lvl"><param name="Local" value="structshc__ups.html#a34b72bf449b669de714e75935c580eee"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="intFailure"><param name="Local" value="structshc__ups.html#a68da85efa3460f7e5accbfc06f9b299e"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="isPresent"><param name="Local" value="structshc__ups.html#aa4cfcaab6c7c68765881c8a4915736e2"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="provPWR"><param name="Local" value="structshc__ups.html#a3ca182ebb02a1153857923979c1e139c"><param name="ImageNumber" value="11"></OBJECT>
-      </UL>
-    </UL>
-  <LI><OBJECT type="text/sitemap"><param name="Name" value="Data Fields"><param name="Local" value="functions.html"><param name="ImageNumber" value="1"></OBJECT>
-    <UL>
-    <LI><OBJECT type="text/sitemap"><param name="Name" value="All"><param name="Local" value="functions.html"><param name="ImageNumber" value="11"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Name" value="Variables"><param name="Local" value="functions_vars.html"><param name="ImageNumber" value="11"></OBJECT>
-    </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="shc_configdata"><param name="Local" value="structshc__configdata.html"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="shc_fan"><param name="Local" value="structshc__fan.html"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="shc_fwversion"><param name="Local" value="structshc__fwversion.html"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="shc_psu"><param name="Local" value="structshc__psu.html"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="shc_ups"><param name="Local" value="structshc__ups.html"><param name="ImageNumber" value="11"></OBJECT>
   </UL>
-<LI><OBJECT type="text/sitemap"><param name="Name" value="Files"><param name="ImageNumber" value="1"></OBJECT>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="Data Fields"><param name="Local" value="functions.html"><param name="ImageNumber" value="11"></OBJECT>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="Modules"><param name="Local" value="modules.html"><param name="ImageNumber" value="1"></OBJECT>
   <UL>
-  <LI><OBJECT type="text/sitemap"><param name="Name" value="File List"><param name="Local" value="files.html"><param name="ImageNumber" value="1"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2_SHC"><param name="Local" value="group____SMB2__SHC.html"><param name="ImageNumber" value="11"></OBJECT>
     <UL>
-    <LI><OBJECT type="text/sitemap"><param name="Name" value="smb2_shc.c"><param name="Local" value="smb2__shc_8c.html"><param name="ImageNumber" value="1"></OBJECT>
-      <UL>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_Errstring"><param name="Local" value="group____SMB2__SHC.html#ga6812e173327faa5e2c9410e28b19afab"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_Exit"><param name="Local" value="group____SMB2__SHC.html#ga7120493daaaf3a469192c700326331f3"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_GetConf_Data"><param name="Local" value="group____SMB2__SHC.html#ga69d1f15629d5e9d0b6ff5abdacedff01"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_GetFAN_State"><param name="Local" value="group____SMB2__SHC.html#ga7680a062ebf765f9005e02d4b2a9c02d"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_GetFirm_Ver"><param name="Local" value="group____SMB2__SHC.html#ga912de5d009a7b29df625b27f519512d1"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_GetPersistentPowerbuttonStatus"><param name="Local" value="group____SMB2__SHC.html#gafe451dd8d660650823e9b64ef4a13c0a"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_GetPSU_State"><param name="Local" value="group____SMB2__SHC.html#gafe67ee3de8283fafe8fe148867daa8bc"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_GetTemperature"><param name="Local" value="group____SMB2__SHC.html#gaf2af4b987be28056db00eb425b9cbe74"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_GetTemperatureOverrideStatus"><param name="Local" value="group____SMB2__SHC.html#gaf64485b7a1338e7f62a4fcb6cd5a4ea1"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_GetUPS_State"><param name="Local" value="group____SMB2__SHC.html#gaee10f64b75a7a8196da2d4d3a9fa0d1d"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_GetVoltLevel"><param name="Local" value="group____SMB2__SHC.html#ga42a30de2d759814929b6ca11c13718ed"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_Ident"><param name="Local" value="group____SMB2__SHC.html#ga842c8bd4b5379049e01e1867f055df21"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_Init"><param name="Local" value="group____SMB2__SHC.html#ga7bb2863d236ef8bb3c0e1980cc4a99d3"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_PowerOff"><param name="Local" value="group____SMB2__SHC.html#ga0c007e8b5f2d76802358b7f6650cc198"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_SetPersistentPowerbuttonStatus"><param name="Local" value="group____SMB2__SHC.html#ga3a0f42c1ce9d25258304db3faf19625f"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_SetPowerCycleDuration"><param name="Local" value="group____SMB2__SHC.html#gaebe034327db61ebd1fef2f180352a3e1"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_SetTemperature"><param name="Local" value="group____SMB2__SHC.html#ga1255f5bca428503395435ebc91a3485e"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_ShutDown"><param name="Local" value="group____SMB2__SHC.html#ga121f84e7d1b6391e880869f750bdde29"><param name="ImageNumber" value="11"></OBJECT>
-      </UL>
-    <LI><OBJECT type="text/sitemap"><param name="Name" value="smb2_shc.h"><param name="Local" value="smb2__shc_8h.html"><param name="ImageNumber" value="1"></OBJECT>
-      <UL>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="shc_psu"><param name="Local" value="structshc__psu.html"><param name="ImageNumber" value="1"></OBJECT>
-        <UL>
-        <LI><OBJECT type="text/sitemap"><param name="Name" value="intFailure"><param name="Local" value="structshc__psu.html#a1550f30458729bf7e2e696a5a3ed53da"><param name="ImageNumber" value="11"></OBJECT>
-        <LI><OBJECT type="text/sitemap"><param name="Name" value="isEPwrPresent"><param name="Local" value="structshc__psu.html#a7452531edc2603151b82f3c9e626dcc9"><param name="ImageNumber" value="11"></OBJECT>
-        <LI><OBJECT type="text/sitemap"><param name="Name" value="isPresent"><param name="Local" value="structshc__psu.html#a342719b78423a7adbb0ce1635e752ab0"><param name="ImageNumber" value="11"></OBJECT>
-        </UL>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="shc_fan"><param name="Local" value="structshc__fan.html"><param name="ImageNumber" value="1"></OBJECT>
-        <UL>
-        <LI><OBJECT type="text/sitemap"><param name="Name" value="isPresent"><param name="Local" value="structshc__fan.html#ae1709c0d516a313d52eeed4444aa26dc"><param name="ImageNumber" value="11"></OBJECT>
-        <LI><OBJECT type="text/sitemap"><param name="Name" value="speedRpm"><param name="Local" value="structshc__fan.html#a2c3fdb16833da93681581eac958d8aa8"><param name="ImageNumber" value="11"></OBJECT>
-        <LI><OBJECT type="text/sitemap"><param name="Name" value="state"><param name="Local" value="structshc__fan.html#a295700f43aae73aa9fe38798ae1d7c5b"><param name="ImageNumber" value="11"></OBJECT>
-        </UL>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="shc_ups"><param name="Local" value="structshc__ups.html"><param name="ImageNumber" value="1"></OBJECT>
-        <UL>
-        <LI><OBJECT type="text/sitemap"><param name="Name" value="chrg_lvl"><param name="Local" value="structshc__ups.html#a34b72bf449b669de714e75935c580eee"><param name="ImageNumber" value="11"></OBJECT>
-        <LI><OBJECT type="text/sitemap"><param name="Name" value="intFailure"><param name="Local" value="structshc__ups.html#a68da85efa3460f7e5accbfc06f9b299e"><param name="ImageNumber" value="11"></OBJECT>
-        <LI><OBJECT type="text/sitemap"><param name="Name" value="isPresent"><param name="Local" value="structshc__ups.html#aa4cfcaab6c7c68765881c8a4915736e2"><param name="ImageNumber" value="11"></OBJECT>
-        <LI><OBJECT type="text/sitemap"><param name="Name" value="provPWR"><param name="Local" value="structshc__ups.html#a3ca182ebb02a1153857923979c1e139c"><param name="ImageNumber" value="11"></OBJECT>
-        </UL>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="shc_configdata"><param name="Local" value="structshc__configdata.html"><param name="ImageNumber" value="1"></OBJECT>
-        <UL>
-        <LI><OBJECT type="text/sitemap"><param name="Name" value="fanDuCyMin"><param name="Local" value="structshc__configdata.html#a6ff388d59f8eeeacfb904def8127a6b2"><param name="ImageNumber" value="11"></OBJECT>
-        <LI><OBJECT type="text/sitemap"><param name="Name" value="fanNum"><param name="Local" value="structshc__configdata.html#a93a1a4a3617d3f22a6fdd43f2dd935e1"><param name="ImageNumber" value="11"></OBJECT>
-        <LI><OBJECT type="text/sitemap"><param name="Name" value="fanTempMax"><param name="Local" value="structshc__configdata.html#aa1a4516a6ec2e2bfd9db577af6faac0b"><param name="ImageNumber" value="11"></OBJECT>
-        <LI><OBJECT type="text/sitemap"><param name="Name" value="fanTempStart"><param name="Local" value="structshc__configdata.html#a4f0b44a68067e77899ccce996e7643ea"><param name="ImageNumber" value="11"></OBJECT>
-        <LI><OBJECT type="text/sitemap"><param name="Name" value="i2cAddress"><param name="Local" value="structshc__configdata.html#ae4c620c2b25e1fce256886ae9fe2fb3b"><param name="ImageNumber" value="11"></OBJECT>
-        <LI><OBJECT type="text/sitemap"><param name="Name" value="persistentPwrbtnEnabled"><param name="Local" value="structshc__configdata.html#aa779f9eec6a54a16b5cb6e8d449401b2"><param name="ImageNumber" value="11"></OBJECT>
-        <LI><OBJECT type="text/sitemap"><param name="Name" value="pwrSlot2"><param name="Local" value="structshc__configdata.html#ab35fb4c516aff07f1e8738d68b360732"><param name="ImageNumber" value="11"></OBJECT>
-        <LI><OBJECT type="text/sitemap"><param name="Name" value="pwrSlot3"><param name="Local" value="structshc__configdata.html#a4e398b422ff933588cafe2b635b7ff3e"><param name="ImageNumber" value="11"></OBJECT>
-        <LI><OBJECT type="text/sitemap"><param name="Name" value="StateMachineID"><param name="Local" value="structshc__configdata.html#ab8f5d905c9cd25b25057d29628ce2ba4"><param name="ImageNumber" value="11"></OBJECT>
-        <LI><OBJECT type="text/sitemap"><param name="Name" value="tempRunHigh"><param name="Local" value="structshc__configdata.html#afb9a314ad45af084f77ba73829452a8b"><param name="ImageNumber" value="11"></OBJECT>
-        <LI><OBJECT type="text/sitemap"><param name="Name" value="tempRunLow"><param name="Local" value="structshc__configdata.html#a2c6925019bd44ab8906261cffb5b29ab"><param name="ImageNumber" value="11"></OBJECT>
-        <LI><OBJECT type="text/sitemap"><param name="Name" value="tempWarnHigh"><param name="Local" value="structshc__configdata.html#a03eed888202905f630af8807856fd534"><param name="ImageNumber" value="11"></OBJECT>
-        <LI><OBJECT type="text/sitemap"><param name="Name" value="tempWarnLow"><param name="Local" value="structshc__configdata.html#a1a1e5abaf0694bb576d59eeb05aa06fb"><param name="ImageNumber" value="11"></OBJECT>
-        <LI><OBJECT type="text/sitemap"><param name="Name" value="upsMinRunCharge"><param name="Local" value="structshc__configdata.html#a40b462dd8a3eabc4c4f1b3210a48c89e"><param name="ImageNumber" value="11"></OBJECT>
-        <LI><OBJECT type="text/sitemap"><param name="Name" value="upsMinStartCharge"><param name="Local" value="structshc__configdata.html#acbec69f7f3a0da5ac0be803f5492b66c"><param name="ImageNumber" value="11"></OBJECT>
-        <LI><OBJECT type="text/sitemap"><param name="Name" value="usePBRST"><param name="Local" value="structshc__configdata.html#a61c6c30af2b8ad1a030b6b72e31d5740"><param name="ImageNumber" value="11"></OBJECT>
-        <LI><OBJECT type="text/sitemap"><param name="Name" value="voltMonMask"><param name="Local" value="structshc__configdata.html#aefd22c439b7387c0ce5f7f51370173c4"><param name="ImageNumber" value="11"></OBJECT>
-        </UL>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="shc_fwversion"><param name="Local" value="structshc__fwversion.html"><param name="ImageNumber" value="1"></OBJECT>
-        <UL>
-        <LI><OBJECT type="text/sitemap"><param name="Name" value="build_nbr"><param name="Local" value="structshc__fwversion.html#aea6583a2a2a517e45308d8fe25577cbe"><param name="ImageNumber" value="11"></OBJECT>
-        <LI><OBJECT type="text/sitemap"><param name="Name" value="errcode"><param name="Local" value="structshc__fwversion.html#a2ab270a706c5d2ce9474dfe2afdc2895"><param name="ImageNumber" value="11"></OBJECT>
-        <LI><OBJECT type="text/sitemap"><param name="Name" value="maj_revision"><param name="Local" value="structshc__fwversion.html#a49c7f38b6cdc821d1940fd623fa23367"><param name="ImageNumber" value="11"></OBJECT>
-        <LI><OBJECT type="text/sitemap"><param name="Name" value="min_revision"><param name="Local" value="structshc__fwversion.html#a2198dbdb890efef12a6db27c0942a4d3"><param name="ImageNumber" value="11"></OBJECT>
-        <LI><OBJECT type="text/sitemap"><param name="Name" value="mtnce_revision"><param name="Local" value="structshc__fwversion.html#ab49c1c9ee0ac2c8021022ac7acd51b20"><param name="ImageNumber" value="11"></OBJECT>
-        <LI><OBJECT type="text/sitemap"><param name="Name" value="veri_flag"><param name="Local" value="structshc__fwversion.html#af61e338eaad1663f74cef9daf6f6dffc"><param name="ImageNumber" value="11"></OBJECT>
-        </UL>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="SHC_FAN_NR"><param name="Local" value="smb2__shc_8h.html#a32655411f493b60117e32f4bf02e016f"><param name="ImageNumber" value="1"></OBJECT>
-        <UL>
-        </UL>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="SHC_FAN_STAT"><param name="Local" value="smb2__shc_8h.html#ade7f5019add08694c1be20d739ebcd27"><param name="ImageNumber" value="1"></OBJECT>
-        <UL>
-        </UL>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="SHC_PSU_NR"><param name="Local" value="smb2__shc_8h.html#ad4beec2af4148863cf61d49dfcb38720"><param name="ImageNumber" value="1"></OBJECT>
-        <UL>
-        </UL>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="SHC_PWR_MON_ID"><param name="Local" value="smb2__shc_8h.html#a1b174c9d351bcfd4676196bb290d6469"><param name="ImageNumber" value="1"></OBJECT>
-        <UL>
-        </UL>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="SHC_SLOT_STATE"><param name="Local" value="smb2__shc_8h.html#aba89847f5408b2ed6fa6ef103ae3dc06"><param name="ImageNumber" value="1"></OBJECT>
-        <UL>
-        </UL>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="SHC_UPS_NR"><param name="Local" value="smb2__shc_8h.html#a7b7cf3c16efdcb21532158298b006160"><param name="ImageNumber" value="1"></OBJECT>
-        <UL>
-        </UL>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_Errstring"><param name="Local" value="group____SMB2__SHC.html#ga6812e173327faa5e2c9410e28b19afab"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_Exit"><param name="Local" value="group____SMB2__SHC.html#ga7120493daaaf3a469192c700326331f3"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_GetConf_Data"><param name="Local" value="group____SMB2__SHC.html#ga69d1f15629d5e9d0b6ff5abdacedff01"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_GetFAN_State"><param name="Local" value="group____SMB2__SHC.html#ga7680a062ebf765f9005e02d4b2a9c02d"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_GetFirm_Ver"><param name="Local" value="group____SMB2__SHC.html#ga912de5d009a7b29df625b27f519512d1"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_GetPersistentPowerbuttonStatus"><param name="Local" value="group____SMB2__SHC.html#gafe451dd8d660650823e9b64ef4a13c0a"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_GetPSU_State"><param name="Local" value="group____SMB2__SHC.html#gafe67ee3de8283fafe8fe148867daa8bc"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_GetTemperature"><param name="Local" value="group____SMB2__SHC.html#gaf2af4b987be28056db00eb425b9cbe74"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_GetTemperatureOverrideStatus"><param name="Local" value="group____SMB2__SHC.html#gaf64485b7a1338e7f62a4fcb6cd5a4ea1"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_GetUPS_State"><param name="Local" value="group____SMB2__SHC.html#gaee10f64b75a7a8196da2d4d3a9fa0d1d"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_GetVoltLevel"><param name="Local" value="group____SMB2__SHC.html#ga42a30de2d759814929b6ca11c13718ed"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_Ident"><param name="Local" value="group____SMB2__SHC.html#ga842c8bd4b5379049e01e1867f055df21"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_Init"><param name="Local" value="group____SMB2__SHC.html#ga7bb2863d236ef8bb3c0e1980cc4a99d3"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_PowerOff"><param name="Local" value="group____SMB2__SHC.html#ga0c007e8b5f2d76802358b7f6650cc198"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_SetPersistentPowerbuttonStatus"><param name="Local" value="group____SMB2__SHC.html#ga3a0f42c1ce9d25258304db3faf19625f"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_SetPowerCycleDuration"><param name="Local" value="group____SMB2__SHC.html#gaebe034327db61ebd1fef2f180352a3e1"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_SetTemperature"><param name="Local" value="group____SMB2__SHC.html#ga1255f5bca428503395435ebc91a3485e"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="SMB2SHC_ShutDown"><param name="Local" value="group____SMB2__SHC.html#ga121f84e7d1b6391e880869f750bdde29"><param name="ImageNumber" value="11"></OBJECT>
-      </UL>
-    <LI><OBJECT type="text/sitemap"><param name="Name" value="smb2_shc_doc.c"><param name="Local" value="smb2__shc__doc_8c.html"><param name="ImageNumber" value="11"></OBJECT>
-    </UL>
-  <LI><OBJECT type="text/sitemap"><param name="Name" value="Globals"><param name="Local" value="globals.html"><param name="ImageNumber" value="11"></OBJECT>
-    <UL>
-    <LI><OBJECT type="text/sitemap"><param name="Name" value="All"><param name="Local" value="globals.html"><param name="ImageNumber" value="11"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Name" value="Functions"><param name="Local" value="globals_func.html"><param name="ImageNumber" value="11"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Name" value="Enumerations"><param name="Local" value="globals_enum.html"><param name="ImageNumber" value="11"></OBJECT>
     </UL>
   </UL>
 <LI><OBJECT type="text/sitemap"><param name="Name" value="Examples"><param name="Local" value="examples.html"><param name="ImageNumber" value="1"></OBJECT>
   <UL>
-  <LI><OBJECT type="text/sitemap"><param name="Name" value="smb2_shc_ctrl.c"><param name="Local" value="smb2_shc_ctrl_8c-example.html"><param name="ImageNumber" value="11"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="smb2_shc_ctrl.c"><param name="Local" value="smb2__shc__ctrl_8c-example.html"><param name="ImageNumber" value="11"></OBJECT>
+  </UL>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="Globals"><param name="Local" value="globals.html"><param name="ImageNumber" value="11"></OBJECT>
+<LI><OBJECT type="text/sitemap"><param name="Name" value="Related Pages"><param name="Local" value="pages.html"><param name="ImageNumber" value="1"></OBJECT>
+  <UL>
+  <LI><OBJECT type="text/sitemap"><param name="Name" value="MEN logo"><param name="Local" value="smb2shcdummy.html"><param name="ImageNumber" value="11"></OBJECT>
   </UL>
 </UL>
-</BODY>
-</HTML>

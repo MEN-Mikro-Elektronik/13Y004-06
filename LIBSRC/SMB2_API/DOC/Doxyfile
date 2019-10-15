@@ -1,7 +1,7 @@
 @INCLUDE_PATH = $(MEN_DOXYGENTMPL)
 @INCLUDE = DoxyfileCommon
 
-#MDIS_COMMIT=95dae6e57615c11a0514381cd1b737b777b13eee
+#MDIS_COMMIT=cc4598ec79e9c86c0d36636b74892b4639d1d013
 
 PROJECT_NAME           = "SMB2_API"
 INPUT                  = ../COM/smb2_apidoc.c \

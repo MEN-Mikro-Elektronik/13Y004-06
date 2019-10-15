@@ -41,7 +41,6 @@
 <span class="comment">* You should have received a copy of the GNU General Public License</span>
 <span class="comment">* along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
 <span class="comment">*/</span>
-<span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">char</span> RCSid[]=<span class="stringliteral">"$Id: smb2_ctrl.c,v 1.6 2014/10/15 13:00:46 awerner Exp $"</span>;
 
 <span class="preprocessor">#include "smb2_ctrl.h"</span>
 <span class="preprocessor">#include "cmd_tbl.h"</span>
@@ -56,6 +55,7 @@
 <span class="comment">/*--------------------------------------+</span>
 <span class="comment">|   GLOBALS                             |</span>
 <span class="comment">+--------------------------------------*/</span>
+<span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">char</span> IdentString[]=MENT_XSTR(MAK_REVISION);
 <span class="keyword">static</span> <span class="keywordtype">char</span> *G_dev;
 <span class="keyword">static</span> <span class="keywordtype">char</span> *G_cmd;
 u_int32     SMB2CTRL_errCount;
@@ -119,8 +119,8 @@ u_int8      SMB2CTRL_flag;
         <span class="stringliteral">"!! Please be careful when you write to SMBus devices. !!\n"</span>
         <span class="stringliteral">"!! Otherwise you may destroy important data (e.g. on  !!\n"</span>
         <span class="stringliteral">"!! EEPROMs) or you may cause damage to the HW.        !!\n"</span>
-        <span class="stringliteral">"+------------------------------------------------------+\n"</span>
-        <span class="stringliteral">"(c)Copyright 2018 by MEN Mikro Elektronik GmbH\n%s\n"</span>, RCSid);
+        <span class="stringliteral">"+------------------------------------------------------+\n"</span>);
+    printf(<span class="stringliteral">"\nCopyright (c) 2019, MEN Mikro Elektronik GmbH\n%s\n\n"</span>, IdentString);
 }
 
 <span class="comment">/**********************************************************************/</span>
@@ -547,8 +547,7 @@ EXIT:
 <div class="footer">
 <!-- Footer -->
 	<p class="footer">
-	Generated for SMB2_API using <a href="http://www.doxygen.org">doxygen</a>.<br>
-	Copyright &copy; 2019 <a href="http://www.men.de">MEN Mikro Elektronik GmbH</a>. All Rights Reserved.
+	Generated for SMB2_API using <a href="http://www.doxygen.org">doxygen</a>. All Rights Reserved.
 	</p>
 </div>
 

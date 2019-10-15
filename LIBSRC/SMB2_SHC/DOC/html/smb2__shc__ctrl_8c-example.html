@@ -12,7 +12,7 @@
 <div class="left_to_right" style="padding-top: 6px; background-color: #F0F0F0; height: 110px; border-bottom: 2px solid #D1D1D2;">
 	<!-- Titel -->
 	<img src="menlogo.gif" alt="MEN" style="float: left; height: 103px; width: 155px; margin: 0px;">
-	<h1 style="margin: 0px; padding-top: 35px; padding-bottom: 0px;">SMB2SHC &nbsp; (Shelf Controller API)</h1>
+	<h1 style="margin: 0px; padding-top: 35px; padding-bottom: 0px;">SMB2SHC &nbsp; </h1>
 	<h3>Example Documentation</h3>
 </div>
 
@@ -41,7 +41,6 @@
 <span class="comment">* You should have received a copy of the GNU General Public License</span>
 <span class="comment">* along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
 <span class="comment">*/</span>
-<span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">char</span> RCSid[]=<span class="stringliteral">"$Id: smb2_shc_ctrl.c,v 1.2 2015/02/24 17:26:39 MRoth Exp $"</span>;
 
 <span class="comment">/* still using deprecated sscanf, sprintf,.. */</span>
 <span class="preprocessor">#ifdef WINNT</span>
@@ -59,6 +58,8 @@
 <span class="preprocessor">#include &lt;MEN/usr_oss.h&gt;</span>
 <span class="preprocessor">#include &lt;MEN/usr_utl.h&gt;</span>
 <span class="preprocessor">#include &lt;MEN/smb2_api.h&gt;</span>
+
+<span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">char</span> IdentString[]=MENT_XSTR(MAK_REVISION);
 
 <span class="comment">/*-------------------------------------+</span>
 <span class="comment">|   DEFINES                            |</span>
@@ -80,6 +81,9 @@ u_int32 SMB2CTRL_errCount;
 <span class="keyword">static</span> <span class="keywordtype">void</span> print_fan(int32 fan_id);
 <span class="keyword">static</span> <span class="keywordtype">void</span> print_voltlevel(<span class="keywordtype">void</span>);
 <span class="keyword">static</span> <span class="keywordtype">void</span> print_ups(int32 ups_id);
+<span class="keyword">static</span> <span class="keywordtype">void</span> set_persistent_pwrbtn_status(u_int32 status);
+<span class="keyword">static</span> <span class="keywordtype">void</span> set_power_cycle_duration(u_int32 duration);
+<span class="keyword">static</span> <span class="keywordtype">void</span> print_persistent_pwrbtn_status();
 <span class="keyword">static</span> <span class="keywordtype">void</span> shut_down(<span class="keywordtype">void</span>);
 <span class="keyword">static</span> <span class="keywordtype">void</span> power_off(<span class="keywordtype">void</span>);
 <span class="keyword">static</span> <span class="keywordtype">void</span> print_configdata(<span class="keywordtype">void</span>);
@@ -96,8 +100,8 @@ u_int32 SMB2CTRL_errCount;
 {
     printf( <span class="stringliteral">"\n====================="</span>
             <span class="stringliteral">"\n=== SMB2_SHC_CTRL ==="</span>
-            <span class="stringliteral">"\n====================="</span>
-            <span class="stringliteral">"\n(c)Copyright 2014 by MEN Mikro Elektronik GmbH\n%s\n\n"</span>, RCSid);
+            <span class="stringliteral">"\n====================="</span>);
+    printf(<span class="stringliteral">"\nCopyright (c) 2014-2019, MEN Mikro Elektronik GmbH\n%s\n\n"</span>, IdentString);
 }
 
 <span class="comment">/********************************* usage ************************************/</span>
@@ -107,25 +111,29 @@ u_int32 SMB2CTRL_errCount;
         <span class="stringliteral">"\nUsage:     smb2_shc_ctrl devName &lt;opts&gt;\n"</span>
         <span class="stringliteral">"Function:  Tool to access the Shelf Controller via the SMB2_SHC API\n"</span>
         <span class="stringliteral">"Options:\n"</span>
-        <span class="stringliteral">"    devName      device name e.g. smb2_1                   \n"</span>
-        <span class="stringliteral">"    -?           Usage                                     \n"</span>
-        <span class="stringliteral">"    -t           Get system/ambient temperature                    \n"</span>
-        <span class="stringliteral">"    -T=[dec]     Set ambient temperature (Celsius) for FAN control \n"</span>     
-        <span class="stringliteral">"    -i           Get shelf controller API identifier       \n"</span>
-        <span class="stringliteral">"    -p=[psu_id]  Get status of one or all PSU              \n"</span>
-        <span class="stringliteral">"                 (psu_id: 0 to 3, 0: to get all psu status)\n"</span>
-        <span class="stringliteral">"    -f=[fan_id]  Get status of one or all FAN              \n"</span>
-        <span class="stringliteral">"                 (fan_id: 0 to 3, 0: to get all fan status)\n"</span>
-        <span class="stringliteral">"    -u=[ups_id]  Get status of one or all UPS              \n"</span>
-        <span class="stringliteral">"                 (ups_id: 0 to 2, 0: to get all ups status)\n"</span>
-        <span class="stringliteral">"    -v           Get input voltage level                   \n"</span>
-        <span class="stringliteral">"    -s           Indicates that CPU is shutting down       \n"</span>
-        <span class="stringliteral">"    -o           Indicates that CPU wants to shut          \n"</span>
-        <span class="stringliteral">"                 off the power supply                      \n"</span>
-        <span class="stringliteral">"    -c           Get Configuration Data                    \n"</span>
-        <span class="stringliteral">"    -r           Get Firmware Version                      \n"</span>
-        <span class="stringliteral">"Calling examples:                                          \n"</span>
-        <span class="stringliteral">"    Get FAN status:  smb2_shc_ctrl smb2_1 -f=0             \n"</span>
+        <span class="stringliteral">"    devName       Device name e.g. smb2_1                   \n"</span>
+        <span class="stringliteral">"    -?            Usage                                     \n"</span>
+        <span class="stringliteral">"    -t            Get system/ambient temperature                    \n"</span>
+        <span class="stringliteral">"    -T=[dec]      Set ambient temperature (Celsius) for FAN control \n"</span>
+        <span class="stringliteral">"    -i            Get shelf controller API identifier       \n"</span>
+        <span class="stringliteral">"    -p=[psu_id]   Get status of one or all PSU              \n"</span>
+        <span class="stringliteral">"                  (psu_id: 0 to 3, 0: to get all psu status)\n"</span>
+        <span class="stringliteral">"    -f=[fan_id]   Get status of one or all FAN              \n"</span>
+        <span class="stringliteral">"                  (fan_id: 0 to 3, 0: to get all fan status)\n"</span>
+        <span class="stringliteral">"    -u=[ups_id]   Get status of one or all UPS              \n"</span>
+        <span class="stringliteral">"                  (ups_id: 0 to 2, 0: to get all ups status)\n"</span>
+        <span class="stringliteral">"    -v            Get input voltage level                   \n"</span>
+        <span class="stringliteral">"    -s            Indicates that CPU is shutting down       \n"</span>
+        <span class="stringliteral">"    -o            Indicates that CPU wants to shut          \n"</span>
+        <span class="stringliteral">"                  off the power supply                      \n"</span>
+        <span class="stringliteral">"    -d=[duration] Duration of a power cycle (-o flag) in ms \n"</span>
+        <span class="stringliteral">"    -P            Print persistent power button status      \n"</span>
+        <span class="stringliteral">"    -B=[status]   Set persistent power button status        \n"</span>
+        <span class="stringliteral">"                  status can be 0 (off) or 1 (on)           \n"</span>
+        <span class="stringliteral">"    -c            Get Configuration Data                    \n"</span>
+        <span class="stringliteral">"    -r            Get Firmware Version                      \n"</span>
+        <span class="stringliteral">"Calling examples:                                           \n"</span>
+        <span class="stringliteral">"    Get FAN status:  smb2_shc_ctrl smb2_1 -f=0              \n"</span>
         );
 }
 
@@ -145,7 +153,7 @@ u_int32 SMB2CTRL_errCount;
     <span class="comment">/*--------------------+</span>
 <span class="comment">    |  check arguments    |</span>
 <span class="comment">    +--------------------*/</span>
-    errstr = UTL_ILLIOPT(<span class="stringliteral">"?cf=op=irstT=u=v"</span>, argbuf);
+    errstr = UTL_ILLIOPT(<span class="stringliteral">"?cf=op=PB=d=irstT=u=v"</span>, argbuf);
     <span class="keywordflow">if</span> (errstr) {
         printf(<span class="stringliteral">"*** %s\n"</span>, errstr);
         usage();
@@ -220,6 +228,12 @@ u_int32 SMB2CTRL_errCount;
     <span class="keywordflow">if</span> ((optP = UTL_TSTOPT(<span class="stringliteral">"o"</span>)))
         power_off();
 
+    <span class="comment">/* Sets the duration of the power cycle (in ms) for a power off request */</span>
+    <span class="keywordflow">if</span> ((optP = UTL_TSTOPT(<span class="stringliteral">"d="</span>))) {
+        sscanf(optP, <span class="stringliteral">"%d"</span>, &amp;id_nbr);
+        set_power_cycle_duration(id_nbr);
+    }
+
     <span class="comment">/* get configuration data */</span>
     <span class="keywordflow">if</span> ((optP = UTL_TSTOPT(<span class="stringliteral">"c"</span>)))
         print_configdata();
@@ -228,6 +242,17 @@ u_int32 SMB2CTRL_errCount;
     <span class="keywordflow">if</span> ((optP = UTL_TSTOPT(<span class="stringliteral">"p="</span>))) {
         sscanf(optP, <span class="stringliteral">"%x"</span>, &amp;id_nbr);
         get_psu_state(id_nbr);
+    }
+
+    <span class="comment">/* set persistent power button status */</span>
+    <span class="keywordflow">if</span> ((optP = UTL_TSTOPT(<span class="stringliteral">"B="</span>))) {
+        sscanf(optP, <span class="stringliteral">"%x"</span>, &amp;id_nbr);
+        set_persistent_pwrbtn_status(id_nbr);
+    }
+
+    <span class="comment">/* get persistent power button status */</span>
+    <span class="keywordflow">if</span> ((optP = UTL_TSTOPT(<span class="stringliteral">"P"</span>))) {
+        print_persistent_pwrbtn_status();
     }
 
     <span class="comment">/* get firmware version */</span>
@@ -250,7 +275,7 @@ EXIT:
     <span class="keywordtype">int</span> err;
     <span class="keyword">struct </span><a name="_a3"></a><a class="code" href="structshc__psu.html">shc_psu</a> shc_psu_state;
 
-    err = <a name="a4"></a><a class="code" href="group____SMB2__SHC.html#a6">SMB2SHC_GetPSU_State</a>(psu_id, &amp;shc_psu_state);
+    err = <a name="a4"></a><a class="code" href="group____SMB2__SHC.html#a7">SMB2SHC_GetPSU_State</a>(psu_id, &amp;shc_psu_state);
     <span class="keywordflow">if</span> (err) {
         PrintError(<span class="stringliteral">"***ERROR: SMB2SHC_GET_PSU:"</span>, err);
     }
@@ -271,7 +296,7 @@ EXIT:
     <span class="keywordtype">int</span> err;
     <span class="keyword">struct </span><a name="_a8"></a><a class="code" href="structshc__fan.html">shc_fan</a> shc_fan_state;
 
-    err = <a name="a9"></a><a class="code" href="group____SMB2__SHC.html#a7">SMB2SHC_GetFAN_State</a>(fan_id, &amp;shc_fan_state);
+    err = <a name="a9"></a><a class="code" href="group____SMB2__SHC.html#a8">SMB2SHC_GetFAN_State</a>(fan_id, &amp;shc_fan_state);
     <span class="keywordflow">if</span> (err) {
         PrintError(<span class="stringliteral">"***ERROR: SMB2SHC_GET_FAN:"</span>, err);
     }
@@ -296,7 +321,7 @@ EXIT:
     printf(<span class="stringliteral">"-----------------------------------------\n"</span>);
 
     <span class="keywordflow">for</span> (i=SHC_PWR_MON_1; i&lt;=SHC_PWR_MON_4; i++) {
-        err = <a name="a13"></a><a class="code" href="group____SMB2__SHC.html#a8">SMB2SHC_GetVoltLevel</a>(i, &amp;voltlevel);
+        err = <a name="a13"></a><a class="code" href="group____SMB2__SHC.html#a9">SMB2SHC_GetVoltLevel</a>(i, &amp;voltlevel);
         <span class="keywordflow">if</span> (err) {
             PrintError(<span class="stringliteral">"***ERROR: SMB2SHC_GET_VOLT_LEVEL:"</span>, err);
             <span class="keywordflow">continue</span>;
@@ -312,7 +337,7 @@ EXIT:
     <span class="keywordtype">int</span> err;
     <span class="keyword">struct </span><a name="_a14"></a><a class="code" href="structshc__ups.html">shc_ups</a> shc_ups_state;
 
-    err = <a name="a15"></a><a class="code" href="group____SMB2__SHC.html#a9">SMB2SHC_GetUPS_State</a>(ups_id, &amp;shc_ups_state);
+    err = <a name="a15"></a><a class="code" href="group____SMB2__SHC.html#a13">SMB2SHC_GetUPS_State</a>(ups_id, &amp;shc_ups_state);
     <span class="keywordflow">if</span> (err) {
         PrintError(<span class="stringliteral">"***ERROR: SMB2SHC_GET_UPS:"</span>, err);
     }
@@ -332,13 +357,22 @@ EXIT:
 <span class="keyword">static</span> <span class="keywordtype">void</span> get_temperature()
 {
     <span class="keywordtype">int</span> err;
-    int16 tempK, tempC;
+    u_int16 tempK = 0;
+    int16 tempC = 0;
 
     err = <a name="a20"></a><a class="code" href="group____SMB2__SHC.html#a4">SMB2SHC_GetTemperature</a>((u_int16*)&amp;tempK);
     <span class="keywordflow">if</span> (err) {
         PrintError(<span class="stringliteral">"***ERROR: SMB2SHC_GET_TEMP"</span>, err);
     }
     <span class="keywordflow">else</span>{
+        u_int16 status = 0;
+        <span class="keywordtype">int</span> err = <a name="a21"></a><a class="code" href="group____SMB2__SHC.html#a5">SMB2SHC_GetTemperatureOverrideStatus</a>(&amp;status);
+        <span class="keywordflow">if</span> (err) {
+            PrintError(<span class="stringliteral">"***ERROR: SMB2SHC_GET_TEMPERATURE_OVERRIDE"</span>, err);
+        }
+        <span class="keywordflow">if</span> (status) {
+            printf(<span class="stringliteral">"Temperature is overridden by host.\n"</span>);
+        }
         <span class="comment">/* get Celsius */</span>
         tempC = tempK - ABS_ZERO;
         printf(<span class="stringliteral">"Temperature: %dK (%dC)\n"</span>, tempK, tempC);
@@ -356,11 +390,11 @@ EXIT:
     <span class="comment">/* get Kelvin */</span>
     tempK = (u_int16)(tempC + ABS_ZERO);
 
-    err = <a name="a21"></a><a class="code" href="group____SMB2__SHC.html#a5">SMB2SHC_SetTemperature</a>(tempK);
+    err = <a name="a22"></a><a class="code" href="group____SMB2__SHC.html#a6">SMB2SHC_SetTemperature</a>(tempK);
     <span class="keywordflow">if</span> (err) {
         PrintError(<span class="stringliteral">"***ERROR: SMB2SHC_SET_TEMP"</span>, err);
     }
-    <span class="keywordflow">else</span>{   
+    <span class="keywordflow">else</span>{
         <span class="comment">/* read back temperature */</span>
         err = <a class="code" href="group____SMB2__SHC.html#a4">SMB2SHC_GetTemperature</a>((u_int16*)&amp;tempK);
         <span class="keywordflow">if</span> (err) {
@@ -374,13 +408,49 @@ EXIT:
 }
 
 <span class="comment">/****************************************************************************/</span>
+<span class="keyword">static</span> <span class="keywordtype">void</span> print_persistent_pwrbtn_status()
+{
+    u_int8 status;
+    <span class="keywordtype">int</span> err = <a name="a23"></a><a class="code" href="group____SMB2__SHC.html#a12">SMB2SHC_GetPersistentPowerbuttonStatus</a>((u_int8*)&amp;status);
+    <span class="keywordflow">if</span> (err) {
+        PrintError(<span class="stringliteral">"***ERROR: SMB2SHC_GetPersistentPowerbuttonStatus"</span>, err);
+    }
+    <span class="keywordflow">else</span>{
+        printf(<span class="stringliteral">"Persistent Power Button Status: %s\n"</span>, status == 1 ? <span class="stringliteral">"ON"</span> : <span class="stringliteral">"OFF"</span>);
+    }
+}
+
+<span class="comment">/****************************************************************************/</span>
+<span class="keyword">static</span> <span class="keywordtype">void</span> set_persistent_pwrbtn_status(u_int32 status)
+{
+    <span class="keywordtype">int</span> err = <a name="a24"></a><a class="code" href="group____SMB2__SHC.html#a11">SMB2SHC_SetPersistentPowerbuttonStatus</a>(status);
+    <span class="keywordflow">if</span> (err) {
+        PrintError(<span class="stringliteral">"***ERROR: SMB2SHC_SetPersistentPowerbuttonStatus"</span>, err);
+    } <span class="keywordflow">else</span> {
+        printf(<span class="stringliteral">"Setting persistent power button to: %s\n"</span>, status == 1 ? <span class="stringliteral">"ON"</span> : <span class="stringliteral">"OFF"</span>);
+    }
+}
+
+<span class="comment">/****************************************************************************/</span>
+<span class="keyword">static</span> <span class="keywordtype">void</span> set_power_cycle_duration(u_int32 duration)
+{
+    <span class="keywordtype">int</span> err = <a name="a25"></a><a class="code" href="group____SMB2__SHC.html#a10">SMB2SHC_SetPowerCycleDuration</a>((u_int16)duration);
+    <span class="keywordflow">if</span> (err) {
+        PrintError(<span class="stringliteral">"***ERROR: SMB2SHC_SetPowerCycleDuration:"</span>, err);
+    } <span class="keywordflow">else</span> {
+        printf(<span class="stringliteral">"Setting power cycle duration to %d milliseconds.\n"</span>, duration);
+        printf(<span class="stringliteral">"The shelf controller may clamp this value to a min/max interval."</span>);
+    }
+}
+
+<span class="comment">/****************************************************************************/</span>
 <span class="keyword">static</span> <span class="keywordtype">void</span> shut_down()
 {
     <span class="keywordtype">int</span> err;
 
     printf(<span class="stringliteral">"CPU is shutting down now.\n"</span>);
 
-    err = <a name="a22"></a><a class="code" href="group____SMB2__SHC.html#a10">SMB2SHC_ShutDown</a>();
+    err = <a name="a26"></a><a class="code" href="group____SMB2__SHC.html#a14">SMB2SHC_ShutDown</a>();
     <span class="keywordflow">if</span> (err) {
         PrintError(<span class="stringliteral">"***ERROR: SMB2SHC_SHUT_DOWN:"</span>, err);
     }
@@ -393,7 +463,7 @@ EXIT:
 
     printf(<span class="stringliteral">"Shutting off power supply now.\n"</span>);
 
-    err = <a name="a23"></a><a class="code" href="group____SMB2__SHC.html#a11">SMB2SHC_PowerOff</a>();
+    err = <a name="a27"></a><a class="code" href="group____SMB2__SHC.html#a15">SMB2SHC_PowerOff</a>();
     <span class="keywordflow">if</span> (err) {
         PrintError(<span class="stringliteral">"***ERROR: SMB2SHC_POWER_OFF:"</span>, err);
     }
@@ -416,33 +486,40 @@ EXIT:
 <span class="keyword">static</span> <span class="keywordtype">void</span> print_configdata()
 {
     <span class="keywordtype">int</span> err;
-    <span class="keyword">struct </span><a name="_a24"></a><a class="code" href="structshc__configdata.html">shc_configdata</a> cdata;
+    <span class="keyword">struct </span><a name="_a28"></a><a class="code" href="structshc__configdata.html">shc_configdata</a> cdata;
 
     printf(<span class="stringliteral">"Configuration Data Reporting:\n"</span>);
     printf(<span class="stringliteral">"-----------------------------------------\n"</span>);
 
-    err = <a name="a25"></a><a class="code" href="group____SMB2__SHC.html#a12">SMB2SHC_GetConf_Data</a>(&amp;cdata);
+    err = <a name="a29"></a><a class="code" href="group____SMB2__SHC.html#a16">SMB2SHC_GetConf_Data</a>(&amp;cdata);
     <span class="keywordflow">if</span> (err) {
         PrintError(<span class="stringliteral">"***ERROR: SMB2SHC_GetConf_Data:"</span>, err);
     }
     <span class="keywordflow">else</span> {
-        print_slot_status(cdata.<a name="a26"></a><a class="code" href="structshc__configdata.html#m0">pwrSlot2</a>, 2);
-        print_slot_status(cdata.<a name="a27"></a><a class="code" href="structshc__configdata.html#m1">pwrSlot3</a>, 3);
+        print_slot_status(cdata.<a name="a30"></a><a class="code" href="structshc__configdata.html#m0">pwrSlot2</a>, 2);
+        print_slot_status(cdata.<a name="a31"></a><a class="code" href="structshc__configdata.html#m1">pwrSlot3</a>, 3);
         printf(<span class="stringliteral">"-----------------------------------------\n"</span>);
-        printf(<span class="stringliteral">"UPS Minimum Start Charge in %%: \t\t%d\n"</span>, cdata.<a name="a28"></a><a class="code" href="structshc__configdata.html#m2">upsMinStartCharge</a>);
-        printf(<span class="stringliteral">"UPS Minimum Run Charge in %%: \t\t%d\n"</span>, cdata.<a name="a29"></a><a class="code" href="structshc__configdata.html#m3">upsMinRunCharge</a>);
+        printf(<span class="stringliteral">"UPS Minimum Start Charge in %%: \t\t%d\n"</span>, cdata.<a name="a32"></a><a class="code" href="structshc__configdata.html#m2">upsMinStartCharge</a>);
+        printf(<span class="stringliteral">"UPS Minimum Run Charge in %%: \t\t%d\n"</span>, cdata.<a name="a33"></a><a class="code" href="structshc__configdata.html#m3">upsMinRunCharge</a>);
         printf(<span class="stringliteral">"-----------------------------------------\n"</span>);
-        printf(<span class="stringliteral">"Low Temperature Warning Limit in K: \t%d\n"</span>, cdata.<a name="a30"></a><a class="code" href="structshc__configdata.html#m4">tempWarnLow</a>);
-        printf(<span class="stringliteral">"Upper Temperature Warning Limit in K: \t%d\n"</span>, cdata.<a name="a31"></a><a class="code" href="structshc__configdata.html#m5">tempWarnHigh</a>);
-        printf(<span class="stringliteral">"Low Temperature Run Limit in K: \t%d\n"</span>, cdata.<a name="a32"></a><a class="code" href="structshc__configdata.html#m6">tempRunLow</a>);
-        printf(<span class="stringliteral">"High Temperature Run Limit in K: \t%d\n"</span>, cdata.<a name="a33"></a><a class="code" href="structshc__configdata.html#m7">tempRunHigh</a>);
+        printf(<span class="stringliteral">"Low Temperature Warning Limit in K: \t%d\n"</span>, cdata.<a name="a34"></a><a class="code" href="structshc__configdata.html#m6">tempWarnLow</a>);
+        printf(<span class="stringliteral">"Upper Temperature Warning Limit in K: \t%d\n"</span>, cdata.<a name="a35"></a><a class="code" href="structshc__configdata.html#m7">tempWarnHigh</a>);
+        printf(<span class="stringliteral">"Low Temperature Run Limit in K: \t%d\n"</span>, cdata.<a name="a36"></a><a class="code" href="structshc__configdata.html#m8">tempRunLow</a>);
+        printf(<span class="stringliteral">"High Temperature Run Limit in K: \t%d\n"</span>, cdata.<a name="a37"></a><a class="code" href="structshc__configdata.html#m9">tempRunHigh</a>);
         printf(<span class="stringliteral">"-----------------------------------------\n"</span>);
-        printf(<span class="stringliteral">"Number of Fans: %d\n"</span>, cdata.<a name="a34"></a><a class="code" href="structshc__configdata.html#m8">fanNum</a>);
-        printf(<span class="stringliteral">"Fan Min Duty Cycle in %%: \t\t%d\n"</span>, cdata.<a name="a35"></a><a class="code" href="structshc__configdata.html#m9">fanDuCyMin</a>);
-        printf(<span class="stringliteral">"Fan Start Temperature in K: \t\t%d\n"</span>, cdata.<a name="a36"></a><a class="code" href="structshc__configdata.html#m10">fanTempStart</a>);
-        printf(<span class="stringliteral">"Fan Max Speed Temperature in K: \t%d\n"</span>, cdata.<a name="a37"></a><a class="code" href="structshc__configdata.html#m11">fanTempMax</a>);
+        printf(<span class="stringliteral">"Persistent power button enabled: \t%s\n"</span>, cdata.<a name="a38"></a><a class="code" href="structshc__configdata.html#m4">persistentPwrbtnEnabled</a> ? <span class="stringliteral">"TRUE"</span> : <span class="stringliteral">"FALSE"</span>);
+        printf(<span class="stringliteral">"PBRST during DEL_START enabled: \t%s\n"</span>, cdata.<a name="a39"></a><a class="code" href="structshc__configdata.html#m5">usePBRST</a> ? <span class="stringliteral">"TRUE"</span> : <span class="stringliteral">"FALSE"</span>);
         printf(<span class="stringliteral">"-----------------------------------------\n"</span>);
-        printf(<span class="stringliteral">"SHC State Machine ID: \t%d\n"</span>, cdata.<a name="a38"></a><a class="code" href="structshc__configdata.html#m12">StateMachineID</a>);
+        printf(<span class="stringliteral">"Number of Fans: %d\n"</span>, cdata.<a name="a40"></a><a class="code" href="structshc__configdata.html#m10">fanNum</a>);
+        printf(<span class="stringliteral">"Fan Min Duty Cycle in %%: \t\t%d\n"</span>, cdata.<a name="a41"></a><a class="code" href="structshc__configdata.html#m11">fanDuCyMin</a>);
+        printf(<span class="stringliteral">"Fan Start Temperature in K: \t\t%d\n"</span>, cdata.<a name="a42"></a><a class="code" href="structshc__configdata.html#m12">fanTempStart</a>);
+        printf(<span class="stringliteral">"Fan Max Speed Temperature in K: \t%d\n"</span>, cdata.<a name="a43"></a><a class="code" href="structshc__configdata.html#m13">fanTempMax</a>);
+        printf(<span class="stringliteral">"-----------------------------------------\n"</span>);
+        printf(<span class="stringliteral">"Voltage channel mask in decimal: \t%d\n"</span>, cdata.<a name="a44"></a><a class="code" href="structshc__configdata.html#m14">voltMonMask</a>);
+        printf(<span class="stringliteral">"-----------------------------------------\n"</span>);
+        printf(<span class="stringliteral">"SMBus address: \t0x%x\n"</span>, cdata.<a name="a45"></a><a class="code" href="structshc__configdata.html#m15">i2cAddress</a> == 0xff ? 0x75 : cdata.<a class="code" href="structshc__configdata.html#m15">i2cAddress</a>);
+        printf(<span class="stringliteral">"-----------------------------------------\n"</span>);
+        printf(<span class="stringliteral">"SHC State Machine ID: \t%d\n"</span>, cdata.<a name="a46"></a><a class="code" href="structshc__configdata.html#m16">StateMachineID</a>);
     }
 }
 
@@ -498,22 +575,22 @@ EXIT:
 <span class="keyword">static</span> <span class="keywordtype">void</span> print_firm_version()
 {
     <span class="keywordtype">int</span> err;
-    <span class="keyword">struct </span><a name="_a39"></a><a class="code" href="structshc__fwversion.html">shc_fwversion</a> firm_version;
+    <span class="keyword">struct </span><a name="_a47"></a><a class="code" href="structshc__fwversion.html">shc_fwversion</a> firm_version;
 
     printf(<span class="stringliteral">"Firmware Version:\n"</span>);
     printf(<span class="stringliteral">"-----------------------------------------\n"</span>);
 
-    err = <a name="a40"></a><a class="code" href="group____SMB2__SHC.html#a13">SMB2SHC_GetFirm_Ver</a>(&amp;firm_version);
+    err = <a name="a48"></a><a class="code" href="group____SMB2__SHC.html#a17">SMB2SHC_GetFirm_Ver</a>(&amp;firm_version);
     <span class="keywordflow">if</span> (err) {
         PrintError(<span class="stringliteral">"***ERROR: SMB2SHC_GetFirm_Ver:"</span>, err);
     }
     <span class="keywordflow">else</span> {
-        printf(<span class="stringliteral">"Error Code: %s\n"</span>, firm_version.<a name="a41"></a><a class="code" href="structshc__fwversion.html#m0">errcode</a> ? <span class="stringliteral">"ERROR"</span> : <span class="stringliteral">"OK"</span>);
-        printf(<span class="stringliteral">"BMC Firmware Revision %d.%.02d\n"</span>, firm_version.<a name="a42"></a><a class="code" href="structshc__fwversion.html#m1">maj_revision</a>,
-                                                    firm_version.<a name="a43"></a><a class="code" href="structshc__fwversion.html#m2">min_revision</a>);
-        printf(<span class="stringliteral">"BMC Maintenance Revision: %d\n"</span>, firm_version.<a name="a44"></a><a class="code" href="structshc__fwversion.html#m3">mtnce_revision</a>);
-        printf(<span class="stringliteral">"BMC Firmware Build Number: %d\n"</span>, firm_version.<a name="a45"></a><a class="code" href="structshc__fwversion.html#m4">build_nbr</a>);
-        printf(<span class="stringliteral">"Verified: %s\n"</span>, firm_version.<a name="a46"></a><a class="code" href="structshc__fwversion.html#m5">veri_flag</a> ? <span class="stringliteral">"TRUE"</span> : <span class="stringliteral">"FALSE"</span>);
+        printf(<span class="stringliteral">"Error Code: %s\n"</span>, firm_version.<a name="a49"></a><a class="code" href="structshc__fwversion.html#m0">errcode</a> ? <span class="stringliteral">"ERROR"</span> : <span class="stringliteral">"OK"</span>);
+        printf(<span class="stringliteral">"BMC Firmware Revision %d.%.02d\n"</span>, firm_version.<a name="a50"></a><a class="code" href="structshc__fwversion.html#m1">maj_revision</a>,
+                                                    firm_version.<a name="a51"></a><a class="code" href="structshc__fwversion.html#m2">min_revision</a>);
+        printf(<span class="stringliteral">"BMC Maintenance Revision: %d\n"</span>, firm_version.<a name="a52"></a><a class="code" href="structshc__fwversion.html#m3">mtnce_revision</a>);
+        printf(<span class="stringliteral">"BMC Firmware Build Number: %d\n"</span>, firm_version.<a name="a53"></a><a class="code" href="structshc__fwversion.html#m4">build_nbr</a>);
+        printf(<span class="stringliteral">"Verified: %s\n"</span>, firm_version.<a name="a54"></a><a class="code" href="structshc__fwversion.html#m5">veri_flag</a> ? <span class="stringliteral">"TRUE"</span> : <span class="stringliteral">"FALSE"</span>);
     }
 }
 
@@ -525,7 +602,7 @@ EXIT:
     <span class="keywordflow">if</span> (!errCode)
         errCode = UOS_ErrnoGet();
 
-    printf(<span class="stringliteral">"%s: %s\n"</span>, info, <a name="a47"></a><a class="code" href="group____SMB2__SHC.html#a1">SMB2SHC_Errstring</a>(errCode, errMsg));
+    printf(<span class="stringliteral">"%s: %s\n"</span>, info, <a name="a55"></a><a class="code" href="group____SMB2__SHC.html#a1">SMB2SHC_Errstring</a>(errCode, errMsg));
 }
 
 </pre></div>
@@ -535,8 +612,7 @@ EXIT:
 <div class="footer">
 <!-- Footer -->
 	<p class="footer">
-	Generated for SMB2SHC using <a href="http://www.doxygen.org">doxygen</a>.<br>
-	Copyright &copy; 2019 <a href="http://www.men.de">MEN Mikro Elektronik GmbH</a>. All Rights Reserved.
+	Generated for SMB2SHC using <a href="http://www.doxygen.org">doxygen</a>. All Rights Reserved.
 	</p>
 </div>
 
