@@ -48,8 +48,6 @@
   <LI><OBJECT type="text/sitemap"><param name="Name" value="smb2_boardident.c"><param name="Local" value="smb2__boardident_8c-example.html"><param name="ImageNumber" value="11"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Name" value="smb2_ctrl.c"><param name="Local" value="smb2__ctrl_8c-example.html"><param name="ImageNumber" value="11"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Name" value="smb2_f601.c"><param name="Local" value="smb2__f601_8c-example.html"><param name="ImageNumber" value="11"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Name" value="smb2_max.dsc"><param name="Local" value="smb2__max_8dsc-example.html"><param name="ImageNumber" value="11"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Name" value="smb2_min.dsc"><param name="Local" value="smb2__min_8dsc-example.html"><param name="ImageNumber" value="11"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Name" value="smb2_simp.c"><param name="Local" value="smb2__simp_8c-example.html"><param name="ImageNumber" value="11"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Name" value="smb2api.c"><param name="Local" value="smb2api_8c-example.html"><param name="ImageNumber" value="11"></OBJECT>
   </UL>
