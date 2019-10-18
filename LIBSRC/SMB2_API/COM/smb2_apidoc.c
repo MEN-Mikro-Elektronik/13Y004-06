@@ -124,13 +124,6 @@
     </tr>
     </table>
 
-    \n \subsection smb2_min   Minimum descriptor
-    smb2_min.dsc (see Examples section)\n
-    Demonstrates the minimum set of options necessary for using the driver.
-
-    \n \subsection smb2_max   Maximum descriptor
-    smb2_max.dsc (see Examples section)\n
-    Shows all possible configuration options for this driver.
 */
 
 /***************************************************************************/
@@ -150,8 +143,6 @@
 /** \example smb2_ctrl.c */
 /** \example smb2_boardident.c */
 /** \example smb2api.c */
-/** \example smb2_min.dsc */
-/** \example smb2_max.dsc */
 
 /*! \page smb2apidummy MEN logo
 
