@@ -20,7 +20,7 @@
  *
  *
  *---------------------------------------------------------------------------
- * Copyright (c) 2009-2019, MEN Mikro Elektronik GmbH
+ * Copyright 2009-2019, MEN Mikro Elektronik GmbH
  ****************************************************************************/
 /*
 * This program is free software: you can redistribute it and/or modify
@@ -105,7 +105,7 @@ static void header(void)
 	printf("\n==========================="
 		   "\n===   SMB2_BOARDIDENT   ==="
 		   "\n===========================");
-    printf("\nCopyright (c) 2009-2019, MEN Mikro Elektronik GmbH\n%s\n\n", IdentString);
+    printf("\nCopyright 2009-2019, MEN Mikro Elektronik GmbH\n%s\n\n", IdentString);
 }
 
 /********************************* usage ***********************************/
@@ -125,7 +125,7 @@ static void usage(void)
 		"    smb2_boardident smb2_1 -r \n"
 		"\n- dump data from specified SMB address: \n"
 		"    smb2_boardident smb2_1 0xac  \n");
-    printf("\nCopyright (c) 2009-2019, MEN Mikro Elektronik GmbH\n%s\n\n", IdentString);
+    printf("\nCopyright 2009-2019, MEN Mikro Elektronik GmbH\n%s\n\n", IdentString);
 }
 
 /***************************************************************************/

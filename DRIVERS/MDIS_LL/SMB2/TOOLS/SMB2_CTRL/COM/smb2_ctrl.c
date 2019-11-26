@@ -10,7 +10,7 @@
  */
 /*
  *---------------------------------------------------------------------------
- * Copyright (c) 2019, MEN Mikro Elektronik GmbH
+ * Copyright 2019, MEN Mikro Elektronik GmbH
  ****************************************************************************/
 /*
 * This program is free software: you can redistribute it and/or modify
@@ -107,7 +107,7 @@ static void usage(void)
 		"!! Otherwise you may destroy important data (e.g. on  !!\n"
 		"!! EEPROMs) or you may cause damage to the HW.        !!\n"
 		"+------------------------------------------------------+\n");
-    printf("\nCopyright (c) 2019, MEN Mikro Elektronik GmbH\n%s\n\n", IdentString);
+    printf("\nCopyright 2019, MEN Mikro Elektronik GmbH\n%s\n\n", IdentString);
 }
 
 /**********************************************************************/

@@ -17,7 +17,7 @@
  *
  *
  *---------------------------------------------------------------------------
- * Copyright (c) 2011-2019, MEN Mikro Elektronik GmbH
+ * Copyright 2011-2019, MEN Mikro Elektronik GmbH
  ****************************************************************************/
 /*
 * This program is free software: you can redistribute it and/or modify
@@ -115,7 +115,7 @@ static void usage(void)
 		"\n - set max. temperature for tests and show temperature in a loop:   \n"
 		"     smb2_eetemp smb2_1 -t=80 -l             \n", 248
 	);
-    printf("\nCopyright (c) 2011-2019, MEN Mikro Elektronik GmbH\n%s\n\n", IdentString);
+    printf("\nCopyright 2011-2019, MEN Mikro Elektronik GmbH\n%s\n\n", IdentString);
 }
 
 /***************************************************************************/

@@ -14,7 +14,7 @@
  *    \switches  _BIG_ENDIAN_/_LITTLE_ENDIAN_
  *
  *-----------------------------------------------------------------------------
- * Copyright (c) 2009-2019, MEN Mikro Elektronik GmbH
+ * Copyright 2009-2019, MEN Mikro Elektronik GmbH
  ******************************************************************************/
  /*
  * This program is free software: you can redistribute it and/or modify
@@ -151,7 +151,7 @@ static void usage( void )
 		"\n- write-protect SPD EEPROM: \n"
 		"    smb2_eeprod2 smb2_1 -a=0x60 -s \n"
 	);
-    printf("\nCopyright (c) 2009-2019, MEN Mikro Elektronik GmbH\n%s\n\n", IdentString);
+    printf("\nCopyright 2009-2019, MEN Mikro Elektronik GmbH\n%s\n\n", IdentString);
 }
 
 

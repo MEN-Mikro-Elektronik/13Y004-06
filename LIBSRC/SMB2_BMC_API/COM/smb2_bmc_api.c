@@ -10,7 +10,7 @@
  *
  *
  *---------------------------------------------------------------------------
- * Copyright (c) 2014-2019, MEN Mikro Elektronik GmbH
+ * Copyright 2014-2019, MEN Mikro Elektronik GmbH
  ****************************************************************************/
  /*
  * This library is free software; you can redistribute it and/or

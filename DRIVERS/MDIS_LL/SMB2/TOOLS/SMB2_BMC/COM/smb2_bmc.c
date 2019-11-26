@@ -13,7 +13,7 @@
  *
  *
  *---------------------------------------------------------------------------
- * Copyright (c) 2013-2019, MEN Mikro Elektronik GmbH
+ * Copyright 2013-2019, MEN Mikro Elektronik GmbH
  ****************************************************************************/
 /*
 * This program is free software: you can redistribute it and/or modify
@@ -152,7 +152,7 @@ static void Usage( void )
 		"     smb2_bmc smb2_1 0x9c swr \n"
 		"\n"
 	);
-    printf("\nCopyright (c) 2013-2019, MEN Mikro Elektronik GmbH\n%s\n\n", IdentString);
+    printf("\nCopyright 2013-2019, MEN Mikro Elektronik GmbH\n%s\n\n", IdentString);
 }
 
 
